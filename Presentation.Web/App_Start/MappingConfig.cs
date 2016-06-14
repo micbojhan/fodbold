@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using Core.DomainModel;
 using Core.DomainModel.OldModel;
-using Presentation.Web.App_Start;
 using Presentation.Web.Models.Account;
 using Presentation.Web.Models.Student;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(MappingConfig), "Start")]
+//[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(MappingConfig), "Start")]
 
 namespace Presentation.Web.App_Start
 {
@@ -19,13 +18,21 @@ namespace Presentation.Web.App_Start
     /// </summary>
     public class MappingConfig
     {
-        public static void Start()
+        public MappingConfig(IMapperConfiguration mapperConfiguration)
+        {
+            Configure(mapperConfiguration);
+        }
+
+        public void Configure(IMapperConfiguration mapperConfiguration)
         {
             // Write your AutoMapper configurations here.
-
             // ViewModel Mappings
-            Mapper.CreateMap<Student, NewStudentViewModel>().ReverseMap();
-            Mapper.CreateMap<ApplicationUser, RegisterViewModel>().ReverseMap();
+            mapperConfiguration.CreateMap<Student, NewStudentViewModel>().ReverseMap();
+            mapperConfiguration.CreateMap<ApplicationUser, RegisterViewModel>().ReverseMap();
+
+
         }
+
+
     }
 }

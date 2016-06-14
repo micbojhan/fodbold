@@ -1,5 +1,6 @@
 using System.Web.Http;
 using System.Web.Http.Dependencies;
+using AutoMapper;
 using Infrastructure.DataAccess.Repositorys;
 using Ninject.Syntax;
 using Ninject.Web.Mvc;
@@ -62,6 +63,9 @@ namespace Presentation.Web.App_Start
                 RegisterServices(kernel);
                 // Install our Ninject-based IDependencyResolver into the Web API config
                 GlobalConfiguration.Configuration.DependencyResolver = new NinjectDependencyResolver(kernel);
+
+                kernel.Bind<MapperConfiguration>().ToSelf().WithConstructorArgument<Action<IMapperConfiguration>>(cfg => new MappingConfig(cfg));
+                kernel.Bind<IMapper>().ToMethod(mapper => kernel.Get<MapperConfiguration>().CreateMapper()).InSingletonScope();
 
                 return kernel;
             }

@@ -12,7 +12,7 @@ namespace Core.DomainModel.Model
         public int GameResult { get; set; }
 
         // Navigation properties 
-        public virtual ICollection<Match> Matches { get; set; }
+        public virtual Match Match { get; set; }
         public virtual Team Team { get; set; }
 
         // Foreign keys

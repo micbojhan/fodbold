@@ -52,7 +52,7 @@
 
         <tr class="@style">
             <td>#@i</td>
-            <td>@Html.ActionLink(@p.Name, "Player", new { id = p.PlayerId })</td>
+            <td>@Html.ActionLink(@p.Name, "Player", new { id = p.Id })</td>
             <td>@p.Initials</td>
             <td class="score">@p.Score / <span class="won">@p.AllTimeHigh</span> / <span class="lost">@p.AllTimeLow</span></td>
             <td class="score">@(p.Won + p.Lost + p.Draw)</td>

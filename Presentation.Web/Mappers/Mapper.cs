@@ -12,7 +12,7 @@ namespace Presentation.Web.Mappers
         {
             var viewModel = new PlayerViewModel
             {
-                PlayerId = model.Id,
+                Id = model.Id,
                 Name = model.Name,
                 NickName = model.NickName,
                 FullName = model.FullName,
@@ -36,7 +36,7 @@ namespace Presentation.Web.Mappers
         {
             var model = new Player
             {
-                Id = viewModel.PlayerId,
+                Id = viewModel.Id,
                 Name = viewModel.Name,
                 NickName = viewModel.NickName,
                 FullName = viewModel.FullName,
@@ -55,7 +55,7 @@ namespace Presentation.Web.Mappers
         {
             var viewModel = new TeamViewModel
             {
-                TeamId = model.Id,
+                Id = model.Id,
                 Name = model.Name,
                 Won = model.Won,
                 Draw = model.Draw,
@@ -80,7 +80,7 @@ namespace Presentation.Web.Mappers
         {
             var model = new Team
             {
-                Id = viewModel.TeamId,
+                Id = viewModel.Id,
                 Name = viewModel.Name,
                 Won = viewModel.Won,
                 Draw = viewModel.Draw,
@@ -101,7 +101,7 @@ namespace Presentation.Web.Mappers
         {
             var matchModel = new MatchViewModel
             {
-                MatchId = model.Id,
+                Id = model.Id,
                 MatchGuid = model.MatchGuid,
                 Done = model.Done,
                 StartTime = model.StartTime,
@@ -133,7 +133,7 @@ namespace Presentation.Web.Mappers
         {
             var model = new Match
             {
-                Id = viewModel.MatchId,
+                Id = viewModel.Id,
                 MatchGuid = viewModel.MatchGuid,
                 StartTime = viewModel.StartTime,
                 EndTime = viewModel.EndTime,
@@ -157,7 +157,7 @@ namespace Presentation.Web.Mappers
             var team = model.Team;
             var viewModel = new TeamViewModel
             {
-                TeamId = team.Id,
+                Id = team.Id,
                 Name = team.Name,
                 Won = team.Won,
                 Draw = team.Draw,
@@ -177,7 +177,7 @@ namespace Presentation.Web.Mappers
         {
             var model = new Team
             {
-                Id = viewModel.TeamId,
+                Id = viewModel.Id,
                 Name = viewModel.Name,
                 Won = viewModel.Won,
                 Draw = viewModel.Draw,

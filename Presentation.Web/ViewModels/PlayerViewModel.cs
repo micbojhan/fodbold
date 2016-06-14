@@ -4,7 +4,7 @@ namespace Presentation.Web.ViewModels
 {
     public class PlayerViewModel
     {
-        public int PlayerId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string NickName { get; set; }
         public string FullName { get; set; }

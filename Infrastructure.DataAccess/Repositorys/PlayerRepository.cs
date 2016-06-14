@@ -22,7 +22,7 @@ namespace Infrastructure.DataAccess.Repositorys
         public List<Player> GetPlayerList()
         {
             var players = _dbSet
-                .Include(p => p.MatchPlayer.Select(c => c.Matches))
+                .Include(p => p.MatchPlayer.Select(c => c.Match))
                 .OrderBy(p => p.Score)
                 .ThenBy(p => p.AllTimeHigh)
                 .ThenBy(p => p.Name)

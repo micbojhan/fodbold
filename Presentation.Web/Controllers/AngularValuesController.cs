@@ -10,9 +10,7 @@ namespace Presentation.Web.Controllers
     {
         private readonly IGenericRepository<Test> _testRepository;
         private readonly IUnitOfWork _unitOfWork;
-
-
-
+        
         public AngularValuesController(IGenericRepository<Test> testRepository, IUnitOfWork unitOfWork)
         {
             _testRepository = testRepository;

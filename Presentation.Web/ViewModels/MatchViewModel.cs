@@ -7,7 +7,7 @@ namespace Presentation.Web.ViewModels
 {
     public class MatchViewModel
     {
-        public int MatchId { get; set; }
+        public int Id { get; set; }
         public Guid MatchGuid { get; set; }
         public bool Done { get; set; }
 

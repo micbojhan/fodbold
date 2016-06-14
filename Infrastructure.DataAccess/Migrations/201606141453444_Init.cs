@@ -54,15 +54,12 @@ namespace Infrastructure.DataAccess.Migrations
                         TeamTwoId = c.Int(nullable: false),
                         CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
                         ModifiedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
-                        Team_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Teams", t => t.Team_Id)
                 .ForeignKey("dbo.Teams", t => t.TeamOneId)
                 .ForeignKey("dbo.Teams", t => t.TeamTwoId)
                 .Index(t => t.TeamOneId)
-                .Index(t => t.TeamTwoId)
-                .Index(t => t.Team_Id);
+                .Index(t => t.TeamTwoId);
             
             CreateTable(
                 "dbo.Teams",
@@ -95,19 +92,19 @@ namespace Infrastructure.DataAccess.Migrations
                 "dbo.MatchTeams",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false),
                         Score = c.Int(nullable: false),
                         GameResult = c.Int(nullable: false),
                         TeamId = c.Int(nullable: false),
                         CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
                         ModifiedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
-                        Team_Id = c.Int(),
+                        Match_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Teams", t => t.TeamId)
-                .ForeignKey("dbo.Teams", t => t.Team_Id)
-                .Index(t => t.TeamId)
-                .Index(t => t.Team_Id);
+                .ForeignKey("dbo.Matches", t => t.Match_Id)
+                .ForeignKey("dbo.Teams", t => t.Id)
+                .Index(t => t.Id)
+                .Index(t => t.Match_Id);
             
             CreateTable(
                 "dbo.Matches",
@@ -133,44 +130,38 @@ namespace Infrastructure.DataAccess.Migrations
                         TeamBluePlayerTwoId = c.Int(nullable: false),
                         CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
                         ModifiedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
-                        MatchPlayer_Id = c.Int(),
-                        MatchTeam_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.MatchTeams", t => t.TeamBlueId)
-                .ForeignKey("dbo.MatchPlayers", t => t.MatchPlayer_Id)
                 .ForeignKey("dbo.MatchPlayers", t => t.TeamBluePlayerOneId)
                 .ForeignKey("dbo.MatchPlayers", t => t.TeamBluePlayerTwoId)
                 .ForeignKey("dbo.MatchTeams", t => t.TeamRedId)
                 .ForeignKey("dbo.MatchPlayers", t => t.TeamRedPlayerOneId)
                 .ForeignKey("dbo.MatchPlayers", t => t.TeamRedPlayerTwoId)
-                .ForeignKey("dbo.MatchTeams", t => t.MatchTeam_Id)
                 .Index(t => t.TeamRedId)
                 .Index(t => t.TeamBlueId)
                 .Index(t => t.TeamRedPlayerOneId)
                 .Index(t => t.TeamRedPlayerTwoId)
                 .Index(t => t.TeamBluePlayerOneId)
-                .Index(t => t.TeamBluePlayerTwoId)
-                .Index(t => t.MatchPlayer_Id)
-                .Index(t => t.MatchTeam_Id);
+                .Index(t => t.TeamBluePlayerTwoId);
             
             CreateTable(
                 "dbo.MatchPlayers",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false),
                         Score = c.Int(nullable: false),
                         GameResult = c.Int(nullable: false),
                         PlayerId = c.Int(nullable: false),
                         CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
                         ModifiedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
-                        Player_Id = c.Int(),
+                        Match_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Players", t => t.Player_Id)
-                .ForeignKey("dbo.Players", t => t.PlayerId)
-                .Index(t => t.PlayerId)
-                .Index(t => t.Player_Id);
+                .ForeignKey("dbo.Matches", t => t.Match_Id)
+                .ForeignKey("dbo.Players", t => t.Id)
+                .Index(t => t.Id)
+                .Index(t => t.Match_Id);
             
             CreateTable(
                 "dbo.Players",
@@ -308,6 +299,58 @@ namespace Infrastructure.DataAccess.Migrations
                 .Index(t => t.Student_Id)
                 .Index(t => t.Course_Id);
             
+            CreateTable(
+                "dbo.TeamDerbies",
+                c => new
+                    {
+                        Team_Id = c.Int(nullable: false),
+                        Derby_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.Team_Id, t.Derby_Id })
+                .ForeignKey("dbo.Teams", t => t.Team_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Derbies", t => t.Derby_Id, cascadeDelete: true)
+                .Index(t => t.Team_Id)
+                .Index(t => t.Derby_Id);
+            
+            CreateTable(
+                "dbo.PlayerMatchPlayers",
+                c => new
+                    {
+                        Player_Id = c.Int(nullable: false),
+                        MatchPlayer_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.Player_Id, t.MatchPlayer_Id })
+                .ForeignKey("dbo.Players", t => t.Player_Id, cascadeDelete: true)
+                .ForeignKey("dbo.MatchPlayers", t => t.MatchPlayer_Id, cascadeDelete: true)
+                .Index(t => t.Player_Id)
+                .Index(t => t.MatchPlayer_Id);
+            
+            CreateTable(
+                "dbo.PlayerTeams",
+                c => new
+                    {
+                        Player_Id = c.Int(nullable: false),
+                        Team_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.Player_Id, t.Team_Id })
+                .ForeignKey("dbo.Players", t => t.Player_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Teams", t => t.Team_Id, cascadeDelete: true)
+                .Index(t => t.Player_Id)
+                .Index(t => t.Team_Id);
+            
+            CreateTable(
+                "dbo.TeamMatchTeams",
+                c => new
+                    {
+                        Team_Id = c.Int(nullable: false),
+                        MatchTeam_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.Team_Id, t.MatchTeam_Id })
+                .ForeignKey("dbo.Teams", t => t.Team_Id, cascadeDelete: true)
+                .ForeignKey("dbo.MatchTeams", t => t.MatchTeam_Id, cascadeDelete: true)
+                .Index(t => t.Team_Id)
+                .Index(t => t.MatchTeam_Id);
+            
         }
         
         public override void Down()
@@ -321,22 +364,35 @@ namespace Infrastructure.DataAccess.Migrations
             DropForeignKey("dbo.Derbies", "TeamOneId", "dbo.Teams");
             DropForeignKey("dbo.Teams", "PlayerTwoId", "dbo.Players");
             DropForeignKey("dbo.Teams", "PlayerOneId", "dbo.Players");
-            DropForeignKey("dbo.MatchTeams", "Team_Id", "dbo.Teams");
-            DropForeignKey("dbo.MatchTeams", "TeamId", "dbo.Teams");
-            DropForeignKey("dbo.Matches", "MatchTeam_Id", "dbo.MatchTeams");
+            DropForeignKey("dbo.TeamMatchTeams", "MatchTeam_Id", "dbo.MatchTeams");
+            DropForeignKey("dbo.TeamMatchTeams", "Team_Id", "dbo.Teams");
+            DropForeignKey("dbo.MatchTeams", "Id", "dbo.Teams");
+            DropForeignKey("dbo.MatchTeams", "Match_Id", "dbo.Matches");
             DropForeignKey("dbo.Matches", "TeamRedPlayerTwoId", "dbo.MatchPlayers");
             DropForeignKey("dbo.Matches", "TeamRedPlayerOneId", "dbo.MatchPlayers");
             DropForeignKey("dbo.Matches", "TeamRedId", "dbo.MatchTeams");
             DropForeignKey("dbo.Matches", "TeamBluePlayerTwoId", "dbo.MatchPlayers");
             DropForeignKey("dbo.Matches", "TeamBluePlayerOneId", "dbo.MatchPlayers");
-            DropForeignKey("dbo.MatchPlayers", "PlayerId", "dbo.Players");
-            DropForeignKey("dbo.MatchPlayers", "Player_Id", "dbo.Players");
-            DropForeignKey("dbo.Matches", "MatchPlayer_Id", "dbo.MatchPlayers");
+            DropForeignKey("dbo.MatchPlayers", "Id", "dbo.Players");
+            DropForeignKey("dbo.PlayerTeams", "Team_Id", "dbo.Teams");
+            DropForeignKey("dbo.PlayerTeams", "Player_Id", "dbo.Players");
+            DropForeignKey("dbo.PlayerMatchPlayers", "MatchPlayer_Id", "dbo.MatchPlayers");
+            DropForeignKey("dbo.PlayerMatchPlayers", "Player_Id", "dbo.Players");
+            DropForeignKey("dbo.MatchPlayers", "Match_Id", "dbo.Matches");
             DropForeignKey("dbo.Matches", "TeamBlueId", "dbo.MatchTeams");
-            DropForeignKey("dbo.Derbies", "Team_Id", "dbo.Teams");
+            DropForeignKey("dbo.TeamDerbies", "Derby_Id", "dbo.Derbies");
+            DropForeignKey("dbo.TeamDerbies", "Team_Id", "dbo.Teams");
             DropForeignKey("dbo.ClassRooms", "Course_Id", "dbo.Courses");
             DropForeignKey("dbo.StudentCourses", "Course_Id", "dbo.Courses");
             DropForeignKey("dbo.StudentCourses", "Student_Id", "dbo.Students");
+            DropIndex("dbo.TeamMatchTeams", new[] { "MatchTeam_Id" });
+            DropIndex("dbo.TeamMatchTeams", new[] { "Team_Id" });
+            DropIndex("dbo.PlayerTeams", new[] { "Team_Id" });
+            DropIndex("dbo.PlayerTeams", new[] { "Player_Id" });
+            DropIndex("dbo.PlayerMatchPlayers", new[] { "MatchPlayer_Id" });
+            DropIndex("dbo.PlayerMatchPlayers", new[] { "Player_Id" });
+            DropIndex("dbo.TeamDerbies", new[] { "Derby_Id" });
+            DropIndex("dbo.TeamDerbies", new[] { "Team_Id" });
             DropIndex("dbo.StudentCourses", new[] { "Course_Id" });
             DropIndex("dbo.StudentCourses", new[] { "Student_Id" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
@@ -345,25 +401,26 @@ namespace Infrastructure.DataAccess.Migrations
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.MatchPlayers", new[] { "Player_Id" });
-            DropIndex("dbo.MatchPlayers", new[] { "PlayerId" });
-            DropIndex("dbo.Matches", new[] { "MatchTeam_Id" });
-            DropIndex("dbo.Matches", new[] { "MatchPlayer_Id" });
+            DropIndex("dbo.MatchPlayers", new[] { "Match_Id" });
+            DropIndex("dbo.MatchPlayers", new[] { "Id" });
             DropIndex("dbo.Matches", new[] { "TeamBluePlayerTwoId" });
             DropIndex("dbo.Matches", new[] { "TeamBluePlayerOneId" });
             DropIndex("dbo.Matches", new[] { "TeamRedPlayerTwoId" });
             DropIndex("dbo.Matches", new[] { "TeamRedPlayerOneId" });
             DropIndex("dbo.Matches", new[] { "TeamBlueId" });
             DropIndex("dbo.Matches", new[] { "TeamRedId" });
-            DropIndex("dbo.MatchTeams", new[] { "Team_Id" });
-            DropIndex("dbo.MatchTeams", new[] { "TeamId" });
+            DropIndex("dbo.MatchTeams", new[] { "Match_Id" });
+            DropIndex("dbo.MatchTeams", new[] { "Id" });
             DropIndex("dbo.Teams", new[] { "PlayerTwoId" });
             DropIndex("dbo.Teams", new[] { "PlayerOneId" });
-            DropIndex("dbo.Derbies", new[] { "Team_Id" });
             DropIndex("dbo.Derbies", new[] { "TeamTwoId" });
             DropIndex("dbo.Derbies", new[] { "TeamOneId" });
             DropIndex("dbo.Courses", new[] { "Teacher_Id" });
             DropIndex("dbo.ClassRooms", new[] { "Course_Id" });
+            DropTable("dbo.TeamMatchTeams");
+            DropTable("dbo.PlayerTeams");
+            DropTable("dbo.PlayerMatchPlayers");
+            DropTable("dbo.TeamDerbies");
             DropTable("dbo.StudentCourses");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
