@@ -1,0 +1,31 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "title";
+}
+
+
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Links</div>
+    <div class="panel-body">
+        <p>...</p>
+    </div>
+
+    <!-- List group -->
+    <ul class="list-group">
+        <li class="list-group-item">@Html.ActionLink("MvcMatch/CreatePlayer", "CreatePlayer", "MvcMatch")</li>
+        <li class="list-group-item">@Html.ActionLink("MvcMatch/CreateMatch", "CreateMatch", "MvcMatch")</li>
+        <li class="list-group-item">@Html.ActionLink("MvcMatch/PlayerList", "PlayerList", "Score")</li>
+        <li class="list-group-item">@Html.ActionLink("MvcMatch/TeamList", "TeamList", "Score")</li>
+        <li class="list-group-item">@Html.ActionLink("MvcMatch/MatchList", "MatchList", "Score")</li>
+        <li class="list-group-item">...</li>
+        <li class="list-group-item">@Html.ActionLink("MvcMatch/SetUpDB", "SetUpDB", "SetUp")</li>
+        <li class="list-group-item">
+            @Html.ActionLink("MvcMatch/RandomMatch", "RandomMatch", "SetUp") =>
+            @Html.ActionLink("1", "RandomMatch", "SetUp", new { i=1 }, null) /
+            @Html.ActionLink("10", "RandomMatch", "SetUp", new { i = 10 }, null) /
+            @Html.ActionLink("100", "RandomMatch", "SetUp", new { i = 100 }, null)
+        </li>
+    </ul>
+</div>

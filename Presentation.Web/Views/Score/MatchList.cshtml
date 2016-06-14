@@ -1,0 +1,50 @@
+﻿@using Presentation.Web.Controllers
+@model System.Collections.Generic.List<Presentation.Web.ViewModels.MatchViewModel>
+
+<!DOCTYPE html>
+<table class="table">
+    <tr>
+        <th>#</th>
+        <th>Start time</th>
+        <th>Duration time</th>
+        <th>Team red</th>
+        <th>Team blue</th>
+        <th>Score</th>
+        <th>Score</th>
+    </tr>
+
+    @foreach (var p in Model)
+    {
+        string redStyle;
+        string blueStyle;
+        var blueWinner = "";
+        var redWinner = "";
+        if ((TeamResultEnum)p.TeamResult == TeamResultEnum.Red)
+        {
+            redWinner = "score";
+            redStyle = "won";
+            blueStyle = "lost";
+        }
+        else if ((TeamResultEnum)p.TeamResult == TeamResultEnum.Blue)
+        {
+            blueStyle = "won";
+            redStyle = "lost";
+            blueWinner = "score";
+        }
+        else
+        {
+            blueStyle = "draw";
+            redStyle = "draw";
+        }
+        <tr id="@p.MatchGuid">
+            <td>@p.MatchId</td>
+            <td>@p.StartTimeStr</td>
+            <td>@p.TimeSpanStr</td>
+            <td class="@redWinner">(@p.TeamRed.PlayerOne.Initials & @p.TeamRed.PlayerTwo.Initials)</td>
+            <td class="@blueWinner">(@p.TeamBlue.PlayerOne.Initials & @p.TeamBlue.PlayerTwo.Initials)</td>
+            <td class="score"><span class="@redStyle">@p.EndGoalsTeamRed</span> : <span class="@blueStyle">@p.EndGoalsTeamBlue</span></td>
+            <td class="score">@p.GoalsTeamRed : @p.GoalsTeamBlue</td>
+        </tr>
+    }
+
+</table>

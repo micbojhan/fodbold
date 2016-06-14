@@ -1,0 +1,92 @@
+﻿@model Presentation.Web.Models.Student.IndexViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@ViewBag.Message
+<hr/>
+@using (Html.BeginForm("NewStudent", "Student", new { }, FormMethod.Post, new { }))
+{
+    @Html.AntiForgeryToken()
+    <div class="input-group">
+        <span class="input-group-addon">
+            Student Name:
+        </span>
+
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary" value ="New Student">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        New Student
+    </button>
+}
+
+<hr />
+<label for="Id">Student Id:</label>
+
+@Html.DropDownListFor(m => Model.SelectedId,
+                           ViewBag.StudentIds as IEnumerable<SelectListItem>,
+                           "-- Select --",
+                           new { id = "Id", @class = "form-control" })
+<br />
+
+<button id="findButton" type="button" class="btn btn-info" value="Find Student">
+    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+    Find Student
+</button>
+
+<hr />
+
+@Html.ActionLink("Send mail", "Mail")
+
+<hr />
+
+<p>Students Paging Example:</p>
+<div id="students">
+    @Html.Partial("_Students")
+</div>
+
+<!-- Always write scripts in the scripts section. -->
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+
+            // Binding the html buttons to javascript functions.
+            $("#findButton").on('click', findStudent);
+
+            // Setup click binding on page numbers
+            // Different from above because the event handlers are detached when the attached DOM is changed
+            $(document).on("click", ".page-number", bindingSetup);
+
+            function findStudent() {
+                // Get base url and open the path to the student.  
+                window.open(location.origin + "/Student/FindStudent/" + $("#Id").val());
+            }
+
+            function paging(pageNumber) {
+                $.ajax({
+                    url: '@Url.Action("_Students")',
+                    data: { "page": pageNumber },
+                    success: pageingAjaxCallback
+                });
+            };
+
+            function pageingAjaxCallback(data) {
+                $("#students").html(data);
+            }
+
+            function bindingSetup(e) {
+                e.preventDefault();
+
+                var pageNumber = $(e.toElement).data("page-number");
+
+                paging(pageNumber);
+            }
+        });
+    </script>
+}

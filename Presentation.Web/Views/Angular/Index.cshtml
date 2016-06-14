@@ -1,0 +1,58 @@
+﻿@Scripts.Render("~/bundles/angularCore")
+@Scripts.Render("~/bundles/angularApp")
+<style>
+    input,
+    .input-group {
+        max-width: 100%;
+    }
+</style>
+
+<div ng-app="testAngularApp">
+    <div ng-controller="testAngularController as test">
+
+        <div class="container">
+            <div class="page-header">
+                <h1>
+                    Bla Bla Bla <small>bla bla bla</small>
+                </h1>
+            </div>
+
+            <div class="panel panel-default panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Panel</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row form-group">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-primary btn-block" ng-click="test.getValues()">Get</button>
+                        </div>
+                        <div class="col-md-6">
+                            <form ng-submit="test.addValue(localValue)">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" ng-model="localValue" placeholder="Tilføj">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-success" type="submit">Go!</button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <div class="row form-group" ng-repeat="value in test.values">
+                                <div class="col-md-3">
+                                    {{value.Name}}
+                                </div>
+                                <div class="col-md-3">
+                                    <form ng-submit="test.removeValue(value.Id)">
+                                        <input class="btn btn-danger btn-block" type="submit" value="remove">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

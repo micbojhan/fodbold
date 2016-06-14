@@ -1,0 +1,98 @@
+﻿@using Presentation.Web.Controllers
+@model List<Presentation.Web.ViewModels.PlayerViewModel>
+
+@{
+
+}
+
+<table class="table">
+
+    @{
+        int c = Model.Count;
+        int i = 0;
+        string style = "";
+
+        int top0 = c * 100 / 1 - c;
+        int top1 = c * 100 / 10 - c;
+        int top2 = c * 100 / 20 - c;
+        int top3 = c * 100 / 30 - c;
+        int top4 = c * 100 / 40 - c;
+        int top5 = c * 100 / 50 - c;
+        int top6 = c * 100 / 60 - c;
+        int top7 = c * 100 / 70 - c;
+        int top8 = c * 100 / 80 - c;
+        int top9 = c * 100 / 90 - c;
+
+    }
+    <tr>
+        <th>#</th>
+        <th>Player</th>
+        <th>Initials</th>
+        <th>S / H / L</th>
+        <th>KS</th>
+        <th>V / U / T</th>
+        <th>Mål</th>
+        <th>+/-</th>
+        <th>Form</th>
+        <th>HC Mål</th>
+        <th>HC +/-</th>
+    </tr>
+
+    @foreach (var p in Model)
+    {
+        ++i;
+        var factor = (i * 10);
+
+        if (factor < top3) { style = "success"; }
+        else if (factor < top2) { style = "warning"; }
+        else if (factor < top1) { style = "info"; }
+        else if (factor < top1) { style = "active"; }
+        else if (factor < top0) { style = "danger"; }
+
+
+        <tr class="@style">
+            <td>#@i</td>
+            <td>@Html.ActionLink(@p.Name, "Player", new { id = p.PlayerId })</td>
+            <td>@p.Initials</td>
+            <td class="score">@p.Score / <span class="won">@p.AllTimeHigh</span> / <span class="lost">@p.AllTimeLow</span></td>
+            <td class="score">@(p.Won + p.Lost + p.Draw)</td>
+            <td class="score"><span class="won">@p.Won</span> / <span class="draw">@p.Draw</span> / <span class="lost">@p.Lost</span></td>
+            <td class="score">@p.GoalsScored - @p.GoalsAgainst</td>
+            <td class="score">@(p.GoalsScored - p.GoalsAgainst)</td>
+            <td class="score">
+                @foreach (var f in p.Form)
+                {
+                    if ((MatchResultEnum.Won) == (MatchResultEnum)f)
+                    {
+                        <span class="won">V</span>
+                    }
+                    else if ((MatchResultEnum.Lost) == (MatchResultEnum)f)
+                    {
+                        <span class="lost">T</span>
+                    }
+                    else
+                    {
+                        <span class="draw">U</span>
+                    }
+                }
+            </td>
+
+            <td class="score">@p.GoalsScoredHc - @p.GoalsAgainstHc</td>
+            <td class="score">@(p.GoalsScoredHc - p.GoalsAgainstHc)</td>
+
+            @*<td>@style</td>
+                <td>t1 @(factor) < @top0</td>
+                <td>t1 @(factor) < @top1</td>
+                <td>t2 @(factor) < @top2</td>
+                <td>t3 @(factor) < @top3</td>
+                <td>t4 @(factor) < @top4</td>
+                <td>t5 @(factor) < @top5</td>
+                <td>t6 @(factor) < @top6</td>
+                <td>t7 @(factor) < @top7</td>
+                <td>t8 @(factor) < @top8</td>
+                <td>t9 @(factor) < @top9</td>*@
+        </tr>
+
+    }
+
+</table>

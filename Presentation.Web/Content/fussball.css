@@ -1,0 +1,23 @@
+﻿.won {
+    color: green;
+}
+
+.lost {
+    color: red;
+}
+
+.draw {
+    color: orange;
+}
+
+.score {
+    font-weight: 600;
+}
+
+.red {
+    color: red;
+}
+
+.blue {
+    color: blue;
+}

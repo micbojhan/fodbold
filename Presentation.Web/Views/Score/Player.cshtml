@@ -1,0 +1,134 @@
+﻿@using Presentation.Web.Controllers
+@model Presentation.Web.ViewModels.PlayerViewModel
+
+@{
+    var p = Model;
+}
+<tr>
+
+
+</tr>
+
+
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">@p.Name (@p.Initials) @p.FullName</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-4 col-sm-3">Score</div>
+                <div class="col-xs-4 col-sm-3">All time high</div>
+                <div class="col-xs-4 col-sm-3">All time low</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 col-sm-3"><span class="score">@p.Score</span></div>
+                <div class="col-xs-4 col-sm-3"><span class="score won">@p.AllTimeHigh</span></div>
+                <div class="col-xs-4 col-sm-3"><span class="score lost">@p.AllTimeLow</span></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-8">DENNE HAR xs12 sm06 me08</div>
+                <div class="col-xs-6 col-md-4">xs06 me04</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-8">DENNE HAR xs12 sm06 me08</div>
+                <div class="col-xs-6 col-md-4">xs06 me04</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-4">xs06 me04</div>
+                <div class="col-xs-6 col-sm-4">xs06 me04</div>
+                <!-- Optional: clear the XS cols if their content doesn't match in height -->
+                <div class="clearfix visible-xs-block"></div>
+                <div class="col-xs-6 col-sm-4">xs06 me04</div>
+            </div>
+
+
+            Score <span class="score">@p.Score</span>
+            All time high<span class="score won">@p.AllTimeHigh</span>
+            All time low<span class="score lost">@p.AllTimeLow</span>
+
+            Kampe spillet <span class="score">@(p.Won + p.Lost + p.Draw)</span>
+            Vundet <span class="score won">@p.Won</span>
+            Uafgjorte <span class="score draw">@p.Draw</span>
+            Tabte <span class="score lost">@p.Lost</span>
+            
+            Form
+            <div class="row">
+                @foreach (var f in p.Form)
+                {
+                    if ((MatchResultEnum.Won) == (MatchResultEnum) f)
+                    {
+                        <span class="won">V</span>
+                    }
+                    else if ((MatchResultEnum.Lost) == (MatchResultEnum) f)
+                    {
+                        <span class="lost">T</span>
+                    }
+                    else
+                    {
+                        <span class="draw">U</span>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<td class="score">@p.GoalsScored - @p.GoalsAgainst</td>
+<td class="score">@(p.GoalsScored - p.GoalsAgainst)</td>
+<td class="score"></td>
+
+<td class="score">@p.GoalsScoredHc - @p.GoalsAgainstHc</td>
+<td class="score">@(p.GoalsScoredHc - p.GoalsAgainstHc)</td>
+
+
+
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Panel title</h3>
+        </div>
+        <div class="panel-body">
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Panel title</h3>
+        </div>
+        <div class="panel-body">
+            <div class="progress">
+                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="@p.Won" aria-valuemin="0" aria-valuemax="@(p.Won + p.Lost + p.Draw)" style="width: @(p.Won.ToString())%">
+                    <span class="sr-only">40% Complete (success)</span>
+                </div>
+            </div>
+            <div class="progress">
+                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="@p.Draw" aria-valuemin="0" aria-valuemax="@(p.Won + p.Lost + p.Draw)" style="width: @(p.Draw.ToString())%">
+                    <span class="sr-only">60% Complete (warning)</span>
+                </div>
+            </div>
+            <div class="progress">
+                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="@p.Lost" aria-valuemin="0" aria-valuemax="@(p.Won + p.Lost + p.Draw)" style="width: @(p.Lost.ToString())%">
+                    <span class="sr-only">80% Complete (danger)</span>
+                </div>
+            </div>
+
+            <div class="progress">
+                <div class="progress-bar progress-bar-success" style="width: @(p.Won.ToString())%">
+                    <span class="sr-only">35% Complete (success)</span>
+                </div>
+                <div class="progress-bar progress-bar-warning" style="width: @(p.Draw.ToString())%">
+                    <span class="sr-only">20% Complete (warning)</span>
+                </div>
+                <div class="progress-bar progress-bar-danger" style="width: @(p.Lost.ToString())%">
+                    <span class="sr-only">10% Complete (danger)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
