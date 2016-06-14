@@ -17,6 +17,7 @@ namespace Core.DomainModel.Model
 
         // Foreign keys
         public int PlayerId { get; set; }
+        public int MatchId { get; set; }
 
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }

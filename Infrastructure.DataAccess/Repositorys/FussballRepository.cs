@@ -100,45 +100,61 @@ namespace Infrastructure.DataAccess.Repositorys
                 StartTime = DateTime.UtcNow,
                 EndTime = null,
                 TimeSpan = null,
-                TeamRed = new MatchTeam
-                {
-                    TeamId = teamRed.Id,
-                    Team = teamRed,
-                    Score = teamRed.PlayerOne.Score + teamRed.PlayerTwo.Score
-                },
-                TeamRedPlayerOne = new MatchPlayer
-                {
-                    Player = teamRed.PlayerOne,
-                    PlayerId = teamRed.PlayerOne.Id,
-                    Score = teamRed.PlayerOne.Score
-                },
-                TeamRedPlayerTwo = new MatchPlayer
-                {
-                    Player = teamRed.PlayerTwo,
-                    PlayerId = teamRed.PlayerTwo.Id,
-                    Score = teamRed.PlayerTwo.Score
-                },
-                TeamBlue = new MatchTeam
-                {
-                    TeamId = teamBlue.Id,
-                    Team = teamBlue,
-                    Score = teamBlue.PlayerOne.Score + teamBlue.PlayerTwo.Score
-                },
-                TeamBluePlayerOne = new MatchPlayer
-                {
-                    Player = teamBlue.PlayerOne,
-                    PlayerId = teamBlue.PlayerOne.Id,
-                    Score = teamBlue.PlayerOne.Score
-                },
-                TeamBluePlayerTwo = new MatchPlayer
-                {
-                    Player = teamBlue.PlayerTwo,
-                    PlayerId = teamBlue.PlayerTwo.Id,
-                    Score = teamBlue.PlayerTwo.Score
-                }
+            };
+            _dbContext.Matches.Add(match);
+            SaveChanges();
+
+            var TeamRed = new MatchTeam
+            {
+                MatchId = match.Id,
+                Match = match,
+                TeamId = teamRed.Id,
+                Team = teamRed,
+                Score = teamRed.PlayerOne.Score + teamRed.PlayerTwo.Score
+            };
+            var TeamRedPlayerOne = new MatchPlayer
+            {
+                MatchId = match.Id,
+                Match = match,
+                Player = teamRed.PlayerOne,
+                PlayerId = teamRed.PlayerOne.Id,
+                Score = teamRed.PlayerOne.Score
+            };
+            var TeamRedPlayerTwo = new MatchPlayer
+            {
+                MatchId = match.Id,
+                Match = match,
+                Player = teamRed.PlayerTwo,
+                PlayerId = teamRed.PlayerTwo.Id,
+                Score = teamRed.PlayerTwo.Score
             };
 
-            var dif = match.ScoreDiff = match.TeamRed.Score - match.TeamBlue.Score;
+            var TeamBlue = new MatchTeam
+            {
+                MatchId = match.Id,
+                Match = match,
+                TeamId = teamBlue.Id,
+                Team = teamBlue,
+                Score = teamBlue.PlayerOne.Score + teamBlue.PlayerTwo.Score
+            };
+            var TeamBluePlayerOne = new MatchPlayer
+            {
+                MatchId = match.Id,
+                Match = match,
+                Player = teamBlue.PlayerOne,
+                PlayerId = teamBlue.PlayerOne.Id,
+                Score = teamBlue.PlayerOne.Score
+            };
+            var TeamBluePlayerTwo = new MatchPlayer
+            {
+                MatchId = match.Id,
+                Match = match,
+                Player = teamBlue.PlayerTwo,
+                PlayerId = teamBlue.PlayerTwo.Id,
+                Score = teamBlue.PlayerTwo.Score
+            };
+
+            var dif = match.ScoreDiff = TeamRed.Score - TeamBlue.Score;
             if (dif >= 0)
             {
                 if (dif > 4) dif = 4;
@@ -151,20 +167,20 @@ namespace Infrastructure.DataAccess.Repositorys
                 match.ScoreDiff = -match.ScoreDiff;
             }
 
-            _dbContext.MatchTeams.Add(match.TeamRed);
-            _dbContext.MatchPlayers.Add(match.TeamRedPlayerOne);
-            _dbContext.MatchPlayers.Add(match.TeamRedPlayerTwo);
-            _dbContext.MatchTeams.Add(match.TeamBlue);
-            _dbContext.MatchPlayers.Add(match.TeamBluePlayerOne);
-            _dbContext.MatchPlayers.Add(match.TeamBluePlayerTwo);
+            _dbContext.MatchTeams.Add(TeamRed);
+            _dbContext.MatchPlayers.Add(TeamRedPlayerOne);
+            _dbContext.MatchPlayers.Add(TeamRedPlayerTwo);
+            _dbContext.MatchTeams.Add(TeamBlue);
+            _dbContext.MatchPlayers.Add(TeamBluePlayerOne);
+            _dbContext.MatchPlayers.Add(TeamBluePlayerTwo);
             SaveChanges();
-            match.TeamRedId = match.TeamRed.TeamId;
-            match.TeamRedPlayerOneId = match.TeamRedPlayerOne.PlayerId;
-            match.TeamRedPlayerTwoId = match.TeamRedPlayerTwo.PlayerId;
-            match.TeamBlueId = match.TeamBlue.TeamId;
-            match.TeamBluePlayerOneId = match.TeamBluePlayerOne.PlayerId;
-            match.TeamBluePlayerTwoId = match.TeamBluePlayerTwo.PlayerId;
-            _dbContext.Matches.Add(match);
+            //match.TeamRedId = match.TeamRed.TeamId;
+            //match.TeamRedPlayerOneId = match.TeamRedPlayerOne.PlayerId;
+            //match.TeamRedPlayerTwoId = match.TeamRedPlayerTwo.PlayerId;
+            //match.TeamBlueId = match.TeamBlue.TeamId;
+            //match.TeamBluePlayerOneId = match.TeamBluePlayerOne.PlayerId;
+            //match.TeamBluePlayerTwoId = match.TeamBluePlayerTwo.PlayerId;
+            
             return match;
         }
 

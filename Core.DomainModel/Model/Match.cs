@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Core.DomainModel.Interfaces;
 
@@ -22,21 +23,24 @@ namespace Core.DomainModel.Model
 
         public int TeamResult { get; set; } // 1X2 - Red-Draw-Blue
 
+        public virtual ICollection<MatchTeam> MatchTeam { get; set; }
+        public virtual ICollection<MatchPlayer> Players { get; set; }
+
         // Navigation properties 
-        public virtual MatchTeam TeamRed { get; set; }
-        public virtual MatchTeam TeamBlue { get; set; }
-        public virtual MatchPlayer TeamRedPlayerOne { get; set; }
-        public virtual MatchPlayer TeamRedPlayerTwo { get; set; }
-        public virtual MatchPlayer TeamBluePlayerOne { get; set; }
-        public virtual MatchPlayer TeamBluePlayerTwo { get; set; }
+        //public virtual MatchTeam TeamRed { get; set; }
+        //public virtual MatchTeam TeamBlue { get; set; }
+        //public virtual MatchPlayer TeamRedPlayerOne { get; set; }
+        //public virtual MatchPlayer TeamRedPlayerTwo { get; set; }
+        //public virtual MatchPlayer TeamBluePlayerOne { get; set; }
+        //public virtual MatchPlayer TeamBluePlayerTwo { get; set; }
 
         // Foreign key 
-        public int TeamRedId { get; set; }
-        public int TeamBlueId { get; set; }
-        public int TeamRedPlayerOneId { get; set; }
-        public int TeamRedPlayerTwoId { get; set; }
-        public int TeamBluePlayerOneId { get; set; }
-        public int TeamBluePlayerTwoId { get; set; }
+        //public int TeamRedId { get; set; }
+        //public int TeamBlueId { get; set; }
+        //public int TeamRedPlayerOneId { get; set; }
+        //public int TeamRedPlayerTwoId { get; set; }
+        //public int TeamBluePlayerOneId { get; set; }
+        //public int TeamBluePlayerTwoId { get; set; }
 
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }

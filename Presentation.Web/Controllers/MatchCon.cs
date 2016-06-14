@@ -86,7 +86,7 @@ namespace Presentation.Web.Controllers
                 blueTeam = (int)MatchResultEnum.Draw;
                 redTeam = (int)MatchResultEnum.Draw;
             }
-
+            
             SetMatchTeamWinner(m.TeamBlue, blueTeam, m.EndGoalsTeamBlue, blueTeamGoals, m.EndGoalsTeamRed, redTeamGoals);
             SetMatchPlayerWinner(m.TeamBluePlayerOne, blueTeam, m.EndGoalsTeamBlue, blueTeamGoals, m.EndGoalsTeamRed, redTeamGoals);
             SetMatchPlayerWinner(m.TeamBluePlayerTwo, blueTeam, m.EndGoalsTeamBlue, blueTeamGoals, m.EndGoalsTeamRed, redTeamGoals);
