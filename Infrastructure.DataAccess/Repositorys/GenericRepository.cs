@@ -112,7 +112,7 @@ namespace Infrastructure.DataAccess.Repositorys
             _dbSet.RemoveRange(entitys);
         }
 
-        public void DeleteByKey(params object[] key)
+        public T DeleteByKey(params object[] key)
         {
             var entityToDelete = _dbSet.Find(key);
 
@@ -120,12 +120,14 @@ namespace Infrastructure.DataAccess.Repositorys
                 _dbSet.Attach(entityToDelete);
 
             _dbSet.Remove(entityToDelete);
+            return entityToDelete;
         }
 
-        public void Update(T entity)
+        public T Update(T entity)
         {
             _dbSet.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
+            return entity;
         }
 
         public int Count(Expression<Func<T, bool>> filter = null)

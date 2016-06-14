@@ -31,18 +31,12 @@ namespace Core.DomainModel.Model
         public virtual MatchPlayer TeamBluePlayerTwo { get; set; }
 
         // Foreign key 
-        [ForeignKey("TeamRed"), Column(Order = 0)]
-        public int? TeamRedId { get; set; }
-        [ForeignKey("TeamBlue"), Column(Order = 1)]
-        public int? TeamBlueId { get; set; }
-        [ForeignKey("TeamRedPlayerOne"), Column(Order = 2)]
-        public int? TeamRedPlayerOneId { get; set; }
-        [ForeignKey("TeamRedPlayerTwo"), Column(Order = 3)]
-        public int? TeamRedPlayerTwoId { get; set; }
-        [ForeignKey("TeamBluePlayerOne"), Column(Order = 4)]
-        public int? TeamBluePlayerOneId { get; set; }
-        [ForeignKey("TeamBluePlayerTwo"), Column(Order = 5)]
-        public int? TeamBluePlayerTwoId { get; set; }
+        public int TeamRedId { get; set; }
+        public int TeamBlueId { get; set; }
+        public int TeamRedPlayerOneId { get; set; }
+        public int TeamRedPlayerTwoId { get; set; }
+        public int TeamBluePlayerOneId { get; set; }
+        public int TeamBluePlayerTwoId { get; set; }
 
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }

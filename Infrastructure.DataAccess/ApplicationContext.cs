@@ -88,12 +88,84 @@ namespace Infrastructure.DataAccess
             modelBuilder.Entity<Student>().Property(s => s.Name).HasMaxLength(50);
             modelBuilder.Entity<Teacher>().Property(s => s.Name).HasMaxLength(50);
             modelBuilder.Entity<Course>().Property(s => s.Name).HasMaxLength(30);
+            /////////////////////////////////////////////////////////
+            modelBuilder.Entity<Derby>()
+            .HasRequired(p => p.TeamOne)
+            .WithMany()
+            .HasForeignKey(p => p.TeamOneId)
+            .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Derby>()
+            .HasRequired(p => p.TeamTwo)
+            .WithMany()
+            .HasForeignKey(p => p.TeamTwoId)
+            .WillCascadeOnDelete(false);
+            /////////////////////////////////////////////////////////
+            modelBuilder.Entity<Team>()
+            .HasRequired(p => p.PlayerOne)
+            .WithMany()
+            .HasForeignKey(p => p.PlayerOneId)
+            .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Team>()
+            .HasRequired(p => p.PlayerTwo)
+            .WithMany()
+            .HasForeignKey(p => p.PlayerTwoId)
+            .WillCascadeOnDelete(false);
+            /////////////////////////////////////////////////////////
+            modelBuilder.Entity<MatchPlayer>()
+            .HasRequired(p => p.Player)
+            .WithMany()
+            .HasForeignKey(p => p.PlayerId)
+            .WillCascadeOnDelete(false);
+            /////////////////////////////////////////////////////////
+            modelBuilder.Entity<MatchTeam>()
+            .HasRequired(p => p.Team)
+            .WithMany()
+            .HasForeignKey(p => p.TeamId)
+            .WillCascadeOnDelete(false);
+            /////////////////////////////////////////////////////////
+            modelBuilder.Entity<Match>()
+            .HasRequired(p => p.TeamRed)
+            .WithMany()
+            .HasForeignKey(p => p.TeamRedId)
+            .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Match>()
+            .HasRequired(p => p.TeamBlue)
+            .WithMany()
+            .HasForeignKey(p => p.TeamBlueId)
+            .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Match>()
+            .HasRequired(p => p.TeamRedPlayerOne)
+            .WithMany()
+            .HasForeignKey(p => p.TeamRedPlayerOneId)
+            .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Match>()
+            .HasRequired(p => p.TeamRedPlayerTwo)
+            .WithMany()
+            .HasForeignKey(p => p.TeamRedPlayerTwoId)
+            .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Match>()
+            .HasRequired(p => p.TeamBluePlayerOne)
+            .WithMany()
+            .HasForeignKey(p => p.TeamBluePlayerOneId)
+            .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Match>()
+            .HasRequired(p => p.TeamBluePlayerTwo)
+            .WithMany()
+            .HasForeignKey(p => p.TeamBluePlayerTwoId)
+            .WillCascadeOnDelete(false);
+            /////////////////////////////////////////////////////////
 
 
 
             base.OnModelCreating(modelBuilder);
+
         }
     }
 }

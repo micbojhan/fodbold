@@ -10,10 +10,8 @@ namespace Core.DomainModel.Model
         public string Name { get; set; }
 
         // Foreign key 
-        [ForeignKey("TeamOne"), Column(Order = 0)]
-        public int? TeamOneId { get; set; }
-        [ForeignKey("TeamTwo"), Column(Order = 1)]
-        public int? TeamTwoId { get; set; }
+        public int TeamOneId { get; set; }
+        public int TeamTwoId { get; set; }
 
         // Navigation properties 
         public virtual Team TeamOne { get; set; }

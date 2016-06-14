@@ -30,8 +30,8 @@ namespace Core.DomainServices
         T Add(T entity);
         void RemoveRange(IEnumerable<T> entitys);
 
-        void DeleteByKey(params object[] key);
-        void Update(T entity);
+        T DeleteByKey(params object[] key);
+        T Update(T entity);
         int Count(Expression<Func<T, bool>> filter = null);
         Task<int> CountAsync(Expression<Func<T, bool>> filter = null);
     }

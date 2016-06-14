@@ -12,12 +12,11 @@ namespace Core.DomainModel.Model
         public int GameResult { get; set; }
 
         // Navigation properties 
-        public virtual ICollection<Match> Match { get; set; }
+        public virtual ICollection<Match> Matches { get; set; }
         public virtual Team Team { get; set; }
 
         // Foreign keys
-        [ForeignKey("Team"), Column(Order = 0)]
-        public int? TeamId { get; set; }
+        public int TeamId { get; set; }
 
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }

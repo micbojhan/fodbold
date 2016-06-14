@@ -21,7 +21,7 @@ namespace Infrastructure.DataAccess.Repositorys
         public List<Player> GetPlayerList()
         {
             var players = _dbContext.Players
-                .Include(p => p.MatchPlayer.Select(c => c.Match))
+                .Include(p => p.MatchPlayer.Select(c => c.Matches))
                 .OrderBy(p => p.Score)
                 .ThenBy(p => p.AllTimeHigh)
                 .ThenBy(p => p.Name)
@@ -32,7 +32,7 @@ namespace Infrastructure.DataAccess.Repositorys
         public List<Team> GetTeamList()
         {
             var teams = _dbContext.Teams
-                .Include(p => p.MatchTeam.Select(c => c.Match))
+                .Include(p => p.MatchTeam.Select(c => c.Matches))
                 .OrderBy(p => p.Score)
                 .ThenBy(p => p.AllTimeHigh)
                 .ToList();

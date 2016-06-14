@@ -13,7 +13,7 @@
             var request = $http({
                 headers: { 'Content-Type': "application/json;charset=utf-8" },
                 method: "get",
-                url: "/api/Values"
+                url: "/api/AngularValues"
             });
             return request;
         };
@@ -22,7 +22,7 @@
             var request = $http({
                 headers: { 'Content-Type': "application/json;charset=utf-8" },
                 method: "get",
-                url: "/api/Values/"+id
+                url: "/api/AngularValues/" + id
             });
             return request;
         };
@@ -31,7 +31,7 @@
             var request = $http({
                 headers: { 'Content-Type': "application/json;charset=utf-8" },
                 method: "post",
-                url: "/api/Values",
+                url: "/api/AngularValues",
                 data: JSON.stringify(value)
             });
             return request;
@@ -41,7 +41,7 @@
             var request = $http({
                 headers: { 'Content-Type': "application/json;charset=utf-8" },
                 method: "delete",
-                url: "/api/Values/" + id
+                url: "/api/AngularValues/" + id
             });
             return request;
         };

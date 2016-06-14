@@ -21,18 +21,17 @@ namespace Core.DomainModel.Model
         public int GoalsScoredHc { get; set; }
 
         // Foreign key 
-        [ForeignKey("PlayerOne"), Column(Order = 0)]
-        public int? PlayerOneId { get; set; }
-        [ForeignKey("PlayerTwo"), Column(Order = 1)]
-        public int? PlayerTwoId { get; set; }
+        public int PlayerOneId { get; set; }
+        public int PlayerTwoId { get; set; }
 
         // Navigation properties 
         public virtual Player PlayerOne { get; set; }
         public virtual Player PlayerTwo { get; set; }
 
         // Navigation property
-        //public virtual ICollection<Derby> Derbies { get; set; }
+        public virtual ICollection<Derby> Derbies { get; set; }
         public virtual ICollection<MatchTeam> MatchTeam { get; set; }
+        
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
     }

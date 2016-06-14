@@ -6,12 +6,14 @@ using Core.DomainServices;
 
 namespace Presentation.Web.Controllers
 {
-    public class ValuesController : ApiController
+    public class AngularValuesController : ApiController
     {
         private readonly IGenericRepository<Test> _testRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public ValuesController(IGenericRepository<Test> testRepository, IUnitOfWork unitOfWork)
+
+
+        public AngularValuesController(IGenericRepository<Test> testRepository, IUnitOfWork unitOfWork)
         {
             _testRepository = testRepository;
             _unitOfWork = unitOfWork;
@@ -27,8 +29,7 @@ namespace Presentation.Web.Controllers
         // GET api/values/5
         public Test Get(int id)
         {
-
-            var selected = _testRepository.AsQueryable().FirstOrDefault(v => v.Id == id);
+            var selected = _testRepository.GetByKey(id);
             return selected;
         }
 
@@ -44,7 +45,6 @@ namespace Presentation.Web.Controllers
         // PUT api/values/5
         public Test Put(int id, [FromBody]string value)
         {
-
             //var addedTest = db.Tests.Add(new Test { Name = value });
             _unitOfWork.Save();
             return new Test();
@@ -52,10 +52,11 @@ namespace Presentation.Web.Controllers
         }
 
         // DELETE api/values/5
-        public void Delete(int id)
+        public Test Delete(int id)
         {
-            _testRepository.DeleteByKey(id);
+            var deleted = _testRepository.DeleteByKey(id);
             _unitOfWork.Save();
+            return deleted;
         }
     }
 }
