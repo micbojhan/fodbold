@@ -60,7 +60,7 @@ namespace Infrastructure.DataAccess.Repositorys
         {
             var player = _dbContext
                 .Players
-                .Include(p=>p.Teams)
+                .Include(p=>p.TeamPlayer.Select(t=>t.Team))
                 .Include(p=>p.MatchPlayer.Select(m=>m.Match))
                 .FirstOrDefault(p => p.Id == playerId);
             return player;
@@ -76,27 +76,37 @@ namespace Infrastructure.DataAccess.Repositorys
         {
             var team = GetTeam(playerOneId, playerTwoId);
             if (team != null) return team;
+            team = new Team();
+            _dbContext.Teams.Add(team);
+            _dbContext.SaveChanges();
+
             var playerOne = GetPlayer(playerOneId);
             var playerTwo = GetPlayer(playerTwoId);
-            team = new Team
+            var teamPlayerOne = new TeamPlayer
             {
-                PlayerOne = playerOne,
-                PlayerOneId = playerOne.Id,
-                PlayerTwo = playerTwo,
-                PlayerTwoId = playerTwo.Id,
+                Player = playerOne,
+                PlayerId = playerOne.Id,
+                Team = team,
+                TeamId = team.Id,
             };
-            _dbContext.Teams.Add(team);
+            var teamPlayerTwo = new TeamPlayer
+            {
+                Player = playerTwo,
+                PlayerId = playerTwo.Id,
+                Team = team,
+                TeamId = team.Id,
+            };
+            _dbContext.TeamPlayers.Add(teamPlayerOne);
+            _dbContext.TeamPlayers.Add(teamPlayerTwo);
             return team;
         }
 
         public Team GetTeam(int playerOneId, int playerTwoId)
         {
             var team = _dbContext.Teams
-                .Include(t => t.PlayerOne)
-                .Include(t => t.PlayerTwo)
-                .FirstOrDefault(t =>
-                    (t.PlayerOneId == playerOneId && t.PlayerTwoId == playerTwoId) ||
-                    (t.PlayerTwoId == playerOneId && t.PlayerOneId == playerTwoId));
+                .Include(t => t.TeamPlayer.Select(tp => tp.Player))
+                .FirstOrDefault(t => t.TeamPlayer.Any(p => p.PlayerId == playerOneId)
+                                  && t.TeamPlayer.Any(p => p.PlayerId == playerTwoId));
             return team;
         }
 

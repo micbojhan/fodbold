@@ -24,7 +24,7 @@ namespace Core.DomainModel.Model
         public int GoalsAgainstHc { get; set; }
         public int GoalsScoredHc { get; set; }
 
-        public virtual ICollection<Team> Teams { get; set; }
+        public virtual ICollection<TeamPlayer> TeamPlayer { get; set; }
         public virtual ICollection<MatchPlayer> MatchPlayer { get; set; }
 
         public DateTime CreatedOn { get; set; }

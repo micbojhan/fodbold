@@ -68,7 +68,9 @@ namespace Infrastructure.DataAccess
         //public IDbSet<GameResult> GameResults { get; set; }
         public IDbSet<MatchPlayer> MatchPlayers { get; set; }
         public IDbSet<MatchTeam> MatchTeams { get; set; }
+        public IDbSet<TeamPlayer> TeamPlayers { get; set; }
         public IDbSet<Team> Teams { get; set; }
+        
         public IDbSet<Match> Matches { get; set; }
         //public IDbSet<Derby> Derbys { get; set; }
 
@@ -223,8 +225,10 @@ namespace Infrastructure.DataAccess
             modelBuilder.Entity<Team>().HasKey(k => k.Id);
             modelBuilder.Entity<Player>().HasKey(q => q.Id);
             modelBuilder.Entity<Match>().HasKey(q => q.Id);
+
             modelBuilder.Entity<MatchTeam>().HasKey(q => q.Id);
             modelBuilder.Entity<MatchPlayer>().HasKey(q => q.Id);
+            modelBuilder.Entity<TeamPlayer>().HasKey(q => q.Id);
             //modelBuilder.Entity<MatchPlayer>().HasKey(q =>
             //    new {
             //        q.PlayerId,
@@ -251,15 +255,17 @@ namespace Infrastructure.DataAccess
                 .WithMany(t => t.MatchTeam)
                 .HasForeignKey(t => t.MatchId);
 
-            modelBuilder.Entity<Team>()
-                .HasRequired(p => p.PlayerOne)
-                .WithMany()
-                .HasForeignKey(p => p.PlayerOneId).WillCascadeOnDelete(false);
+            modelBuilder.Entity<TeamPlayer>()
+                .HasRequired(t => t.Team)
+                .WithMany(t => t.TeamPlayer)
+                .HasForeignKey(t => t.TeamId);
 
-            modelBuilder.Entity<Team>()
-                .HasRequired(p => p.PlayerTwo)
-                .WithMany()
-                .HasForeignKey(p => p.PlayerTwoId).WillCascadeOnDelete(false);
+            modelBuilder.Entity<TeamPlayer>()
+                .HasRequired(t => t.Player)
+                .WithMany(t => t.TeamPlayer)
+                .HasForeignKey(t => t.PlayerId);
+
+
 
             base.OnModelCreating(modelBuilder);
 

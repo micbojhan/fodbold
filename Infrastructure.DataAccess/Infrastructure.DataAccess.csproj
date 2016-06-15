@@ -60,10 +60,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201606151232239_Init.cs" />
-    <Compile Include="Migrations\201606151232239_Init.Designer.cs">
-      <DependentUpon>201606151232239_Init.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Repositorys\FussballRepository.cs" />
     <Compile Include="Repositorys\PlayerRepository.cs" />
@@ -90,11 +86,6 @@
       <Project>{2b159f69-9712-4b07-8858-4e4b212f2228}</Project>
       <Name>Core.DomainServices</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606151232239_Init.resx">
-      <DependentUpon>201606151232239_Init.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

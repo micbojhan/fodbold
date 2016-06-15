@@ -65,6 +65,7 @@
     <Compile Include="Model\MatchTeam.cs" />
     <Compile Include="Model\Player.cs" />
     <Compile Include="Model\Team.cs" />
+    <Compile Include="Model\TeamPlayer.cs" />
     <Compile Include="Model\Test.cs" />
     <Compile Include="OldModel\Course.cs" />
     <Compile Include="Interfaces\ICreatedOn.cs" />
