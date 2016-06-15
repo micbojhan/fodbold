@@ -106,7 +106,7 @@ namespace Presentation.Web.Controllers
             _unitOfWork.SaveChanges();
             var match = _fussballRepository.CreateMatch(hold.PlayerOneId, hold.PlayerTwoId, hold.PlayerThreeId, hold.PlayerFourId);
             _unitOfWork.SaveChanges();
-            var dbmatch = _fussballRepository.GetMatch(match.MatchGuid);
+            var dbmatch = _fussballRepository.GetMatch(match.Id);
             var dbMatchsaved = new MatchCon().SetResult(dbmatch, s1, s2);
             _unitOfWork.SaveChanges();
         }
@@ -158,10 +158,10 @@ namespace Presentation.Web.Controllers
             return players;
         }
 
-        public ActionResult RandomMatch(int i)
+        public ActionResult RandomMatch(int id)
         {
-            var guid = Guid.Empty;
-            for (int j = 0; j < i; j++)
+            int mId = 0;
+            for (int j = 0; j < id; j++)
             {
                 var playerToMatch = PlayerToMatch();
 
@@ -183,12 +183,12 @@ namespace Presentation.Web.Controllers
                 }
 
                 _unitOfWork.SaveChanges();
-                var match = _fussballRepository.GetMatch(matchtemp.MatchGuid);
+                var match = _fussballRepository.GetMatch(matchtemp.Id);
                 var dbMatch = new MatchCon().SetResult(match, matchtemp.EndGoalsTeamRed + random.Next(1, 11), matchtemp.EndGoalsTeamBlue + random.Next(1, 11));
                 _unitOfWork.SaveChanges();
-                guid = match.MatchGuid;
+                mId = match.Id;
             }
-            return RedirectToAction("Result", "MvcMatch", new { id = guid });
+            return RedirectToAction("Result", "MvcMatch", new { id = mId });
         }
 
         private IOrderedEnumerable<Player> PlayerToMatch()

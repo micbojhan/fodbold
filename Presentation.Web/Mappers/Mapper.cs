@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Core.DomainModel.Model;
 using Presentation.Web.ViewModels;
@@ -27,8 +28,11 @@ namespace Presentation.Web.Mappers
                 GoalsScoredHc = model.GoalsScoredHc,
                 GoalsAgainst = model.GoalsAgainst,
                 GoalsAgainstHc = model.GoalsAgainstHc,
-                Form = model.MatchPlayer.OrderByDescending(i => i.Id).Select(b => b.GameResult).Take(take).ToList()
+                Form = model.MatchPlayer.OrderByDescending(i => i.Id).Select(b => b.GameResult).Take(take).ToList(),
+               // Matches = model.MatchPlayer.OrderByDescending(i => i.Id).Select(b => b.GameResult).Take(take).ToList(),
+               
             };
+
             return viewModel;
         }
 
@@ -103,7 +107,6 @@ namespace Presentation.Web.Mappers
             var matchModel = new MatchViewModel
             {
                 Id = model.Id,
-                MatchGuid = model.MatchGuid,
                 Done = model.Done,
                 StartTime = model.StartTime,
                 StartTimeStr = model.StartTime.HasValue ? TimeZone.CurrentTimeZone.ToLocalTime(model.StartTime.Value).ToString("dd/MM HH:mm") : null,
@@ -136,7 +139,6 @@ namespace Presentation.Web.Mappers
             var model = new Match
             {
                 Id = viewModel.Id,
-                MatchGuid = viewModel.MatchGuid,
                 StartTime = viewModel.StartTime,
                 EndTime = viewModel.EndTime,
                 TimeSpan = viewModel.TimeSpan,

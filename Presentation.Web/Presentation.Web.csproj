@@ -322,6 +322,7 @@
     <Content Include="Views\Score\Player.cshtml" />
     <Content Include="Views\Score\PlayerList.cshtml" />
     <Content Include="Views\Score\TeamList.cshtml" />
+    <Content Include="Views\Score\Team.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

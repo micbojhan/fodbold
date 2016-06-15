@@ -55,7 +55,7 @@
 
         <tr class="@style">
             <td>#@i</td>
-            <td>@p.Name</td>
+            <td>@Html.ActionLink("Team "+@p.Name, "Team", new { id = p.Id })</td>
             <td>@p.PlayerOne.Name</td>
             <td>@p.PlayerTwo.Name</td>
             <td class="score">@p.Score / <span class="won">@p.AllTimeHigh</span> / <span class="lost">@p.AllTimeLow</span></td>

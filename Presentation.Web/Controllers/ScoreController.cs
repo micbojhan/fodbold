@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Core.DomainServices;
 using Presentation.Web.Mappers;
+using Presentation.Web.ViewModels;
 
 namespace Presentation.Web.Controllers
 {
@@ -36,7 +38,18 @@ namespace Presentation.Web.Controllers
             //TODO to viewmodel
             var player = _fussballRepository.GetPlayer(id);
             var playerVm = _mapper.ToViewModel(player,15);
+            playerVm.Teams = player.Teams.OrderByDescending(t => t.Score).Select(team => _mapper.ToViewModel(team)).ToList();
+            playerVm.Matches = player.MatchPlayer.OrderByDescending(t => t.Score).Select(m => _mapper.ToViewModel(m.Match)).ToList();
             return View(playerVm);
+        }
+
+        [HttpGet]
+        public ActionResult Team(int id)
+        {
+            //TODO to viewmodel
+            var team = _fussballRepository.GetTeam(id);
+            var teamVm = _mapper.ToViewModel(team);
+            return View(teamVm);
         }
 
         [HttpGet]

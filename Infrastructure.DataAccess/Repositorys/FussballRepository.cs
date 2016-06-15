@@ -47,11 +47,22 @@ namespace Infrastructure.DataAccess.Repositorys
             return matches;
         }
 
-
+        public Team GetTeam(int teamId)
+        {
+            var team = _dbContext
+                .Teams
+                .Include(p => p.MatchTeam.Select(m => m.Match))
+                .FirstOrDefault(p => p.Id == teamId);
+            return team;
+        }
 
         public Player GetPlayer(int playerId)
         {
-            var player = _dbContext.Players.FirstOrDefault(p => p.Id == playerId);
+            var player = _dbContext
+                .Players
+                .Include(p=>p.Teams)
+                .Include(p=>p.MatchPlayer.Select(m=>m.Match))
+                .FirstOrDefault(p => p.Id == playerId);
             return player;
         }
 
@@ -198,12 +209,12 @@ namespace Infrastructure.DataAccess.Repositorys
             _dbContext.SaveChanges();
         }
 
-        public Match GetMatch(Guid matchGuid)
+        public Match GetMatch(int id)
         {
             var match = _dbContext.Matches
                 .Include(m=>m.MatchTeam.Select(t=>t.Team))
                 .Include(m=>m.MatchPlayer.Select(t=>t.Player))
-                .FirstOrDefault(m => m.MatchGuid == matchGuid);
+                .FirstOrDefault(m => m.Id == id);
             return match;
         }
     }

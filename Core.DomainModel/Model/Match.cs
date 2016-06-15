@@ -10,7 +10,6 @@ namespace Core.DomainModel.Model
     {
         [Key]
         public int Id { get; set; }
-        public Guid MatchGuid { get; set; }
         public bool Done { get; set; }
 
         public DateTime? StartTime { get; set; }

@@ -219,6 +219,47 @@ namespace Infrastructure.DataAccess
             /////////////////////////////////////////////////////////
 
 
+            // Primary keys
+            modelBuilder.Entity<Team>().HasKey(k => k.Id);
+            modelBuilder.Entity<Player>().HasKey(q => q.Id);
+            modelBuilder.Entity<Match>().HasKey(q => q.Id);
+            modelBuilder.Entity<MatchTeam>().HasKey(q => q.Id);
+            modelBuilder.Entity<MatchPlayer>().HasKey(q => q.Id);
+            //modelBuilder.Entity<MatchPlayer>().HasKey(q =>
+            //    new {
+            //        q.PlayerId,
+            //        q.MatchId
+            //    });
+            // Relationships
+            modelBuilder.Entity<MatchPlayer>()
+                .HasRequired(t => t.Player)
+                .WithMany(t => t.MatchPlayer)
+                .HasForeignKey(t => t.PlayerId);
+
+            modelBuilder.Entity<MatchPlayer>()
+                .HasRequired(t => t.Match)
+                .WithMany(t => t.MatchPlayer)
+                .HasForeignKey(t => t.MatchId);
+
+            modelBuilder.Entity<MatchTeam>()
+                .HasRequired(t => t.Team)
+                .WithMany(t => t.MatchTeam)
+                .HasForeignKey(t => t.TeamId);
+
+            modelBuilder.Entity<MatchTeam>()
+                .HasRequired(t => t.Match)
+                .WithMany(t => t.MatchTeam)
+                .HasForeignKey(t => t.MatchId);
+
+            modelBuilder.Entity<Team>()
+                .HasRequired(p => p.PlayerOne)
+                .WithMany()
+                .HasForeignKey(p => p.PlayerOneId).WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Team>()
+                .HasRequired(p => p.PlayerTwo)
+                .WithMany()
+                .HasForeignKey(p => p.PlayerTwoId).WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);
 

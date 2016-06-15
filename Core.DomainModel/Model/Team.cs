@@ -23,7 +23,9 @@ namespace Core.DomainModel.Model
         public int GoalsScoredHc { get; set; }
 
         // Foreign key 
+        [Key, Column(Order = 0)]
         public int? PlayerOneId { get; set; }
+        [Key, Column(Order = 1)]
         public int? PlayerTwoId { get; set; }
 
         // Navigation properties 

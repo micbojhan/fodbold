@@ -101,7 +101,7 @@ namespace Presentation.Web.Controllers
 
 
         [HttpGet]
-        public ActionResult MatchByGuid(Guid id)
+        public ActionResult MatchByGuid(int id)
         {
             var match = _fussballRepository.GetMatch(id);
             var vm = _mapper.ToViewModel(match);
@@ -111,17 +111,17 @@ namespace Presentation.Web.Controllers
         [HttpPost]
         public ActionResult Match(MatchViewModel vm)
         {
-            var match = _fussballRepository.GetMatch(vm.MatchGuid);
+            var match = _fussballRepository.GetMatch(vm.Id);
             if (!match.Done)
             {
                 new MatchCon().SetResult(match, vm.EndGoalsTeamRed, vm.EndGoalsTeamBlue);
                 _unitOfWork.Save();
             }
-            return RedirectToAction("Result", new { id = match.MatchGuid });
+            return RedirectToAction("Result", new { id = match.Id });
         }
 
 
-        public ActionResult Result(Guid id)
+        public ActionResult Result(int id)
         {
             var match = _fussballRepository.GetMatch(id);
             var vm = _mapper.ToViewModel(match);
