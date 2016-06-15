@@ -10,10 +10,11 @@ namespace Infrastructure.DataAccess
 {
     public class ApplicationContext : IdentityDbContext<ApplicationUser>
     {
+        private static string databaseString = "fodboldv1";
         // throwIfV1Schema is used when upgrading Identity in a database from 1 to 2.
         // It's a one time thing and can be safely removed.
         public ApplicationContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base(databaseString, throwIfV1Schema: false)
         {
             // Database.SetInitializer<ApplicationContext>(null);
             // The database initializer will create the database and the specified tables.
@@ -35,7 +36,7 @@ namespace Infrastructure.DataAccess
             // The class will need to implement one of the above in order to inherit some behaviour.
             // These Initializers has a custom seeding function, that will populate the database instance
             // with some fake data that can be used right away.
-            if (Database.Exists("DefaultConnection"))
+            if (Database.Exists(databaseString))
             {
                 // Runs if a database already exists. It drops the database, recreates it and seeds with some fake data.
                 Database.SetInitializer(new ChangeSampleSeedInitializer());
@@ -60,19 +61,22 @@ namespace Infrastructure.DataAccess
         // * Table per Type (TPT): http://weblogs.asp.net/manavi/inheritance-mapping-strategies-with-entity-framework-code-first-ctp5-part-2-table-per-type-tpt
         // * Table per Concrete class (TPC): http://weblogs.asp.net/manavi/inheritance-mapping-strategies-with-entity-framework-code-first-ctp5-part-3-table-per-concrete-type-tpc-and-choosing-strategy-guidelines
 
-        public IDbSet<Student> Students { get; set; }
-        public IDbSet<Teacher> Teachers { get; set; }
-        public IDbSet<Course> Courses { get; set; }
-        public IDbSet<ClassRoom> ClassRooms { get; set; }
+
 
         public IDbSet<Test> Tests { get; set; }
         public IDbSet<Player> Players { get; set; }
-        public IDbSet<GameResult> GameResults { get; set; }
+        //public IDbSet<GameResult> GameResults { get; set; }
         public IDbSet<MatchPlayer> MatchPlayers { get; set; }
         public IDbSet<MatchTeam> MatchTeams { get; set; }
         public IDbSet<Team> Teams { get; set; }
         public IDbSet<Match> Matches { get; set; }
-        public IDbSet<Derby> Derbys { get; set; }
+        //public IDbSet<Derby> Derbys { get; set; }
+
+
+        public IDbSet<Student> Students { get; set; }
+        public IDbSet<Teacher> Teachers { get; set; }
+        public IDbSet<Course> Courses { get; set; }
+        public IDbSet<ClassRoom> ClassRooms { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -89,91 +93,93 @@ namespace Infrastructure.DataAccess
             modelBuilder.Entity<Teacher>().Property(s => s.Name).HasMaxLength(50);
             modelBuilder.Entity<Course>().Property(s => s.Name).HasMaxLength(30);
             /////////////////////////////////////////////////////////
-            modelBuilder.Entity<Derby>().HasKey(k => k.Id);
-            modelBuilder.Entity<GameResult>().HasKey(k => k.Id);
-            modelBuilder.Entity<Match>().HasKey(k => k.Id);
-            modelBuilder.Entity<MatchPlayer>().HasKey(k => k.Id);
-            modelBuilder.Entity<MatchTeam>().HasKey(k => k.Id);
-            modelBuilder.Entity<Player>().HasKey(k => k.Id);
-            modelBuilder.Entity<Team>().HasKey(k => k.Id);
-            modelBuilder.Entity<Test>().HasKey(k => k.Id);
-            /////////////////////////////////////////////////////////
-            modelBuilder.Entity<Derby>()
-                .HasRequired(p => p.TeamOne)
-                .WithMany()
-                .HasForeignKey(p => p.TeamOneId)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Derby>().HasKey(k => k.Id);
+            //modelBuilder.Entity<GameResult>().HasKey(k => k.Id);
+            //modelBuilder.Entity<Match>().HasKey(k => k.Id);
+            //modelBuilder.Entity<MatchPlayer>().HasKey(k => k.Id);
+            //modelBuilder.Entity<MatchTeam>().HasKey(k => k.Id);
+            //modelBuilder.Entity<Player>().HasKey(k => k.Id);
+            //modelBuilder.Entity<Team>().HasKey(k => k.Id);
+            //modelBuilder.Entity<Test>().HasKey(k => k.Id);
+            ////////////////////////DERBY/////////////////////////////////
+            //modelBuilder.Entity<Derby>()
+            //    .HasRequired(p => p.TeamOne)
+            //    .WithMany()
+            //    .HasForeignKey(p => p.TeamOneId)
+            //    .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Derby>()
-                .HasRequired(p => p.TeamTwo)
-                .WithMany()
-                .HasForeignKey(p => p.TeamTwoId)
-                .WillCascadeOnDelete(false);
-            /////////////////////////////////////////////////////////
-            modelBuilder.Entity<Team>()
-                .HasMany(t => t.Derbies)
-                .WithMany();
+            //modelBuilder.Entity<Derby>()
+            //    .HasRequired(p => p.TeamTwo)
+            //    .WithMany()
+            //    .HasForeignKey(p => p.TeamTwoId)
+            //    .WillCascadeOnDelete(false);
+            //////////////////////////TEAM///////////////////////////////
+            //modelBuilder.Entity<Team>()
+            //    .HasMany(t => t.Derbies)
+            //    .WithMany();
 
-            modelBuilder.Entity<Team>()
-                .HasMany(t => t.MatchTeam)
-                .WithMany();
+            //modelBuilder.Entity<Team>()
+            //    .HasMany(t => t.MatchTeam)
+            //    .WithMany();
 
-            modelBuilder.Entity<Team>()
-                .HasRequired(p => p.PlayerOne)
-                .WithMany()
-                .HasForeignKey(p => p.PlayerOneId)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Team>()
+            //    .HasRequired(p => p.PlayerOne)
+            //    .WithMany()
+            //    .HasForeignKey(p => p.PlayerOneId)
+            //    .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Team>()
-                .HasRequired(p => p.PlayerTwo)
-                .WithMany()
-                .HasForeignKey(p => p.PlayerTwoId)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Team>()
+            //    .HasRequired(p => p.PlayerTwo)
+            //    .WithMany()
+            //    .HasForeignKey(p => p.PlayerTwoId)
+            //    .WillCascadeOnDelete(false);
 
-            /////////////////////////////////////////////////////////
+            //////////////////////////MatchPlayer///////////////////////////////
             //modelBuilder.Entity<MatchPlayer>()
             //    .HasMany(t => t.Matches)
             //    .WithMany();
 
-            modelBuilder.Entity<MatchPlayer>()
-                .HasRequired(p => p.Player)
-                .WithMany()
-                .HasForeignKey(p => p.PlayerId)
-                .WillCascadeOnDelete(false);
-            modelBuilder.Entity<MatchPlayer>()
-                .HasRequired(p => p.Match)
-                .WithMany()
-                .HasForeignKey(p => p.MatchId)
-                .WillCascadeOnDelete(false);
-            /////////////////////////////////////////////////////////
+            //modelBuilder.Entity<MatchPlayer>()
+            //    .HasRequired(p => p.Player)
+            //    .WithMany()
+            //    .HasForeignKey(p => p.PlayerId)
+            //    .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<MatchPlayer>()
+            //    .HasRequired(p => p.Match)
+            //    .WithMany()
+            //    .HasForeignKey(p => p.MatchId)
+            //    .WillCascadeOnDelete(false);
+            //////////////////////////MATCH TEAM ///////////////////////////////
             //modelBuilder.Entity<MatchTeam>()
             //    .HasMany(t => t.Matches)
             //    .WithMany();
 
-            modelBuilder.Entity<MatchTeam>()
-                .HasRequired(p => p.Team)
-                .WithMany()
-                .HasForeignKey(p => p.TeamId)
-                .WillCascadeOnDelete(false);
-            modelBuilder.Entity<MatchTeam>()
-                .HasRequired(p => p.Match)
-                .WithMany()
-                .HasForeignKey(p => p.MatchId)
-                .WillCascadeOnDelete(false);
-            /////////////////////////////////////////////////////////
-            modelBuilder.Entity<Player>()
-                .HasMany(t => t.MatchPlayer)
-                .WithMany();
-            modelBuilder.Entity<Player>()
-                .HasMany(t => t.Teams)
-                .WithMany();
-            /////////////////////////////////////////////////////////
-            modelBuilder.Entity<Match>()
-                .HasMany(t => t.MatchTeam)
-                .WithMany();
-            modelBuilder.Entity<Match>()
-                .HasMany(t => t.Players)
-                .WithMany();
+            //modelBuilder.Entity<MatchTeam>()
+            //    .HasRequired(p => p.Team)
+            //    .WithMany()
+            //    .HasForeignKey(p => p.TeamId)
+            //    .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<MatchTeam>()
+            //    .HasRequired(p => p.Match)
+            //    .WithMany()
+            //    .HasForeignKey(p => p.MatchId)
+            //    .WillCascadeOnDelete(false);
+            ////////////////////////// PLAYER ///////////////////////////////
+            //modelBuilder.Entity<Player>()
+            //    .HasMany(t => t.MatchPlayer)
+            //    .WithMany();
+
+            //modelBuilder.Entity<Player>()
+            //    .HasMany(t => t.Teams)
+            //    .WithMany();
+            /////////////////////////// MATCH //////////////////////////////
+            //modelBuilder.Entity<Match>()
+            //    .HasMany(t => t.MatchTeam)
+            //    .WithMany();
+
+            //modelBuilder.Entity<Match>()
+            //    .HasMany(t => t.MatchPlayer)
+            //    .WithMany();
 
             //modelBuilder.Entity<Match>()
             //    .HasRequired(p => p.TeamRed)

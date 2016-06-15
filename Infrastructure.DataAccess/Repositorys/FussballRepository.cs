@@ -96,7 +96,6 @@ namespace Infrastructure.DataAccess.Repositorys
 
             var match = new Match
             {
-                MatchGuid = Guid.NewGuid(),
                 StartTime = DateTime.UtcNow,
                 EndTime = null,
                 TimeSpan = null,
@@ -106,6 +105,7 @@ namespace Infrastructure.DataAccess.Repositorys
 
             var TeamRed = new MatchTeam
             {
+                IsRedTeam = true,
                 MatchId = match.Id,
                 Match = match,
                 TeamId = teamRed.Id,
@@ -114,6 +114,8 @@ namespace Infrastructure.DataAccess.Repositorys
             };
             var TeamRedPlayerOne = new MatchPlayer
             {
+                IsRedTeam = true,
+                IsPlayerOne = true,
                 MatchId = match.Id,
                 Match = match,
                 Player = teamRed.PlayerOne,
@@ -122,6 +124,8 @@ namespace Infrastructure.DataAccess.Repositorys
             };
             var TeamRedPlayerTwo = new MatchPlayer
             {
+                IsRedTeam = true,
+                IsPlayerOne = false,
                 MatchId = match.Id,
                 Match = match,
                 Player = teamRed.PlayerTwo,
@@ -131,6 +135,7 @@ namespace Infrastructure.DataAccess.Repositorys
 
             var TeamBlue = new MatchTeam
             {
+                IsRedTeam = false,
                 MatchId = match.Id,
                 Match = match,
                 TeamId = teamBlue.Id,
@@ -139,6 +144,8 @@ namespace Infrastructure.DataAccess.Repositorys
             };
             var TeamBluePlayerOne = new MatchPlayer
             {
+                IsRedTeam = false,
+                IsPlayerOne = true,
                 MatchId = match.Id,
                 Match = match,
                 Player = teamBlue.PlayerOne,
@@ -147,6 +154,8 @@ namespace Infrastructure.DataAccess.Repositorys
             };
             var TeamBluePlayerTwo = new MatchPlayer
             {
+                IsRedTeam = false,
+                IsPlayerOne = false,
                 MatchId = match.Id,
                 Match = match,
                 Player = teamBlue.PlayerTwo,
@@ -191,7 +200,10 @@ namespace Infrastructure.DataAccess.Repositorys
 
         public Match GetMatch(Guid matchGuid)
         {
-            var match = _dbContext.Matches.FirstOrDefault(m => m.MatchGuid == matchGuid);
+            var match = _dbContext.Matches
+                .Include(m=>m.MatchTeam.Select(t=>t.Team))
+                .Include(m=>m.MatchPlayer.Select(t=>t.Player))
+                .FirstOrDefault(m => m.MatchGuid == matchGuid);
             return match;
         }
     }

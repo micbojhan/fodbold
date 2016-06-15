@@ -67,8 +67,8 @@ namespace Presentation.Web.Mappers
                 GoalsScoredHc = model.GoalsScoredHc,
                 GoalsAgainst = model.GoalsAgainst,
                 GoalsAgainstHc = model.GoalsAgainstHc,
-                PlayerOneId = model.PlayerOneId,
-                PlayerTwoId = model.PlayerTwoId,
+                PlayerOneId = model.PlayerOneId.Value,
+                PlayerTwoId = model.PlayerTwoId.Value,
                 PlayerOne = ToViewModel(model.PlayerOne),
                 PlayerTwo = ToViewModel(model.PlayerTwo),
                 Form =  model.MatchTeam.OrderByDescending(i => i.Id).Select(b => b.GameResult).Take(5).ToList()
@@ -99,6 +99,7 @@ namespace Presentation.Web.Mappers
 
         public MatchViewModel ToViewModel(Match model)
         {
+            
             var matchModel = new MatchViewModel
             {
                 Id = model.Id,
@@ -117,14 +118,15 @@ namespace Presentation.Web.Mappers
                 GoalsTeamBlue = model.EndGoalsTeamBlue - model.StartGoalsTeamBlue,
                 StartGoalsTeamBlue = model.StartGoalsTeamBlue,
                 EndGoalsTeamBlue = model.EndGoalsTeamBlue,
-                TeamRedId = model.TeamRedId,
-                TeamBlueId = model.TeamBlueId,
-                TeamRed = ToViewModel(model.TeamRed),
-                TeamBlue = ToViewModel(model.TeamBlue),
+                //TeamRedId = model.TeamRedId,
+                //TeamBlueId = model.TeamBlueId,
+                TeamRed = ToViewModel(model.MatchTeam.FirstOrDefault(t => t.IsRedTeam)),
+                TeamBlue = ToViewModel(model.MatchTeam.FirstOrDefault(t => !t.IsRedTeam)),
                 TeamResult = model.TeamResult,
-                ScoreTeamBlue = model.TeamBlue.Score,
-                ScoreTeamRed = model.TeamRed.Score,
+                ScoreTeamRed = model.MatchTeam.FirstOrDefault(t => t.IsRedTeam).Score,
+                ScoreTeamBlue = model.MatchTeam.FirstOrDefault(t => !t.IsRedTeam).Score,
             };
+
 
             return matchModel;
         }
@@ -142,10 +144,10 @@ namespace Presentation.Web.Mappers
                 EndGoalsTeamRed = viewModel.EndGoalsTeamRed,
                 StartGoalsTeamBlue = viewModel.StartGoalsTeamBlue,
                 EndGoalsTeamBlue = viewModel.EndGoalsTeamBlue,
-                TeamRedId = viewModel.TeamRedId,
-                TeamBlueId = viewModel.TeamBlueId,
-                TeamRed = ToDomainMT(viewModel.TeamRed),
-                TeamBlue = ToDomainMT(viewModel.TeamBlue),
+                //TeamRedId = viewModel.TeamRedId,
+                //TeamBlueId = viewModel.TeamBlueId,
+                //TeamRed = ToDomainMT(viewModel.TeamRed),
+                //TeamBlue = ToDomainMT(viewModel.TeamBlue),
                 TeamResult = viewModel.TeamResult,
             };
             return model;
@@ -165,8 +167,8 @@ namespace Presentation.Web.Mappers
                 Score = team.Score,
                 AllTimeHigh = team.AllTimeHigh,
                 AllTimeLow = team.AllTimeLow,
-                PlayerOneId = team.PlayerOneId,
-                PlayerTwoId = team.PlayerTwoId,
+                PlayerOneId = team.PlayerOneId.Value,
+                PlayerTwoId = team.PlayerTwoId.Value,
                 PlayerOne = ToViewModel(team.PlayerOne),
                 PlayerTwo = ToViewModel(team.PlayerTwo),
             };

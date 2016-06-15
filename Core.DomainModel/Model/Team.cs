@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Core.DomainModel.Interfaces;
 
@@ -7,6 +8,7 @@ namespace Core.DomainModel.Model
 {
     public class Team : IEntity, ICreatedOn, IModifiedOn
     {
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public int Won { get; set; }
@@ -21,15 +23,17 @@ namespace Core.DomainModel.Model
         public int GoalsScoredHc { get; set; }
 
         // Foreign key 
-        public int PlayerOneId { get; set; }
-        public int PlayerTwoId { get; set; }
+        public int? PlayerOneId { get; set; }
+        public int? PlayerTwoId { get; set; }
 
         // Navigation properties 
+        [ForeignKey("PlayerOneId")]
         public virtual Player PlayerOne { get; set; }
+        [ForeignKey("PlayerTwoId")]
         public virtual Player PlayerTwo { get; set; }
 
         // Navigation property
-        public virtual ICollection<Derby> Derbies { get; set; }
+        //public virtual ICollection<Derby> Derbies { get; set; }
         public virtual ICollection<MatchTeam> MatchTeam { get; set; }
         
         public DateTime CreatedOn { get; set; }

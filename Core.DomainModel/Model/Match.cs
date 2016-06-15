@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Core.DomainModel.Interfaces;
 
@@ -7,6 +8,7 @@ namespace Core.DomainModel.Model
 {
     public class Match : IEntity, ICreatedOn, IModifiedOn
     {
+        [Key]
         public int Id { get; set; }
         public Guid MatchGuid { get; set; }
         public bool Done { get; set; }
@@ -24,7 +26,7 @@ namespace Core.DomainModel.Model
         public int TeamResult { get; set; } // 1X2 - Red-Draw-Blue
 
         public virtual ICollection<MatchTeam> MatchTeam { get; set; }
-        public virtual ICollection<MatchPlayer> Players { get; set; }
+        public virtual ICollection<MatchPlayer> MatchPlayer { get; set; }
 
         // Navigation properties 
         //public virtual MatchTeam TeamRed { get; set; }
