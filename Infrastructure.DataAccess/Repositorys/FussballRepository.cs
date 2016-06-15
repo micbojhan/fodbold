@@ -131,7 +131,7 @@ namespace Infrastructure.DataAccess.Repositorys
                 Match = match,
                 TeamId = teamRed.Id,
                 Team = teamRed,
-                Score = teamRed.PlayerOne.Score + teamRed.PlayerTwo.Score
+                Score = teamRed.TeamPlayer.PlayerOne.Score + teamRed.PlayerTwo.Score
             };
             var TeamRedPlayerOne = new MatchPlayer
             {
