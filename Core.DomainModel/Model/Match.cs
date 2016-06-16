@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Core.DomainModel.Interfaces;
@@ -17,31 +16,26 @@ namespace Core.DomainModel.Model
         public TimeSpan? TimeSpan { get; set; }
 
         public int ScoreDiff { get; set; }
+
         public int StartGoalsTeamRed { get; set; }
         public int EndGoalsTeamRed { get; set; }
+
         public int StartGoalsTeamBlue { get; set; }
         public int EndGoalsTeamBlue { get; set; }
 
-        public int TeamResult { get; set; } // 1X2 - Red-Draw-Blue
-
-        public virtual ICollection<MatchTeam> MatchTeam { get; set; }
-        public virtual ICollection<MatchPlayer> MatchPlayer { get; set; }
+        public int GameResult { get; set; } // 1X2 - Red-Draw-Blue
 
         // Navigation properties 
-        //public virtual MatchTeam TeamRed { get; set; }
-        //public virtual MatchTeam TeamBlue { get; set; }
-        //public virtual MatchPlayer TeamRedPlayerOne { get; set; }
-        //public virtual MatchPlayer TeamRedPlayerTwo { get; set; }
-        //public virtual MatchPlayer TeamBluePlayerOne { get; set; }
-        //public virtual MatchPlayer TeamBluePlayerTwo { get; set; }
+        [ForeignKey("TeamRedId")]
+        public virtual Team TeamRed { get; set; }
+        [ForeignKey("TeamBlueId")]
+        public virtual Team TeamBlue { get; set; }
 
         // Foreign key 
-        //public int TeamRedId { get; set; }
-        //public int TeamBlueId { get; set; }
-        //public int TeamRedPlayerOneId { get; set; }
-        //public int TeamRedPlayerTwoId { get; set; }
-        //public int TeamBluePlayerOneId { get; set; }
-        //public int TeamBluePlayerTwoId { get; set; }
+        [Key, Column(Order = 0)]
+        public int TeamRedId { get; set; }
+        [Key, Column(Order = 1)]
+        public int TeamBlueId { get; set; }
 
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }

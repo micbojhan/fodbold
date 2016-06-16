@@ -1,30 +1,13 @@
 using System;
 using System.Linq;
+using Core.DomainModel.Enums;
 using Core.DomainModel.Model;
 using Presentation.Web.ViewModels;
 
 namespace Presentation.Web.Controllers
 {
-    public enum TeamResultEnum
-    {
-        Red = 1,  // 1 
-        Draw = 0, // X
-        Blue = 2, // 2
-    }
-
-    public enum MatchResultEnum
-    {
-        Won = 1,  // 1 
-        Draw = 0, // X
-        Lost = 2, // 2
-    }
     public class MatchCon
     {
-        public MatchCon()
-        {
-
-        }
-
         public CreateMatchViewModel CreateMatchViewModel(CreateMatchViewModel vm, IOrderedEnumerable<Player> playerToMatch)
         {
             var model = new CreateMatchViewModel
@@ -70,37 +53,33 @@ namespace Presentation.Web.Controllers
             int redTeam;
             if (m.EndGoalsTeamBlue > m.EndGoalsTeamRed)
             {
-                m.TeamResult = (int)TeamResultEnum.Blue;
+                m.GameResult = (int)TeamResultEnum.Blue;
                 blueTeam = (int)MatchResultEnum.Won;
                 redTeam = (int)MatchResultEnum.Lost;
             }
             else if (m.EndGoalsTeamBlue < m.EndGoalsTeamRed)
             {
-                m.TeamResult = (int)TeamResultEnum.Red;
+                m.GameResult = (int)TeamResultEnum.Red;
                 blueTeam = (int)MatchResultEnum.Lost;
                 redTeam = (int)MatchResultEnum.Won;
             }
             else
             {
-                m.TeamResult = (int)TeamResultEnum.Draw;
+                m.GameResult = (int)TeamResultEnum.Draw;
                 blueTeam = (int)MatchResultEnum.Draw;
                 redTeam = (int)MatchResultEnum.Draw;
             }
-            
-            SetMatchTeamWinner(m.MatchTeam.FirstOrDefault(t=>!t.IsRedTeam), blueTeam, m.EndGoalsTeamBlue, blueTeamGoals, m.EndGoalsTeamRed, redTeamGoals);
-            SetMatchPlayerWinner(m.MatchPlayer.FirstOrDefault(t => !t.IsRedTeam && !t.IsPlayerOne), blueTeam, m.EndGoalsTeamBlue, blueTeamGoals, m.EndGoalsTeamRed, redTeamGoals);
-            SetMatchPlayerWinner(m.MatchPlayer.FirstOrDefault(t => !t.IsRedTeam && t.IsPlayerOne), blueTeam, m.EndGoalsTeamBlue, blueTeamGoals, m.EndGoalsTeamRed, redTeamGoals);
 
-            SetMatchTeamWinner(m.MatchTeam.FirstOrDefault(t => t.IsRedTeam), redTeam, m.EndGoalsTeamRed, redTeamGoals, m.EndGoalsTeamBlue, blueTeamGoals);
-            SetMatchPlayerWinner(m.MatchPlayer.FirstOrDefault(t => t.IsRedTeam && !t.IsPlayerOne), redTeam, m.EndGoalsTeamRed, redTeamGoals, m.EndGoalsTeamBlue, blueTeamGoals);
-            SetMatchPlayerWinner(m.MatchPlayer.FirstOrDefault(t => t.IsRedTeam && t.IsPlayerOne), redTeam, m.EndGoalsTeamRed, redTeamGoals, m.EndGoalsTeamBlue, blueTeamGoals);
+            SetTeamWinner(m.TeamBlue, blueTeam, m.EndGoalsTeamBlue, blueTeamGoals, m.EndGoalsTeamRed, redTeamGoals);
+            //SetMatchPlayerWinner(m.TeamBluePlayerOne, blueTeam, m.EndGoalsTeamBlue, blueTeamGoals, m.EndGoalsTeamRed, redTeamGoals);
+            //SetMatchPlayerWinner(m.TeamBluePlayerTwo, blueTeam, m.EndGoalsTeamBlue, blueTeamGoals, m.EndGoalsTeamRed, redTeamGoals);
+
+            SetTeamWinner(m.TeamRed, redTeam, m.EndGoalsTeamRed, redTeamGoals, m.EndGoalsTeamBlue, blueTeamGoals);
+            //SetMatchPlayerWinner(m.TeamRedPlayerOne, redTeam, m.EndGoalsTeamRed, redTeamGoals, m.EndGoalsTeamBlue, blueTeamGoals);
+            //SetMatchPlayerWinner(m.TeamRedPlayerTwo, redTeam, m.EndGoalsTeamRed, redTeamGoals, m.EndGoalsTeamBlue, blueTeamGoals);
         }
 
-        private void SetMatchTeamWinner(MatchTeam t, int iWinDrawLost, int scoredWithHc, int scored, int againstWithHc, int against)
-        {
-            t.GameResult = iWinDrawLost;
-            SetTeamWinner(t.Team, iWinDrawLost, scoredWithHc, scored, againstWithHc, against);
-        }
+
 
         private void SetTeamWinner(Team t, int iWinDrawLost, int scoredWithHc, int scored, int againstWithHc, int against)
         {
@@ -132,14 +111,8 @@ namespace Presentation.Web.Controllers
                         break;
                     }
             }
-            //SetPlayerWinner(t.PlayerOne, iWinDrawLost, scoredWithHc, scored, againstWithHc, against);
-            //SetPlayerWinner(t.PlayerTwo, iWinDrawLost, scoredWithHc, scored, againstWithHc, against);
-        }
-
-        private void SetMatchPlayerWinner(MatchPlayer p, int iWinDrawLost, int scoredWithHc, int scored, int againstWithHc, int against)
-        {
-            p.GameResult = iWinDrawLost;
-            SetPlayerWinner(p.Player, iWinDrawLost, scoredWithHc, scored, againstWithHc, against);
+            SetPlayerWinner(t.PlayerOne, iWinDrawLost, scoredWithHc, scored, againstWithHc, against);
+            SetPlayerWinner(t.PlayerTwo, iWinDrawLost, scoredWithHc, scored, againstWithHc, against);
         }
 
         private void SetPlayerWinner(Player p, int iWinDrawLost , int scoredWithHc, int scored, int againstWithHc, int against)

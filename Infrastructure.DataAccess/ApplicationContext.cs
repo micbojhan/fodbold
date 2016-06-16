@@ -61,16 +61,14 @@ namespace Infrastructure.DataAccess
         // * Table per Type (TPT): http://weblogs.asp.net/manavi/inheritance-mapping-strategies-with-entity-framework-code-first-ctp5-part-2-table-per-type-tpt
         // * Table per Concrete class (TPC): http://weblogs.asp.net/manavi/inheritance-mapping-strategies-with-entity-framework-code-first-ctp5-part-3-table-per-concrete-type-tpc-and-choosing-strategy-guidelines
 
-
+        //public IDbSet<GameResult> GameResults { get; set; }
+        //public IDbSet<MatchPlayer> MatchPlayers { get; set; }
+        //public IDbSet<MatchTeam> MatchTeams { get; set; }
+        //public IDbSet<TeamPlayer> TeamPlayers { get; set; }
 
         public IDbSet<Test> Tests { get; set; }
         public IDbSet<Player> Players { get; set; }
-        //public IDbSet<GameResult> GameResults { get; set; }
-        public IDbSet<MatchPlayer> MatchPlayers { get; set; }
-        public IDbSet<MatchTeam> MatchTeams { get; set; }
-        public IDbSet<TeamPlayer> TeamPlayers { get; set; }
         public IDbSet<Team> Teams { get; set; }
-        
         public IDbSet<Match> Matches { get; set; }
         //public IDbSet<Derby> Derbys { get; set; }
 
@@ -97,12 +95,12 @@ namespace Infrastructure.DataAccess
             /////////////////////////////////////////////////////////
             //modelBuilder.Entity<Derby>().HasKey(k => k.Id);
             //modelBuilder.Entity<GameResult>().HasKey(k => k.Id);
-            //modelBuilder.Entity<Match>().HasKey(k => k.Id);
             //modelBuilder.Entity<MatchPlayer>().HasKey(k => k.Id);
             //modelBuilder.Entity<MatchTeam>().HasKey(k => k.Id);
-            //modelBuilder.Entity<Player>().HasKey(k => k.Id);
-            //modelBuilder.Entity<Team>().HasKey(k => k.Id);
-            //modelBuilder.Entity<Test>().HasKey(k => k.Id);
+            modelBuilder.Entity<Match>().HasKey(k => k.Id);
+            modelBuilder.Entity<Player>().HasKey(k => k.Id);
+            modelBuilder.Entity<Team>().HasKey(k => k.Id);
+            modelBuilder.Entity<Test>().HasKey(k => k.Id);
             ////////////////////////DERBY/////////////////////////////////
             //modelBuilder.Entity<Derby>()
             //    .HasRequired(p => p.TeamOne)
@@ -222,48 +220,48 @@ namespace Infrastructure.DataAccess
 
 
             // Primary keys
-            modelBuilder.Entity<Team>().HasKey(k => k.Id);
-            modelBuilder.Entity<Player>().HasKey(q => q.Id);
-            modelBuilder.Entity<Match>().HasKey(q => q.Id);
+            //modelBuilder.Entity<Team>().HasKey(k => k.Id);
+            //modelBuilder.Entity<Player>().HasKey(q => q.Id);
+            //modelBuilder.Entity<Match>().HasKey(q => q.Id);
 
-            modelBuilder.Entity<MatchTeam>().HasKey(q => q.Id);
-            modelBuilder.Entity<MatchPlayer>().HasKey(q => q.Id);
-            modelBuilder.Entity<TeamPlayer>().HasKey(q => q.Id);
-            //modelBuilder.Entity<MatchPlayer>().HasKey(q =>
-            //    new {
-            //        q.PlayerId,
-            //        q.MatchId
-            //    });
-            // Relationships
-            modelBuilder.Entity<MatchPlayer>()
-                .HasRequired(t => t.Player)
-                .WithMany(t => t.MatchPlayer)
-                .HasForeignKey(t => t.PlayerId);
+            //modelBuilder.Entity<MatchTeam>().HasKey(q => q.Id);
+            //modelBuilder.Entity<MatchPlayer>().HasKey(q => q.Id);
+            //modelBuilder.Entity<TeamPlayer>().HasKey(q => q.Id);
+            ////modelBuilder.Entity<MatchPlayer>().HasKey(q =>
+            ////    new {
+            ////        q.PlayerId,
+            ////        q.MatchId
+            ////    });
+            //// Relationships
+            //modelBuilder.Entity<MatchPlayer>()
+            //    .HasRequired(t => t.Player)
+            //    .WithMany(t => t.MatchPlayer)
+            //    .HasForeignKey(t => t.PlayerId);
 
-            modelBuilder.Entity<MatchPlayer>()
-                .HasRequired(t => t.Match)
-                .WithMany(t => t.MatchPlayer)
-                .HasForeignKey(t => t.MatchId);
+            //modelBuilder.Entity<MatchPlayer>()
+            //    .HasRequired(t => t.Match)
+            //    .WithMany(t => t.MatchPlayer)
+            //    .HasForeignKey(t => t.MatchId);
 
-            modelBuilder.Entity<MatchTeam>()
-                .HasRequired(t => t.Team)
-                .WithMany(t => t.MatchTeam)
-                .HasForeignKey(t => t.TeamId);
+            //modelBuilder.Entity<MatchTeam>()
+            //    .HasRequired(t => t.Team)
+            //    .WithMany(t => t.MatchTeam)
+            //    .HasForeignKey(t => t.TeamId);
 
-            modelBuilder.Entity<MatchTeam>()
-                .HasRequired(t => t.Match)
-                .WithMany(t => t.MatchTeam)
-                .HasForeignKey(t => t.MatchId);
+            //modelBuilder.Entity<MatchTeam>()
+            //    .HasRequired(t => t.Match)
+            //    .WithMany(t => t.MatchTeam)
+            //    .HasForeignKey(t => t.MatchId);
 
-            modelBuilder.Entity<TeamPlayer>()
-                .HasRequired(t => t.Team)
-                .WithMany(t => t.TeamPlayer)
-                .HasForeignKey(t => t.TeamId);
+            //modelBuilder.Entity<TeamPlayer>()
+            //    .HasRequired(t => t.Team)
+            //    .WithMany(t => t.TeamPlayer)
+            //    .HasForeignKey(t => t.TeamId);
 
-            modelBuilder.Entity<TeamPlayer>()
-                .HasRequired(t => t.Player)
-                .WithMany(t => t.TeamPlayer)
-                .HasForeignKey(t => t.PlayerId);
+            //modelBuilder.Entity<TeamPlayer>()
+            //    .HasRequired(t => t.Player)
+            //    .WithMany(t => t.TeamPlayer)
+            //    .HasForeignKey(t => t.PlayerId);
 
 
 

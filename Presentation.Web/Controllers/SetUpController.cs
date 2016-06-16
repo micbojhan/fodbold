@@ -15,10 +15,7 @@ namespace Presentation.Web.Controllers
     {
         private readonly IFussballRepository _fussballRepository;
         //private readonly IGenericRepository<Derby> _derbyRepository;
-        //private readonly IGenericRepository<GameResult> _gameResultRepository;
         private readonly IGenericRepository<Match> _matcheRepository;
-        private readonly IGenericRepository<MatchPlayer> _matchePlayerRepository;
-        private readonly IGenericRepository<MatchTeam> _matcheTeamRepository;
         private readonly IGenericRepository<Team> _teamRepository;
         private readonly IGenericRepository<Player> _playerRepository;
         private readonly IGenericRepository<Test> _testRepository;
@@ -30,20 +27,14 @@ namespace Presentation.Web.Controllers
             IFussballRepository fussballRepository, 
             IGenericRepository<Test> testRepository, 
             //IGenericRepository<Derby> derbyRepository, 
-            //IGenericRepository<GameResult> gameResultRepository, 
             IGenericRepository<Match> matcheRepository, 
-            IGenericRepository<MatchPlayer> matchePlayerRepository, 
-            IGenericRepository<MatchTeam> matcheTeamRepository, 
             IGenericRepository<Team> teamRepository, 
             IGenericRepository<Player> playerRepository, 
             IUnitOfWork unitOfWork)
         {
             _fussballRepository = fussballRepository;
             //_derbyRepository = derbyRepository;
-            //_gameResultRepository = gameResultRepository;
             _matcheRepository = matcheRepository;
-            _matchePlayerRepository = matchePlayerRepository;
-            _matcheTeamRepository = matcheTeamRepository;
             _teamRepository = teamRepository;
             _playerRepository = playerRepository;
             _testRepository = testRepository;
@@ -55,11 +46,8 @@ namespace Presentation.Web.Controllers
         {
             if (_testRepository.Any()) _testRepository.RemoveRange(_testRepository.AsQueryable());
             //if (_derbyRepository.Any()) _derbyRepository.RemoveRange(_derbyRepository.AsQueryable());
-            //if (_gameResultRepository.Any()) _gameResultRepository.RemoveRange(_gameResultRepository.AsQueryable());
             _unitOfWork.Save();
             if (_matcheRepository.Any()) _matcheRepository.RemoveRange(_matcheRepository.AsQueryable());
-            if (_matchePlayerRepository.Any()) _matchePlayerRepository.RemoveRange(_matchePlayerRepository.AsQueryable());
-            if (_matcheTeamRepository.Any()) _matcheTeamRepository.RemoveRange(_matcheTeamRepository.AsQueryable());
             _unitOfWork.Save();
             if (_teamRepository.Any()) _teamRepository.RemoveRange(_teamRepository.AsQueryable());
             if (_playerRepository.Any()) _playerRepository.RemoveRange(_playerRepository.AsQueryable());

@@ -11,6 +11,9 @@ namespace Presentation.Web.Mappers
     {
         public PlayerViewModel ToViewModel(Player model, int take = 5)
         {
+            var teams = model.Teams.ToList();
+            var matches = teams.SelectMany(t=>t.Matches).ToList();
+            
             var viewModel = new PlayerViewModel
             {
                 Id = model.Id,
@@ -28,11 +31,10 @@ namespace Presentation.Web.Mappers
                 GoalsScoredHc = model.GoalsScoredHc,
                 GoalsAgainst = model.GoalsAgainst,
                 GoalsAgainstHc = model.GoalsAgainstHc,
-                Form = model.MatchPlayer.OrderByDescending(i => i.Id).Select(b => b.GameResult).Take(take).ToList(),
-               // Matches = model.MatchPlayer.OrderByDescending(i => i.Id).Select(b => b.GameResult).Take(take).ToList(),
-               
+                Form = matches.OrderByDescending(m=>m.Id).Take(take).Select(b => b.GameResult).ToList(),
+                Matches = matches.Select(ToViewModel).ToList(),
+                Teams = teams.Select(ToViewModel).ToList(),
             };
-
             return viewModel;
         }
 
@@ -57,6 +59,8 @@ namespace Presentation.Web.Mappers
 
         public TeamViewModel ToViewModel(Team model)
         {
+            var matches = model.Matches.ToList();
+
             var viewModel = new TeamViewModel
             {
                 Id = model.Id,
@@ -75,7 +79,8 @@ namespace Presentation.Web.Mappers
                 PlayerTwoId = model.PlayerTwoId.Value,
                 PlayerOne = ToViewModel(model.PlayerOne),
                 PlayerTwo = ToViewModel(model.PlayerTwo),
-                Form =  model.MatchTeam.OrderByDescending(i => i.Id).Select(b => b.GameResult).Take(5).ToList()
+                Form = matches.OrderByDescending(m => m.Id).Take(5).Select(b => b.GameResult).ToList(),
+                Matches = matches.Select(ToViewModel).ToList(),
             };
             return viewModel;
         }
@@ -92,10 +97,10 @@ namespace Presentation.Web.Mappers
                 Score = viewModel.Score,
                 AllTimeHigh = viewModel.AllTimeHigh,
                 AllTimeLow = viewModel.AllTimeLow,
-                //PlayerOneId = viewModel.PlayerOneId,
-                //PlayerTwoId = viewModel.PlayerTwoId,
-                //PlayerOne = ToDomain(viewModel.PlayerOne),
-                //PlayerTwo = ToDomain(viewModel.PlayerTwo),
+                PlayerOneId = viewModel.PlayerOneId,
+                PlayerTwoId = viewModel.PlayerTwoId,
+                PlayerOne = ToDomain(viewModel.PlayerOne),
+                PlayerTwo = ToDomain(viewModel.PlayerTwo),
             };
             return model;
         }
@@ -121,13 +126,13 @@ namespace Presentation.Web.Mappers
                 GoalsTeamBlue = model.EndGoalsTeamBlue - model.StartGoalsTeamBlue,
                 StartGoalsTeamBlue = model.StartGoalsTeamBlue,
                 EndGoalsTeamBlue = model.EndGoalsTeamBlue,
-                //TeamRedId = model.TeamRedId,
-                //TeamBlueId = model.TeamBlueId,
-                TeamRed = ToViewModel(model.MatchTeam.FirstOrDefault(t => t.IsRedTeam)),
-                TeamBlue = ToViewModel(model.MatchTeam.FirstOrDefault(t => !t.IsRedTeam)),
-                TeamResult = model.TeamResult,
-                ScoreTeamRed = model.MatchTeam.FirstOrDefault(t => t.IsRedTeam).Score,
-                ScoreTeamBlue = model.MatchTeam.FirstOrDefault(t => !t.IsRedTeam).Score,
+                TeamRedId = model.TeamRedId,
+                TeamBlueId = model.TeamBlueId,
+                TeamRed = ToViewModel(model.TeamRed),
+                TeamBlue = ToViewModel(model.TeamBlue),
+                GameResult = model.GameResult,
+                ScoreTeamRed = model.TeamRed.Score,
+                ScoreTeamBlue = model.TeamBlue.Score,
             };
 
 
@@ -146,61 +151,13 @@ namespace Presentation.Web.Mappers
                 EndGoalsTeamRed = viewModel.EndGoalsTeamRed,
                 StartGoalsTeamBlue = viewModel.StartGoalsTeamBlue,
                 EndGoalsTeamBlue = viewModel.EndGoalsTeamBlue,
-                //TeamRedId = viewModel.TeamRedId,
-                //TeamBlueId = viewModel.TeamBlueId,
-                //TeamRed = ToDomainMT(viewModel.TeamRed),
-                //TeamBlue = ToDomainMT(viewModel.TeamBlue),
-                TeamResult = viewModel.TeamResult,
+                TeamRedId = viewModel.TeamRedId,
+                TeamBlueId = viewModel.TeamBlueId,
+                TeamRed = ToDomain(viewModel.TeamRed),
+                TeamBlue = ToDomain(viewModel.TeamBlue),
+                GameResult = viewModel.GameResult,
             };
             return model;
-        }
-
-
-        public TeamViewModel ToViewModel(MatchTeam model)
-        {
-            var team = model.Team;
-            var viewModel = new TeamViewModel
-            {
-                Id = team.Id,
-                Name = team.Name,
-                Won = team.Won,
-                Draw = team.Draw,
-                Lost = team.Lost,
-                Score = team.Score,
-                AllTimeHigh = team.AllTimeHigh,
-                AllTimeLow = team.AllTimeLow,
-                PlayerOneId = team.PlayerOneId.Value,
-                PlayerTwoId = team.PlayerTwoId.Value,
-                PlayerOne = ToViewModel(team.PlayerOne),
-                PlayerTwo = ToViewModel(team.PlayerTwo),
-            };
-            return viewModel;
-        }
-
-        public MatchTeam ToDomainMT(TeamViewModel viewModel)
-        {
-            var model = new Team
-            {
-                Id = viewModel.Id,
-                Name = viewModel.Name,
-                Won = viewModel.Won,
-                Draw = viewModel.Draw,
-                Lost = viewModel.Lost,
-                Score = viewModel.Score,
-                AllTimeHigh = viewModel.AllTimeHigh,
-                AllTimeLow = viewModel.AllTimeLow,
-                //PlayerOneId = viewModel.PlayerOneId,
-                //PlayerTwoId = viewModel.PlayerTwoId,
-                //PlayerOne = ToDomain(viewModel.PlayerOne),
-                //PlayerTwo = ToDomain(viewModel.PlayerTwo),
-            };
-
-            var matchteam = new MatchTeam
-            {
-                Team = model,
-            };
-
-            return matchteam;
         }
 
     }

@@ -20,7 +20,7 @@ namespace Presentation.Web.ViewModels
         public int StartGoalsTeamBlue { get; set; }
         public int EndGoalsTeamBlue { get; set; }
 
-        public int TeamResult { get; set; }
+        public int GameResult { get; set; }
 
 
         // Xtra values

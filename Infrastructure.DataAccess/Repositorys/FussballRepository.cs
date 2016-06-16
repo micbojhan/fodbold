@@ -21,7 +21,7 @@ namespace Infrastructure.DataAccess.Repositorys
         public List<Player> GetPlayerList()
         {
             var players = _dbContext.Players
-                .Include(p => p.MatchPlayer.Select(c => c.Match))
+                .Include(p => p.Teams.Select(c => c.Matches))
                 .OrderBy(p => p.Score)
                 .ThenBy(p => p.AllTimeHigh)
                 .ThenBy(p => p.Name)
@@ -32,7 +32,9 @@ namespace Infrastructure.DataAccess.Repositorys
         public List<Team> GetTeamList()
         {
             var teams = _dbContext.Teams
-                .Include(p => p.MatchTeam.Select(c => c.Match))
+                .Include(p => p.Matches)
+                .Include(p => p.PlayerOne)
+                .Include(p => p.PlayerTwo)
                 .OrderBy(p => p.Score)
                 .ThenBy(p => p.AllTimeHigh)
                 .ToList();
@@ -49,19 +51,18 @@ namespace Infrastructure.DataAccess.Repositorys
 
         public Team GetTeam(int teamId)
         {
-            var team = _dbContext
-                .Teams
-                .Include(p => p.MatchTeam.Select(m => m.Match))
+            var team = _dbContext.Teams
+                .Include(p => p.Matches)
+                .Include(p => p.PlayerOne)
+                .Include(p => p.PlayerTwo)
                 .FirstOrDefault(p => p.Id == teamId);
             return team;
         }
 
         public Player GetPlayer(int playerId)
         {
-            var player = _dbContext
-                .Players
-                .Include(p=>p.TeamPlayer.Select(t=>t.Team))
-                .Include(p=>p.MatchPlayer.Select(m=>m.Match))
+            var player = _dbContext.Players
+                .Include(p => p.Teams.Select(t => t.Matches))
                 .FirstOrDefault(p => p.Id == playerId);
             return player;
         }
@@ -82,122 +83,49 @@ namespace Infrastructure.DataAccess.Repositorys
 
             var playerOne = GetPlayer(playerOneId);
             var playerTwo = GetPlayer(playerTwoId);
-            var teamPlayerOne = new TeamPlayer
+            team = new Team
             {
-                Player = playerOne,
-                PlayerId = playerOne.Id,
-                Team = team,
-                TeamId = team.Id,
+                PlayerOne = playerOne,
+                PlayerOneId = playerOne.Id,
+                PlayerTwo = playerTwo,
+                PlayerTwoId = playerTwo.Id,
             };
-            var teamPlayerTwo = new TeamPlayer
-            {
-                Player = playerTwo,
-                PlayerId = playerTwo.Id,
-                Team = team,
-                TeamId = team.Id,
-            };
-            _dbContext.TeamPlayers.Add(teamPlayerOne);
-            _dbContext.TeamPlayers.Add(teamPlayerTwo);
+            _dbContext.Teams.Add(team);
+
             return team;
         }
 
         public Team GetTeam(int playerOneId, int playerTwoId)
         {
             var team = _dbContext.Teams
-                .Include(t => t.TeamPlayer.Select(tp => tp.Player))
-                .FirstOrDefault(t => t.TeamPlayer.Any(p => p.PlayerId == playerOneId)
-                                  && t.TeamPlayer.Any(p => p.PlayerId == playerTwoId));
+                 .Include(t => t.PlayerOne)
+                 .Include(t => t.PlayerTwo)
+                 .FirstOrDefault(t => (t.PlayerOneId == playerOneId && t.PlayerTwoId == playerTwoId) ||
+                                      (t.PlayerTwoId == playerOneId && t.PlayerOneId == playerTwoId));
+
             return team;
         }
 
-        public TeamPlayer GetTeamPlayer(int playerOneId, int playerTwoId)
-        {
-            var team = _dbContext.TeamPlayers
-                .Include(t => t.Team)
-                .Include(t => t.Player)
-                .FirstOrDefault(t => t.Player.Id == playerOneId);
-            return team;
-        }
 
         public Match CreateMatch(int playerOneId, int playerTwoId, int playerThreeId, int playerFourId)
         {
             var teamRed = GetTeam(playerOneId, playerTwoId);
             var teamBlue = GetTeam(playerThreeId, playerFourId);
-            var redTeamPlayerOne = teamRed.TeamPlayer.FirstOrDefault(p => p.IsPlayerOne).Player;
-            var redTeamPlayerTwo = teamRed.TeamPlayer.FirstOrDefault(p => !p.IsPlayerOne).Player;
-            var blueTeamPlayerOne = teamBlue.TeamPlayer.FirstOrDefault(p => p.IsPlayerOne).Player;
-            var blueTeamPlayerTwo = teamBlue.TeamPlayer.FirstOrDefault(p => !p.IsPlayerOne).Player;
 
             var match = new Match
             {
                 StartTime = DateTime.UtcNow,
                 EndTime = null,
                 TimeSpan = null,
-            };
-            _dbContext.Matches.Add(match);
-            SaveChanges();
-
-            var TeamRed = new MatchTeam
-            {
-                IsRedTeam = true,
-                MatchId = match.Id,
-                Match = match,
-                TeamId = teamRed.Id,
-                Team = teamRed,
-                Score = redTeamPlayerOne.Score + redTeamPlayerTwo.Score
-            };
-            var TeamRedPlayerOne = new MatchPlayer
-            {
-                IsRedTeam = true,
-                IsPlayerOne = true,
-                MatchId = match.Id,
-                Match = match,
-                Player = redTeamPlayerOne,
-                PlayerId = redTeamPlayerOne.Id,
-                Score = redTeamPlayerOne.Score
-            };
-            var TeamRedPlayerTwo = new MatchPlayer
-            {
-                IsRedTeam = true,
-                IsPlayerOne = false,
-                MatchId = match.Id,
-                Match = match,
-                Player = redTeamPlayerTwo,
-                PlayerId = redTeamPlayerTwo.Id,
-                Score = redTeamPlayerTwo.Score
+                TeamRedId = teamRed.Id,
+                TeamRed = teamRed,
+                TeamBlueId = teamRed.Id,
+                TeamBlue = teamRed,
             };
 
-            var TeamBlue = new MatchTeam
-            {
-                IsRedTeam = false,
-                MatchId = match.Id,
-                Match = match,
-                TeamId = teamBlue.Id,
-                Team = teamBlue,
-                Score = blueTeamPlayerOne.Score + blueTeamPlayerTwo.Score
-            };
-            var TeamBluePlayerOne = new MatchPlayer
-            {
-                IsRedTeam = false,
-                IsPlayerOne = true,
-                MatchId = match.Id,
-                Match = match,
-                Player = blueTeamPlayerOne,
-                PlayerId = blueTeamPlayerOne.Id,
-                Score = blueTeamPlayerOne.Score
-            };
-            var TeamBluePlayerTwo = new MatchPlayer
-            {
-                IsRedTeam = false,
-                IsPlayerOne = false,
-                MatchId = match.Id,
-                Match = match,
-                Player = blueTeamPlayerTwo,
-                PlayerId = blueTeamPlayerTwo.Id,
-                Score = blueTeamPlayerTwo.Score
-            };
-
-            var dif = match.ScoreDiff = TeamRed.Score - TeamBlue.Score;
+            var teamRedScore = teamRed.PlayerOne.Score + teamRed.PlayerTwo.Score;
+            var teamBlueScore = teamBlue.PlayerOne.Score + teamBlue.PlayerTwo.Score;
+            var dif = match.ScoreDiff = teamRedScore - teamBlueScore;
             if (dif >= 0)
             {
                 if (dif > 4) dif = 4;
@@ -210,20 +138,6 @@ namespace Infrastructure.DataAccess.Repositorys
                 match.ScoreDiff = -match.ScoreDiff;
             }
 
-            _dbContext.MatchTeams.Add(TeamRed);
-            _dbContext.MatchPlayers.Add(TeamRedPlayerOne);
-            _dbContext.MatchPlayers.Add(TeamRedPlayerTwo);
-            _dbContext.MatchTeams.Add(TeamBlue);
-            _dbContext.MatchPlayers.Add(TeamBluePlayerOne);
-            _dbContext.MatchPlayers.Add(TeamBluePlayerTwo);
-            SaveChanges();
-            //match.TeamRedId = match.TeamRed.TeamId;
-            //match.TeamRedPlayerOneId = match.TeamRedPlayerOne.PlayerId;
-            //match.TeamRedPlayerTwoId = match.TeamRedPlayerTwo.PlayerId;
-            //match.TeamBlueId = match.TeamBlue.TeamId;
-            //match.TeamBluePlayerOneId = match.TeamBluePlayerOne.PlayerId;
-            //match.TeamBluePlayerTwoId = match.TeamBluePlayerTwo.PlayerId;
-            
             return match;
         }
 
@@ -235,8 +149,10 @@ namespace Infrastructure.DataAccess.Repositorys
         public Match GetMatch(int id)
         {
             var match = _dbContext.Matches
-                .Include(m=>m.MatchTeam.Select(t=>t.Team))
-                .Include(m=>m.MatchPlayer.Select(t=>t.Player))
+                .Include(m => m.TeamBlue.PlayerOne)
+                .Include(m => m.TeamBlue.PlayerTwo)
+                .Include(m => m.TeamRed.PlayerOne)
+                .Include(m => m.TeamRed.PlayerTwo)
                 .FirstOrDefault(m => m.Id == id);
             return match;
         }

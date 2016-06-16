@@ -58,14 +58,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationUser.cs" />
+    <Compile Include="Enums\MatchResult.cs" />
     <Compile Include="Model\Derby.cs" />
-    <Compile Include="Model\GameResult.cs" />
+    <Compile Include="Model\Old\GameResult.cs" />
     <Compile Include="Model\Match.cs" />
-    <Compile Include="Model\MatchPlayer.cs" />
-    <Compile Include="Model\MatchTeam.cs" />
+    <Compile Include="Model\Old\MatchPlayer.cs" />
+    <Compile Include="Model\Old\MatchTeam.cs" />
     <Compile Include="Model\Player.cs" />
     <Compile Include="Model\Team.cs" />
-    <Compile Include="Model\TeamPlayer.cs" />
+    <Compile Include="Model\Old\TeamPlayer.cs" />
     <Compile Include="Model\Test.cs" />
     <Compile Include="OldModel\Course.cs" />
     <Compile Include="Interfaces\ICreatedOn.cs" />

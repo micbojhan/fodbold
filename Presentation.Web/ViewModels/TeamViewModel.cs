@@ -24,7 +24,7 @@ namespace Presentation.Web.ViewModels
         public PlayerViewModel PlayerTwo { get; set; }
 
 
-
+        public List<MatchViewModel> Matches { get; set; }
         public List<int> Form { get; set; }
 
     }
