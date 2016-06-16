@@ -77,10 +77,6 @@ namespace Infrastructure.DataAccess.Repositorys
         {
             var team = GetTeam(playerOneId, playerTwoId);
             if (team != null) return team;
-            team = new Team();
-            _dbContext.Teams.Add(team);
-            _dbContext.SaveChanges();
-
             var playerOne = GetPlayer(playerOneId);
             var playerTwo = GetPlayer(playerTwoId);
             team = new Team
@@ -91,7 +87,6 @@ namespace Infrastructure.DataAccess.Repositorys
                 PlayerTwoId = playerTwo.Id,
             };
             _dbContext.Teams.Add(team);
-
             return team;
         }
 
@@ -119,8 +114,8 @@ namespace Infrastructure.DataAccess.Repositorys
                 TimeSpan = null,
                 TeamRedId = teamRed.Id,
                 TeamRed = teamRed,
-                TeamBlueId = teamRed.Id,
-                TeamBlue = teamRed,
+                TeamBlueId = teamBlue.Id,
+                TeamBlue = teamBlue,
             };
 
             var teamRedScore = teamRed.PlayerOne.Score + teamRed.PlayerTwo.Score;
@@ -137,7 +132,7 @@ namespace Infrastructure.DataAccess.Repositorys
                 match.EndGoalsTeamBlue = match.StartGoalsTeamBlue = -dif;
                 match.ScoreDiff = -match.ScoreDiff;
             }
-
+            _dbContext.Matches.Add(match);
             return match;
         }
 

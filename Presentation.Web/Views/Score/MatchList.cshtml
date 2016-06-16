@@ -1,5 +1,5 @@
-﻿@using Presentation.Web.Controllers
-@model System.Collections.Generic.List<Presentation.Web.ViewModels.MatchViewModel>
+﻿@using Core.DomainModel.Enums
+@model List<Presentation.Web.ViewModels.MatchViewModel>
 
 <!DOCTYPE html>
 <table class="table">
@@ -19,13 +19,13 @@
         string blueStyle;
         var blueWinner = "";
         var redWinner = "";
-        if ((TeamResultEnum)p.TeamResult == TeamResultEnum.Red)
+        if ((TeamResultEnum)p.GameResult == TeamResultEnum.Red)
         {
             redWinner = "score";
             redStyle = "won";
             blueStyle = "lost";
         }
-        else if ((TeamResultEnum)p.TeamResult == TeamResultEnum.Blue)
+        else if ((TeamResultEnum)p.GameResult == TeamResultEnum.Blue)
         {
             blueStyle = "won";
             redStyle = "lost";

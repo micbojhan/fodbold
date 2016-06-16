@@ -71,12 +71,12 @@ namespace Presentation.Web.Controllers
             }
 
             SetTeamWinner(m.TeamBlue, blueTeam, m.EndGoalsTeamBlue, blueTeamGoals, m.EndGoalsTeamRed, redTeamGoals);
-            //SetMatchPlayerWinner(m.TeamBluePlayerOne, blueTeam, m.EndGoalsTeamBlue, blueTeamGoals, m.EndGoalsTeamRed, redTeamGoals);
-            //SetMatchPlayerWinner(m.TeamBluePlayerTwo, blueTeam, m.EndGoalsTeamBlue, blueTeamGoals, m.EndGoalsTeamRed, redTeamGoals);
+            SetPlayerWinner(m.TeamBlue.PlayerOne, blueTeam, m.EndGoalsTeamBlue, blueTeamGoals, m.EndGoalsTeamRed, redTeamGoals);
+            SetPlayerWinner(m.TeamBlue.PlayerTwo, blueTeam, m.EndGoalsTeamBlue, blueTeamGoals, m.EndGoalsTeamRed, redTeamGoals);
 
             SetTeamWinner(m.TeamRed, redTeam, m.EndGoalsTeamRed, redTeamGoals, m.EndGoalsTeamBlue, blueTeamGoals);
-            //SetMatchPlayerWinner(m.TeamRedPlayerOne, redTeam, m.EndGoalsTeamRed, redTeamGoals, m.EndGoalsTeamBlue, blueTeamGoals);
-            //SetMatchPlayerWinner(m.TeamRedPlayerTwo, redTeam, m.EndGoalsTeamRed, redTeamGoals, m.EndGoalsTeamBlue, blueTeamGoals);
+            SetPlayerWinner(m.TeamRed.PlayerOne, redTeam, m.EndGoalsTeamRed, redTeamGoals, m.EndGoalsTeamBlue, blueTeamGoals);
+            SetPlayerWinner(m.TeamRed.PlayerTwo, redTeam, m.EndGoalsTeamRed, redTeamGoals, m.EndGoalsTeamBlue, blueTeamGoals);
         }
 
 
@@ -111,8 +111,8 @@ namespace Presentation.Web.Controllers
                         break;
                     }
             }
-            SetPlayerWinner(t.PlayerOne, iWinDrawLost, scoredWithHc, scored, againstWithHc, against);
-            SetPlayerWinner(t.PlayerTwo, iWinDrawLost, scoredWithHc, scored, againstWithHc, against);
+            //SetPlayerWinner(t.PlayerOne, iWinDrawLost, scoredWithHc, scored, againstWithHc, against);
+            //SetPlayerWinner(t.PlayerTwo, iWinDrawLost, scoredWithHc, scored, againstWithHc, against);
         }
 
         private void SetPlayerWinner(Player p, int iWinDrawLost , int scoredWithHc, int scored, int againstWithHc, int against)

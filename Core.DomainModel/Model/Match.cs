@@ -33,9 +33,9 @@ namespace Core.DomainModel.Model
 
         // Foreign key 
         [Key, Column(Order = 0)]
-        public int TeamRedId { get; set; }
+        public int? TeamRedId { get; set; }
         [Key, Column(Order = 1)]
-        public int TeamBlueId { get; set; }
+        public int? TeamBlueId { get; set; }
 
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }

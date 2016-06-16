@@ -10,7 +10,7 @@ namespace Infrastructure.DataAccess
 {
     public class ApplicationContext : IdentityDbContext<ApplicationUser>
     {
-        private static string databaseString = "fodboldv1";
+        private static string databaseString = "fodboldv2";
         // throwIfV1Schema is used when upgrading Identity in a database from 1 to 2.
         // It's a one time thing and can be safely removed.
         public ApplicationContext()
@@ -101,6 +101,7 @@ namespace Infrastructure.DataAccess
             modelBuilder.Entity<Player>().HasKey(k => k.Id);
             modelBuilder.Entity<Team>().HasKey(k => k.Id);
             modelBuilder.Entity<Test>().HasKey(k => k.Id);
+            
             ////////////////////////DERBY/////////////////////////////////
             //modelBuilder.Entity<Derby>()
             //    .HasRequired(p => p.TeamOne)
@@ -181,18 +182,20 @@ namespace Infrastructure.DataAccess
             //    .HasMany(t => t.MatchPlayer)
             //    .WithMany();
 
-            //modelBuilder.Entity<Match>()
-            //    .HasRequired(p => p.TeamRed)
-            //    .WithMany()
-            //    .HasForeignKey(p => p.TeamRedId)
-            //    .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Match>()
+                .HasRequired(p => p.TeamRed)
+                .WithMany()
+                .HasForeignKey(p => p.TeamRedId)
+                .WillCascadeOnDelete(false);
 
-            //modelBuilder.Entity<Match>()
-            //    .HasRequired(p => p.TeamBlue)
-            //    .WithMany()
-            //    .HasForeignKey(p => p.TeamBlueId)
-            //    .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Match>()
+                .HasRequired(p => p.TeamBlue)
+                .WithMany()
+                .HasForeignKey(p => p.TeamBlueId)
+                .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Team>().HasMany(m => m.Matches).WithMany();
+            modelBuilder.Entity<Player>().HasMany(m => m.Teams).WithMany();
             //modelBuilder.Entity<Match>()
             //    .HasRequired(p => p.TeamRedPlayerOne)
             //    .WithMany()
