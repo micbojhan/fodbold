@@ -110,10 +110,23 @@ namespace Infrastructure.DataAccess.Repositorys
             return team;
         }
 
+        public TeamPlayer GetTeamPlayer(int playerOneId, int playerTwoId)
+        {
+            var team = _dbContext.TeamPlayers
+                .Include(t => t.Team)
+                .Include(t => t.Player)
+                .FirstOrDefault(t => t.Player.Id == playerOneId);
+            return team;
+        }
+
         public Match CreateMatch(int playerOneId, int playerTwoId, int playerThreeId, int playerFourId)
         {
             var teamRed = GetTeam(playerOneId, playerTwoId);
             var teamBlue = GetTeam(playerThreeId, playerFourId);
+            var redTeamPlayerOne = teamRed.TeamPlayer.FirstOrDefault(p => p.IsPlayerOne).Player;
+            var redTeamPlayerTwo = teamRed.TeamPlayer.FirstOrDefault(p => !p.IsPlayerOne).Player;
+            var blueTeamPlayerOne = teamBlue.TeamPlayer.FirstOrDefault(p => p.IsPlayerOne).Player;
+            var blueTeamPlayerTwo = teamBlue.TeamPlayer.FirstOrDefault(p => !p.IsPlayerOne).Player;
 
             var match = new Match
             {
@@ -131,7 +144,7 @@ namespace Infrastructure.DataAccess.Repositorys
                 Match = match,
                 TeamId = teamRed.Id,
                 Team = teamRed,
-                Score = teamRed.TeamPlayer.PlayerOne.Score + teamRed.PlayerTwo.Score
+                Score = redTeamPlayerOne.Score + redTeamPlayerTwo.Score
             };
             var TeamRedPlayerOne = new MatchPlayer
             {
@@ -139,9 +152,9 @@ namespace Infrastructure.DataAccess.Repositorys
                 IsPlayerOne = true,
                 MatchId = match.Id,
                 Match = match,
-                Player = teamRed.PlayerOne,
-                PlayerId = teamRed.PlayerOne.Id,
-                Score = teamRed.PlayerOne.Score
+                Player = redTeamPlayerOne,
+                PlayerId = redTeamPlayerOne.Id,
+                Score = redTeamPlayerOne.Score
             };
             var TeamRedPlayerTwo = new MatchPlayer
             {
@@ -149,9 +162,9 @@ namespace Infrastructure.DataAccess.Repositorys
                 IsPlayerOne = false,
                 MatchId = match.Id,
                 Match = match,
-                Player = teamRed.PlayerTwo,
-                PlayerId = teamRed.PlayerTwo.Id,
-                Score = teamRed.PlayerTwo.Score
+                Player = redTeamPlayerTwo,
+                PlayerId = redTeamPlayerTwo.Id,
+                Score = redTeamPlayerTwo.Score
             };
 
             var TeamBlue = new MatchTeam
@@ -161,7 +174,7 @@ namespace Infrastructure.DataAccess.Repositorys
                 Match = match,
                 TeamId = teamBlue.Id,
                 Team = teamBlue,
-                Score = teamBlue.PlayerOne.Score + teamBlue.PlayerTwo.Score
+                Score = blueTeamPlayerOne.Score + blueTeamPlayerTwo.Score
             };
             var TeamBluePlayerOne = new MatchPlayer
             {
@@ -169,9 +182,9 @@ namespace Infrastructure.DataAccess.Repositorys
                 IsPlayerOne = true,
                 MatchId = match.Id,
                 Match = match,
-                Player = teamBlue.PlayerOne,
-                PlayerId = teamBlue.PlayerOne.Id,
-                Score = teamBlue.PlayerOne.Score
+                Player = blueTeamPlayerOne,
+                PlayerId = blueTeamPlayerOne.Id,
+                Score = blueTeamPlayerOne.Score
             };
             var TeamBluePlayerTwo = new MatchPlayer
             {
@@ -179,9 +192,9 @@ namespace Infrastructure.DataAccess.Repositorys
                 IsPlayerOne = false,
                 MatchId = match.Id,
                 Match = match,
-                Player = teamBlue.PlayerTwo,
-                PlayerId = teamBlue.PlayerTwo.Id,
-                Score = teamBlue.PlayerTwo.Score
+                Player = blueTeamPlayerTwo,
+                PlayerId = blueTeamPlayerTwo.Id,
+                Score = blueTeamPlayerTwo.Score
             };
 
             var dif = match.ScoreDiff = TeamRed.Score - TeamBlue.Score;

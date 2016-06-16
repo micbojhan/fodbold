@@ -92,10 +92,10 @@ namespace Presentation.Web.Mappers
                 Score = viewModel.Score,
                 AllTimeHigh = viewModel.AllTimeHigh,
                 AllTimeLow = viewModel.AllTimeLow,
-                PlayerOneId = viewModel.PlayerOneId,
-                PlayerTwoId = viewModel.PlayerTwoId,
-                PlayerOne = ToDomain(viewModel.PlayerOne),
-                PlayerTwo = ToDomain(viewModel.PlayerTwo),
+                //PlayerOneId = viewModel.PlayerOneId,
+                //PlayerTwoId = viewModel.PlayerTwoId,
+                //PlayerOne = ToDomain(viewModel.PlayerOne),
+                //PlayerTwo = ToDomain(viewModel.PlayerTwo),
             };
             return model;
         }
@@ -189,10 +189,10 @@ namespace Presentation.Web.Mappers
                 Score = viewModel.Score,
                 AllTimeHigh = viewModel.AllTimeHigh,
                 AllTimeLow = viewModel.AllTimeLow,
-                PlayerOneId = viewModel.PlayerOneId,
-                PlayerTwoId = viewModel.PlayerTwoId,
-                PlayerOne = ToDomain(viewModel.PlayerOne),
-                PlayerTwo = ToDomain(viewModel.PlayerTwo),
+                //PlayerOneId = viewModel.PlayerOneId,
+                //PlayerTwoId = viewModel.PlayerTwoId,
+                //PlayerOne = ToDomain(viewModel.PlayerOne),
+                //PlayerTwo = ToDomain(viewModel.PlayerTwo),
             };
 
             var matchteam = new MatchTeam

@@ -38,7 +38,7 @@ namespace Presentation.Web.Controllers
             //TODO to viewmodel
             var player = _fussballRepository.GetPlayer(id);
             var playerVm = _mapper.ToViewModel(player,15);
-            playerVm.Teams = player.Teams.OrderByDescending(t => t.Score).Select(team => _mapper.ToViewModel(team)).ToList();
+            playerVm.Teams = player.TeamPlayer.OrderByDescending(t => t.Team.Score).Select(tp => _mapper.ToViewModel(tp.Team)).ToList();
             playerVm.Matches = player.MatchPlayer.OrderByDescending(t => t.Score).Select(m => _mapper.ToViewModel(m.Match)).ToList();
             return View(playerVm);
         }
