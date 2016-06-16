@@ -53,19 +53,19 @@ namespace Presentation.Web.Controllers
             int redTeam;
             if (m.EndGoalsTeamBlue > m.EndGoalsTeamRed)
             {
-                m.GameResult = (int)TeamResultEnum.Blue;
+                m.RedDrawBlueGameResult = (int)RedDrawBlueGameResultEnum.Blue;
                 blueTeam = (int)MatchResultEnum.Won;
                 redTeam = (int)MatchResultEnum.Lost;
             }
             else if (m.EndGoalsTeamBlue < m.EndGoalsTeamRed)
             {
-                m.GameResult = (int)TeamResultEnum.Red;
+                m.RedDrawBlueGameResult = (int)RedDrawBlueGameResultEnum.Red;
                 blueTeam = (int)MatchResultEnum.Lost;
                 redTeam = (int)MatchResultEnum.Won;
             }
             else
             {
-                m.GameResult = (int)TeamResultEnum.Draw;
+                m.RedDrawBlueGameResult = (int)RedDrawBlueGameResultEnum.Draw;
                 blueTeam = (int)MatchResultEnum.Draw;
                 redTeam = (int)MatchResultEnum.Draw;
             }

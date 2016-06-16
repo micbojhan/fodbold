@@ -23,14 +23,14 @@ namespace Core.DomainModel.Model
         public int GoalsScoredHc { get; set; }
 
         //Foreign key
-        [Key, Column(Order = 0)]
+        //[Key, Column(Order = 0)]
         public int? PlayerOneId { get; set; }
-        [Key, Column(Order = 1)]
+        //[Key, Column(Order = 1)]
         public int? PlayerTwoId { get; set; }
         //Navigation properties
-        [ForeignKey("PlayerOneId")]
+        //[ForeignKey("PlayerOneId")]
         public virtual Player PlayerOne { get; set; }
-        [ForeignKey("PlayerTwoId")]
+        //[ForeignKey("PlayerTwoId")]
         public virtual Player PlayerTwo { get; set; }
 
         // Navigation property

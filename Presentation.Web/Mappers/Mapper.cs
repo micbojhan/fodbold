@@ -13,7 +13,8 @@ namespace Presentation.Web.Mappers
         {
             var teams = model.Teams.ToList();
             var matches = teams.SelectMany(t=>t.Matches).ToList();
-            
+            //matches.Where(m=>m.TeamRed.PlayerOneId == model.Id)
+
             var viewModel = new PlayerViewModel
             {
                 Id = model.Id,
@@ -31,7 +32,7 @@ namespace Presentation.Web.Mappers
                 GoalsScoredHc = model.GoalsScoredHc,
                 GoalsAgainst = model.GoalsAgainst,
                 GoalsAgainstHc = model.GoalsAgainstHc,
-                Form = matches.OrderByDescending(m=>m.Id).Take(take).Select(b => b.GameResult).ToList(),
+                Form = matches.OrderByDescending(m=>m.Id).Take(take).Select(b => b.RedDrawBlueGameResult).ToList(),
                 Matches = matches.Select(ToViewModel).ToList(),
                 Teams = teams.Select(ToViewModel).ToList(),
             };
@@ -79,7 +80,7 @@ namespace Presentation.Web.Mappers
                 PlayerTwoId = model.PlayerTwoId.Value,
                 PlayerOne = ToViewModel(model.PlayerOne),
                 PlayerTwo = ToViewModel(model.PlayerTwo),
-                Form = matches.OrderByDescending(m => m.Id).Take(5).Select(b => b.GameResult).ToList(),
+                Form = matches.OrderByDescending(m => m.Id).Take(5).Select(b => b.RedDrawBlueGameResult).ToList(),
                 Matches = matches.Select(ToViewModel).ToList(),
             };
             return viewModel;
@@ -130,7 +131,7 @@ namespace Presentation.Web.Mappers
                 TeamBlueId = model.TeamBlueId.Value,
                 TeamRed = ToViewModel(model.TeamRed),
                 TeamBlue = ToViewModel(model.TeamBlue),
-                GameResult = model.GameResult,
+                GameResult = model.RedDrawBlueGameResult,
                 ScoreTeamRed = model.TeamRed.Score,
                 ScoreTeamBlue = model.TeamBlue.Score,
             };
@@ -155,7 +156,7 @@ namespace Presentation.Web.Mappers
                 TeamBlueId = viewModel.TeamBlueId,
                 TeamRed = ToDomain(viewModel.TeamRed),
                 TeamBlue = ToDomain(viewModel.TeamBlue),
-                GameResult = viewModel.GameResult,
+                RedDrawBlueGameResult = viewModel.GameResult,
             };
             return model;
         }

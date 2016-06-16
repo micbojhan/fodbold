@@ -23,18 +23,18 @@ namespace Core.DomainModel.Model
         public int StartGoalsTeamBlue { get; set; }
         public int EndGoalsTeamBlue { get; set; }
 
-        public int GameResult { get; set; } // 1X2 - Red-Draw-Blue
+        public int RedDrawBlueGameResult { get; set; } // 1X2 - Red-Draw-Blue
 
         // Navigation properties 
-        [ForeignKey("TeamRedId")]
+        //[ForeignKey("TeamRedId")]
         public virtual Team TeamRed { get; set; }
-        [ForeignKey("TeamBlueId")]
+        //[ForeignKey("TeamBlueId")]
         public virtual Team TeamBlue { get; set; }
 
         // Foreign key 
-        [Key, Column(Order = 0)]
+        //[Key, Column(Order = 0)]
         public int? TeamRedId { get; set; }
-        [Key, Column(Order = 1)]
+        //[Key, Column(Order = 1)]
         public int? TeamBlueId { get; set; }
 
         public DateTime CreatedOn { get; set; }

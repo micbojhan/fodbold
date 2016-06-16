@@ -19,13 +19,13 @@
         string blueStyle;
         var blueWinner = "";
         var redWinner = "";
-        if ((TeamResultEnum)p.GameResult == TeamResultEnum.Red)
+        if ((RedDrawBlueGameResultEnum)p.GameResult == RedDrawBlueGameResultEnum.Red)
         {
             redWinner = "score";
             redStyle = "won";
             blueStyle = "lost";
         }
-        else if ((TeamResultEnum)p.GameResult == TeamResultEnum.Blue)
+        else if ((RedDrawBlueGameResultEnum)p.GameResult == RedDrawBlueGameResultEnum.Blue)
         {
             blueStyle = "won";
             redStyle = "lost";

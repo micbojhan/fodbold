@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.DomainModel.Enums
 {
-    public enum TeamResultEnum
+    public enum RedDrawBlueGameResultEnum
     {
         Red = 1,  // 1 
         Draw = 0, // X
