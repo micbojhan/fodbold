@@ -22,7 +22,6 @@ namespace Presentation.Web.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly ManuelMapper _mapper;
 
-
         public SetUpController(
             IFussballRepository fussballRepository, 
             IGenericRepository<Test> testRepository, 
