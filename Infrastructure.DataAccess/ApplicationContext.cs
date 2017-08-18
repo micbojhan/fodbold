@@ -3,8 +3,10 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Data.Entity;
 using Core.DomainModel.Model;
+using Core.DomainModel.Model.New;
 using Core.DomainModel.OldModel;
 using Infrastructure.DataAccess.Seeding;
+using Match = Core.DomainModel.Model.Match;
 
 namespace Infrastructure.DataAccess
 {

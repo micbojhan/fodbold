@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core.DomainModel.Model;
+using Core.DomainModel.Model.New;
 using Presentation.Web.ViewModels;
+using Match = Core.DomainModel.Model.Match;
 
 
 namespace Presentation.Web.Mappers

@@ -4,10 +4,12 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using Core.DomainModel.Model;
+using Core.DomainModel.Model.New;
 using Core.DomainServices;
 using Infrastructure.DataAccess.Repositorys;
 using Presentation.Web.Mappers;
 using Presentation.Web.ViewModels;
+using Match = Core.DomainModel.Model.Match;
 
 namespace Presentation.Web.Controllers
 {

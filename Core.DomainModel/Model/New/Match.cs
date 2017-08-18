@@ -1,42 +1,23 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using Core.DomainModel.Interfaces;
-using Core.DomainModel.Model.New;
 
-namespace Core.DomainModel.Model
+namespace Core.DomainModel.Model.New
 {
     public class Match : IEntity, ICreatedOn, IModifiedOn
     {
         [Key]
         public int Id { get; set; }
-        public bool Done { get; set; }
-
-        public DateTime? StartTime { get; set; }
+        public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
-        public TimeSpan? TimeSpan { get; set; }
-
-        public int ScoreDiff { get; set; }
-
-        public int StartGoalsTeamRed { get; set; }
-        public int EndGoalsTeamRed { get; set; }
-
-        public int StartGoalsTeamBlue { get; set; }
-        public int EndGoalsTeamBlue { get; set; }
-
-        public int RedDrawBlueGameResult { get; set; } // 1X2 - Red-Draw-Blue
 
         // Navigation properties 
-        //[ForeignKey("TeamRedId")]
-        public virtual Team TeamRed { get; set; }
-        //[ForeignKey("TeamBlueId")]
-        public virtual Team TeamBlue { get; set; }
+        public virtual MatchTeam TeamRed { get; set; }
+        public virtual MatchTeam TeamBlue { get; set; }
 
         // Foreign key 
-        //[Key, Column(Order = 0)]
-        public int? TeamRedId { get; set; }
-        //[Key, Column(Order = 1)]
-        public int? TeamBlueId { get; set; }
+        public int TeamRedId { get; set; }
+        public int TeamBlueId { get; set; }
 
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }

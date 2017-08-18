@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using Core.DomainModel.Model;
+using Core.DomainModel.Model.New;
 using Core.DomainServices;
+using Match = Core.DomainModel.Model.Match;
 
 namespace Infrastructure.DataAccess.Repositorys
 {
@@ -53,7 +55,7 @@ namespace Infrastructure.DataAccess.Repositorys
         {
             var team = _dbContext.Teams
                 .Include(p => p.Matches)
-                .Include(p => p.PlayerOne)
+                .Include(p => p.PlayerOne.)
                 .Include(p => p.PlayerTwo)
                 .FirstOrDefault(p => p.Id == teamId);
             return team;

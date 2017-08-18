@@ -2,18 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Core.DomainModel.Interfaces;
-using Core.DomainModel.Model.New;
 
-namespace Core.DomainModel.Model
+namespace Core.DomainModel.Model.New
 {
-    public class Player : IEntity, ICreatedOn, IModifiedOn
+    public class Team : IEntity, ICreatedOn, IModifiedOn
     {
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public string NickName { get; set; }
-        public string FullName { get; set; }
-        public string Initials { get; set; }
         public int Won { get; set; }
         public int Draw { get; set; }
         public int Lost { get; set; }
@@ -25,28 +21,43 @@ namespace Core.DomainModel.Model
         public int GoalsAgainstHc { get; set; }
         public int GoalsScoredHc { get; set; }
 
-        public virtual ICollection<Team> Teams { get; set; }
-        
+        //Foreign key
+        public int? PlayerOneId { get; set; }
+        public int? PlayerTwoId { get; set; }
+
+        //Navigation properties
+        public virtual Player PlayerOne { get; set; }
+        public virtual Player PlayerTwo { get; set; }
+
+        // Navigation property
+        //public virtual ICollection<Derby> Derbies { get; set; }
+        public virtual ICollection<Match> Matches { get; set; }
+
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
     }
 }
 
+
 /*
 
-CREATE TABLE [dbo].[Player] (
+CREATE TABLE [dbo].[Team] (
     [Id]          INT           IDENTITY (1, 1) NOT NULL,
-    [Name]        NVARCHAR (50) NOT NULL,
-    [NickName]    NVARCHAR (50) NULL,
-    [FullName]    NVARCHAR (50) NULL,
-    [Initials]    NVARCHAR (5)  NOT NULL,
+    [Name]        NVARCHAR (50) NULL,
+    [PlayerOneId] INT           NOT NULL,
+    [PlayerTwoId] INT           NOT NULL,
     [Won]         INT           NOT NULL,
     [Lost]        INT           NOT NULL,
     [Score]       INT           NOT NULL,
     [AllTimeHigh] INT           NOT NULL,
     [AllTimeLow]  INT           NOT NULL,
-    PRIMARY KEY CLUSTERED ([Id] ASC)
+    PRIMARY KEY CLUSTERED ([Id] ASC), 
+    CONSTRAINT [FK_PlayerOne] FOREIGN KEY ([PlayerOneId]) REFERENCES [Player]([Id]), 
+    CONSTRAINT [FK_PlayerTwo] FOREIGN KEY ([PlayerTwoId]) REFERENCES [Player]([Id])
 );
 
-    */
-     
+
+
+
+
+*/

@@ -60,6 +60,9 @@
     <Compile Include="ApplicationUser.cs" />
     <Compile Include="Enums\MatchResult.cs" />
     <Compile Include="Model\Derby.cs" />
+    <Compile Include="Model\New\MatchTeam.cs" />
+    <Compile Include="Model\New\Match.cs" />
+    <Compile Include="Model\New\Team.cs" />
     <Compile Include="Model\Old\GameResult.cs" />
     <Compile Include="Model\Match.cs" />
     <Compile Include="Model\Old\MatchPlayer.cs" />

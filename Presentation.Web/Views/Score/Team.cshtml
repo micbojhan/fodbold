@@ -1,4 +1,4 @@
-﻿@using Presentation.Web.Controllers
+﻿@using Core.DomainModel.Enums
 @model Presentation.Web.ViewModels.TeamViewModel
 
 @{
@@ -132,3 +132,17 @@
         </div>
     </div>
 </div>
+@p.Matches.Count;
+@foreach (var m in p.Matches)
+{
+    <div class="row">
+        <div class="col-xs-4 col-sm-3">Score</div>
+        <div class="col-xs-4 col-sm-3">All time high</div>
+        <div class="col-xs-4 col-sm-3">All time low</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-4 col-sm-3"><span class="score">@m.StartTime</span></div>
+        <div class="col-xs-4 col-sm-3"><span class="score won">@m.GameResult</span></div>
+        <div class="col-xs-4 col-sm-3"><span class="score lost">@m.ScoreDiff</span></div>
+    </div>
+}
