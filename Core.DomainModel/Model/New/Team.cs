@@ -7,7 +7,6 @@ namespace Core.DomainModel.Model.New
 {
     public class Team : IEntity, ICreatedOn, IModifiedOn
     {
-        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public int Won { get; set; }
@@ -21,17 +20,16 @@ namespace Core.DomainModel.Model.New
         public int GoalsAgainstHc { get; set; }
         public int GoalsScoredHc { get; set; }
 
-        //Foreign key
-        public int? PlayerOneId { get; set; }
-        public int? PlayerTwoId { get; set; }
+        // Foreign keys
+        public int PlayerOneId { get; set; }
+        public int PlayerTwoId { get; set; }
 
-        //Navigation properties
+        // Navigation properties
         public virtual Player PlayerOne { get; set; }
         public virtual Player PlayerTwo { get; set; }
-
-        // Navigation property
+        public virtual ICollection<Match> RedMatches { get; set; }
+        public virtual ICollection<Match> BlueMatches { get; set; }
         //public virtual ICollection<Derby> Derbies { get; set; }
-        public virtual ICollection<Match> Matches { get; set; }
 
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }

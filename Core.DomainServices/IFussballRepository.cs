@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Core.DomainModel.Model;
+﻿using System.Collections.Generic;
 using Core.DomainModel.Model.New;
-using Match = Core.DomainModel.Model.Match;
 
 namespace Core.DomainServices
 {

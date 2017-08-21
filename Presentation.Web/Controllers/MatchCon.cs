@@ -1,10 +1,8 @@
 using System;
 using System.Linq;
 using Core.DomainModel.Enums;
-using Core.DomainModel.Model;
 using Core.DomainModel.Model.New;
 using Presentation.Web.ViewModels;
-using Match = Core.DomainModel.Model.Match;
 
 namespace Presentation.Web.Controllers
 {
@@ -72,13 +70,13 @@ namespace Presentation.Web.Controllers
                 redTeam = (int)MatchResultEnum.Draw;
             }
 
-            SetTeamWinner(m.TeamBlue, blueTeam, m.EndGoalsTeamBlue, blueTeamGoals, m.EndGoalsTeamRed, redTeamGoals);
-            SetPlayerWinner(m.TeamBlue.PlayerOne, blueTeam, m.EndGoalsTeamBlue, blueTeamGoals, m.EndGoalsTeamRed, redTeamGoals);
-            SetPlayerWinner(m.TeamBlue.PlayerTwo, blueTeam, m.EndGoalsTeamBlue, blueTeamGoals, m.EndGoalsTeamRed, redTeamGoals);
+            SetTeamWinner(m.BlueTeam, blueTeam, m.EndGoalsTeamBlue, blueTeamGoals, m.EndGoalsTeamRed, redTeamGoals);
+            SetPlayerWinner(m.BlueTeam.PlayerOne, blueTeam, m.EndGoalsTeamBlue, blueTeamGoals, m.EndGoalsTeamRed, redTeamGoals);
+            SetPlayerWinner(m.BlueTeam.PlayerTwo, blueTeam, m.EndGoalsTeamBlue, blueTeamGoals, m.EndGoalsTeamRed, redTeamGoals);
 
-            SetTeamWinner(m.TeamRed, redTeam, m.EndGoalsTeamRed, redTeamGoals, m.EndGoalsTeamBlue, blueTeamGoals);
-            SetPlayerWinner(m.TeamRed.PlayerOne, redTeam, m.EndGoalsTeamRed, redTeamGoals, m.EndGoalsTeamBlue, blueTeamGoals);
-            SetPlayerWinner(m.TeamRed.PlayerTwo, redTeam, m.EndGoalsTeamRed, redTeamGoals, m.EndGoalsTeamBlue, blueTeamGoals);
+            SetTeamWinner(m.RedTeam, redTeam, m.EndGoalsTeamRed, redTeamGoals, m.EndGoalsTeamBlue, blueTeamGoals);
+            SetPlayerWinner(m.RedTeam.PlayerOne, redTeam, m.EndGoalsTeamRed, redTeamGoals, m.EndGoalsTeamBlue, blueTeamGoals);
+            SetPlayerWinner(m.RedTeam.PlayerTwo, redTeam, m.EndGoalsTeamRed, redTeamGoals, m.EndGoalsTeamBlue, blueTeamGoals);
         }
 
 

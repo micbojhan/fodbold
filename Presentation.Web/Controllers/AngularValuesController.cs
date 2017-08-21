@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Http;
 using Core.DomainModel.Model;
+using Core.DomainModel.Model.Old;
 using Core.DomainServices;
 
 namespace Presentation.Web.Controllers

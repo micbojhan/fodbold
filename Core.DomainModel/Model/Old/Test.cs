@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Core.DomainModel.Interfaces;
 
-namespace Core.DomainModel.Model
+namespace Core.DomainModel.Model.Old
 {
     public class Test : IEntity, ICreatedOn, IModifiedOn
     {

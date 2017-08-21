@@ -1,10 +1,9 @@
 ﻿//using System;
 //using System.Collections.Generic;
 //using System.ComponentModel.DataAnnotations;
-//using System.ComponentModel.DataAnnotations.Schema;
 //using Core.DomainModel.Interfaces;
 
-//namespace Core.DomainModel.Model
+//namespace Core.DomainModel.Model.Old
 //{
 //    public class Team : IEntity, ICreatedOn, IModifiedOn
 //    {

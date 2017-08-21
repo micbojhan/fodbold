@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Core.DomainModel.Interfaces;
-using Core.DomainModel.Model.New;
+using Core.DomainModel.OldModel;
 
-namespace Core.DomainModel.Model
+namespace Core.DomainModel.Model.New
 {
     public class Player : IEntity, ICreatedOn, IModifiedOn
     {
-        [Key]
         public int Id { get; set; }
+
+        // Info
         public string Name { get; set; }
         public string NickName { get; set; }
         public string FullName { get; set; }
@@ -25,8 +26,11 @@ namespace Core.DomainModel.Model
         public int GoalsAgainstHc { get; set; }
         public int GoalsScoredHc { get; set; }
 
-        public virtual ICollection<Team> Teams { get; set; }
-        
+        // Navigation properties
+        public virtual ICollection<Team> OneTeams { get; set; }
+        public virtual ICollection<Team> TwoTeams { get; set; }
+
+        // Dates
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
     }

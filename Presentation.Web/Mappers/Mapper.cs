@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using Core.DomainModel.Model;
 using Core.DomainModel.Model.New;
 using Presentation.Web.ViewModels;
-using Match = Core.DomainModel.Model.Match;
 
 
 namespace Presentation.Web.Mappers
@@ -13,8 +10,12 @@ namespace Presentation.Web.Mappers
     {
         public PlayerViewModel ToViewModel(Player model, int take = 5)
         {
-            var teams = model.Teams.ToList();
-            var matches = teams.SelectMany(t=>t.Matches).ToList();
+            var teams = model.TwoTeams.ToList();
+            var teams1 = model.OneTeams.ToList();
+            teams.AddRange(teams1);
+            var matches = teams.SelectMany(t=>t.BlueMatches).ToList();
+            var matches1 = teams.SelectMany(t=>t.RedMatches).ToList();
+            matches.AddRange(matches1);
             //matches.Where(m=>m.TeamRed.PlayerOneId == model.Id)
 
             var viewModel = new PlayerViewModel
@@ -62,7 +63,9 @@ namespace Presentation.Web.Mappers
 
         public TeamViewModel ToViewModel(Team model)
         {
-            var matches = model.Matches.ToList();
+            var matches1 = model.BlueMatches.ToList();
+            var matches2 = model.RedMatches.ToList();
+            matches1.AddRange(matches2);
 
             var viewModel = new TeamViewModel
             {
@@ -78,12 +81,12 @@ namespace Presentation.Web.Mappers
                 GoalsScoredHc = model.GoalsScoredHc,
                 GoalsAgainst = model.GoalsAgainst,
                 GoalsAgainstHc = model.GoalsAgainstHc,
-                PlayerOneId = model.PlayerOneId.Value,
-                PlayerTwoId = model.PlayerTwoId.Value,
+                PlayerOneId = model.PlayerOneId,
+                PlayerTwoId = model.PlayerTwoId,
                 PlayerOne = ToViewModel(model.PlayerOne),
                 PlayerTwo = ToViewModel(model.PlayerTwo),
-                Form = matches.OrderByDescending(m => m.Id).Take(5).Select(b => b.RedDrawBlueGameResult).ToList(),
-                Matches = matches.Select(ToViewModel).ToList(),
+                Form = matches1.OrderByDescending(m => m.Id).Take(5).Select(b => b.RedDrawBlueGameResult).ToList(),
+                Matches = matches1.Select(ToViewModel).ToList(),
             };
             return viewModel;
         }
@@ -129,13 +132,13 @@ namespace Presentation.Web.Mappers
                 GoalsTeamBlue = model.EndGoalsTeamBlue - model.StartGoalsTeamBlue,
                 StartGoalsTeamBlue = model.StartGoalsTeamBlue,
                 EndGoalsTeamBlue = model.EndGoalsTeamBlue,
-                TeamRedId = model.TeamRedId.Value,
-                TeamBlueId = model.TeamBlueId.Value,
-                TeamRed = ToViewModel(model.TeamRed),
-                TeamBlue = ToViewModel(model.TeamBlue),
+                TeamRedId = model.RedTeamId,
+                TeamBlueId = model.BlueTeamId,
+                TeamRed = ToViewModel(model.RedTeam),
+                TeamBlue = ToViewModel(model.BlueTeam),
                 GameResult = model.RedDrawBlueGameResult,
-                ScoreTeamRed = model.TeamRed.Score,
-                ScoreTeamBlue = model.TeamBlue.Score,
+                ScoreTeamRed = model.RedTeam.Score,
+                ScoreTeamBlue = model.BlueTeam.Score,
             };
 
 
@@ -154,10 +157,10 @@ namespace Presentation.Web.Mappers
                 EndGoalsTeamRed = viewModel.EndGoalsTeamRed,
                 StartGoalsTeamBlue = viewModel.StartGoalsTeamBlue,
                 EndGoalsTeamBlue = viewModel.EndGoalsTeamBlue,
-                TeamRedId = viewModel.TeamRedId,
-                TeamBlueId = viewModel.TeamBlueId,
-                TeamRed = ToDomain(viewModel.TeamRed),
-                TeamBlue = ToDomain(viewModel.TeamBlue),
+                RedTeamId = viewModel.TeamRedId,
+                BlueTeamId = viewModel.TeamBlueId,
+                RedTeam = ToDomain(viewModel.TeamRed),
+                BlueTeam = ToDomain(viewModel.TeamBlue),
                 RedDrawBlueGameResult = viewModel.GameResult,
             };
             return model;

@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using Core.DomainModel.Model;
 using Core.DomainModel.Model.New;
 using Core.DomainServices;
-using Match = Core.DomainModel.Model.Match;
+
 
 namespace Infrastructure.DataAccess.Repositorys
 {
@@ -23,7 +22,10 @@ namespace Infrastructure.DataAccess.Repositorys
         public List<Player> GetPlayerList()
         {
             var players = _dbContext.Players
-                .Include(p => p.Teams.Select(c => c.Matches))
+                .Include(p => p.OneTeams.Select(c => c.BlueMatches))
+                .Include(p => p.OneTeams.Select(c => c.RedMatches))
+                .Include(p => p.TwoTeams.Select(c => c.BlueMatches))
+                .Include(p => p.TwoTeams.Select(c => c.RedMatches))
                 .OrderBy(p => p.Score)
                 .ThenBy(p => p.AllTimeHigh)
                 .ThenBy(p => p.Name)
@@ -34,7 +36,8 @@ namespace Infrastructure.DataAccess.Repositorys
         public List<Team> GetTeamList()
         {
             var teams = _dbContext.Teams
-                .Include(p => p.Matches)
+                .Include(p => p.BlueMatches)
+                .Include(p => p.RedMatches)
                 .Include(p => p.PlayerOne)
                 .Include(p => p.PlayerTwo)
                 .OrderBy(p => p.Score)
@@ -54,8 +57,9 @@ namespace Infrastructure.DataAccess.Repositorys
         public Team GetTeam(int teamId)
         {
             var team = _dbContext.Teams
-                .Include(p => p.Matches)
-                .Include(p => p.PlayerOne.)
+                .Include(p => p.BlueMatches)
+                .Include(p => p.RedMatches)
+                .Include(p => p.PlayerOne)
                 .Include(p => p.PlayerTwo)
                 .FirstOrDefault(p => p.Id == teamId);
             return team;
@@ -64,7 +68,10 @@ namespace Infrastructure.DataAccess.Repositorys
         public Player GetPlayer(int playerId)
         {
             var player = _dbContext.Players
-                .Include(p => p.Teams.Select(t => t.Matches))
+                .Include(p => p.TwoTeams.Select(t => t.RedMatches))
+                .Include(p => p.TwoTeams.Select(t => t.BlueMatches))
+                .Include(p => p.OneTeams.Select(t => t.RedMatches))
+                .Include(p => p.OneTeams.Select(t => t.BlueMatches))
                 .FirstOrDefault(p => p.Id == playerId);
             return player;
         }
@@ -114,10 +121,10 @@ namespace Infrastructure.DataAccess.Repositorys
                 StartTime = DateTime.UtcNow,
                 EndTime = null,
                 TimeSpan = null,
-                TeamRedId = teamRed.Id,
-                TeamRed = teamRed,
-                TeamBlueId = teamBlue.Id,
-                TeamBlue = teamBlue,
+                RedTeamId = teamRed.Id,
+                RedTeam = teamRed,
+                BlueTeamId = teamBlue.Id,
+                BlueTeam = teamBlue,
             };
 
             var teamRedScore = teamRed.PlayerOne.Score + teamRed.PlayerTwo.Score;
@@ -146,10 +153,10 @@ namespace Infrastructure.DataAccess.Repositorys
         public Match GetMatch(int id)
         {
             var match = _dbContext.Matches
-                .Include(m => m.TeamBlue.PlayerOne)
-                .Include(m => m.TeamBlue.PlayerTwo)
-                .Include(m => m.TeamRed.PlayerOne)
-                .Include(m => m.TeamRed.PlayerTwo)
+                .Include(m => m.BlueTeam.PlayerOne)
+                .Include(m => m.BlueTeam.PlayerTwo)
+                .Include(m => m.RedTeam.PlayerOne)
+                .Include(m => m.RedTeam.PlayerTwo)
                 .FirstOrDefault(m => m.Id == id);
             return match;
         }
