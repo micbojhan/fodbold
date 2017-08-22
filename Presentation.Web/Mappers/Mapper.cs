@@ -15,8 +15,8 @@ namespace Presentation.Web.Mappers
             var teams = model.TwoTeams?.ToList();
             var teams1 = model.OneTeams?.ToList();
             teams.AddRange(teams1);
-            var matches = teams?.SelectMany(t => t.BlueMatches).ToList();
-            var matches1 = teams?.SelectMany(t => t.RedMatches).ToList();
+            var matches = teams?.SelectMany(t => t.BlueMatches).Where(m => m.Done).ToList();
+            var matches1 = teams?.SelectMany(t => t.RedMatches).Where(m => m.Done).ToList();
             matches.AddRange(matches1);
             //matches.Where(m=>m.TeamRed.PlayerOneId == model.Id)
 
@@ -76,8 +76,8 @@ namespace Presentation.Web.Mappers
         public TeamViewModel ToViewModel(Team model, int subNiveau = 3)
         {
             if (subNiveau == 0 || model == null) return null;
-            var matches1 = model.BlueMatches?.ToList();
-            var matches2 = model.RedMatches?.ToList();
+            var matches1 = model.BlueMatches?.Where(m => m.Done).ToList();
+            var matches2 = model.RedMatches?.Where(m => m.Done).ToList();
             matches1.AddRange(matches2);
 
             var viewModel = new TeamViewModel
@@ -106,13 +106,13 @@ namespace Presentation.Web.Mappers
 
         public int ToTeamForm(int teamId, Match match)
         {
-            if (teamId == match.BlueTeamId && match.RedDrawBlueGameResult == (int) RedDrawBlueGameResultEnum.Blue)
-                return (int) MatchResultEnum.Won;
+            if (teamId == match.BlueTeamId && match.RedDrawBlueGameResult == (int)RedDrawBlueGameResultEnum.Blue)
+                return (int)MatchResultEnum.Won;
             else if (teamId == match.RedTeamId && match.RedDrawBlueGameResult == (int)RedDrawBlueGameResultEnum.Red)
                 return (int)MatchResultEnum.Won;
             else if (match.RedDrawBlueGameResult == (int)RedDrawBlueGameResultEnum.Draw)
                 return (int)MatchResultEnum.Draw;
-            else 
+            else
                 return (int)MatchResultEnum.Lost;
         }
 
