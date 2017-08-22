@@ -29,6 +29,8 @@ namespace Infrastructure.DataAccess.Repositorys
                 .OrderBy(p => p.Score)
                 .ThenBy(p => p.AllTimeHigh)
                 .ThenBy(p => p.Name)
+                .Where(p => p.OneTeams.Any(t => t.BlueMatches.Any(m => m.Done) || t.RedMatches.Any(m => m.Done)) ||
+                            p.TwoTeams.Any(t => t.BlueMatches.Any(m => m.Done) || t.RedMatches.Any(m => m.Done)))
                 .ToList();
             return players;
         }
@@ -42,6 +44,7 @@ namespace Infrastructure.DataAccess.Repositorys
                 .Include(p => p.PlayerTwo)
                 .OrderBy(p => p.Score)
                 .ThenBy(p => p.AllTimeHigh)
+                .Where(p => p.BlueMatches.Any(m => m.Done) || p.RedMatches.Any(m => m.Done))
                 .ToList();
             return teams;
         }

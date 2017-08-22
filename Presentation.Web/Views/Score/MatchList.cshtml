@@ -37,7 +37,7 @@
             redStyle = "draw";
         }
         <tr>
-            <td>@p.Id</td>
+            <td>@Html.ActionLink(p.Id + "", "MatchByGuid" , "MvcMatch", new { id = p.Id }, null) </td>
             <td>@p.StartTimeStr</td>
             <td>@p.TimeSpanStr</td>
             <td class="@redWinner">@Html.ActionLink("( " + p.TeamRed.PlayerOne.Initials + " & " + p.TeamRed.PlayerTwo.Initials + " )", "Team", new { id = p.TeamRed.Id })</td>

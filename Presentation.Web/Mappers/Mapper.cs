@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Core.DomainModel.Enums;
 using Core.DomainModel.Model.New;
 using Presentation.Web.ViewModels;
 
@@ -36,11 +37,21 @@ namespace Presentation.Web.Mappers
                 GoalsScoredHc = model.GoalsScoredHc,
                 GoalsAgainst = model.GoalsAgainst,
                 GoalsAgainstHc = model.GoalsAgainstHc,
-                Form = matches.OrderByDescending(m => m.Id).Take(take).Select(b => b.RedDrawBlueGameResult).ToList(),
+                Form = matches.OrderByDescending(m => m.Id).Take(take).Select(b => ToPlayerForm(model.Id, b)).ToList(),
                 Matches = matches.Select(m => ToViewModel(m, subNiveau - 1)).ToList(),
                 Teams = teams.Select(m => ToViewModel(m, subNiveau - 1)).ToList(),
             };
             return viewModel;
+        }
+
+        public int ToPlayerForm(int playerId, Match match)
+        {
+            if (match.BlueTeam.PlayerOneId == playerId || match.BlueTeam.PlayerTwoId == playerId)
+                return ToTeamForm(match.BlueTeamId, match);
+            else if (match.RedTeam.PlayerOneId == playerId || match.RedTeam.PlayerTwoId == playerId)
+                return ToTeamForm(match.RedTeamId, match);
+            else
+                return 99;
         }
 
         public Player ToDomain(PlayerViewModel viewModel)
@@ -87,10 +98,22 @@ namespace Presentation.Web.Mappers
                 PlayerTwoId = model.PlayerTwoId,
                 PlayerOne = ToViewModel(model.PlayerOne, subNiveau - 1),
                 PlayerTwo = ToViewModel(model.PlayerTwo, subNiveau - 1),
-                Form = matches1.OrderByDescending(m => m.Id).Take(5).Select(b => b.RedDrawBlueGameResult).ToList(),
+                Form = matches1.OrderByDescending(m => m.Id).Take(5).Select(b => ToTeamForm(model.Id, b)).ToList(),
                 Matches = matches1.Select(m => ToViewModel(m, subNiveau - 1)).ToList(),
             };
             return viewModel;
+        }
+
+        public int ToTeamForm(int teamId, Match match)
+        {
+            if (teamId == match.BlueTeamId && match.RedDrawBlueGameResult == (int) RedDrawBlueGameResultEnum.Blue)
+                return (int) MatchResultEnum.Won;
+            else if (teamId == match.RedTeamId && match.RedDrawBlueGameResult == (int)RedDrawBlueGameResultEnum.Red)
+                return (int)MatchResultEnum.Won;
+            else if (match.RedDrawBlueGameResult == (int)RedDrawBlueGameResultEnum.Draw)
+                return (int)MatchResultEnum.Draw;
+            else 
+                return (int)MatchResultEnum.Lost;
         }
 
         public Team ToDomain(TeamViewModel viewModel)
@@ -114,7 +137,7 @@ namespace Presentation.Web.Mappers
         }
 
 
-        public MatchViewModel ToViewModel(Match model, int subNiveau =3)
+        public MatchViewModel ToViewModel(Match model, int subNiveau = 3)
         {
             if (subNiveau == 0 || model == null) return null;
             var matchModel = new MatchViewModel

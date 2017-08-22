@@ -86,17 +86,17 @@ namespace Presentation.Web.Controllers
         [HttpGet]
         public ActionResult Match(CreateMatchViewModel vm)
         {
-            MatchViewModel model;
+            Match model;
             if (RedOrBlueTeam())
             {
-                model = _mapper.ToViewModel(_fussballRepository.CreateMatch(vm.PlayerOneId, vm.PlayerTwoId, vm.PlayerThreeId, vm.PlayerFourId));
+                model = _fussballRepository.CreateMatch(vm.PlayerOneId, vm.PlayerTwoId, vm.PlayerThreeId, vm.PlayerFourId);
             }
             else
             {
-                model = _mapper.ToViewModel(_fussballRepository.CreateMatch(vm.PlayerThreeId, vm.PlayerFourId, vm.PlayerOneId, vm.PlayerTwoId));
+                model = _fussballRepository.CreateMatch(vm.PlayerThreeId, vm.PlayerFourId, vm.PlayerOneId, vm.PlayerTwoId);
             }
             _unitOfWork.Save();
-            return View(model);
+            return RedirectToAction("MatchByGuid", new {id = model.Id});
         }
 
 
