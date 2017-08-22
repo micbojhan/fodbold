@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Data.Entity;
 using Core.DomainModel.Model.New;
+using Core.DomainModel.Model.Old;
 using Infrastructure.DataAccess.Seeding;
 using Core.DomainModel.OldModel;
 
@@ -10,7 +11,7 @@ namespace Infrastructure.DataAccess
 {
     public class ApplicationContext : IdentityDbContext<ApplicationUser>
     {
-        private static string databaseString = "fodboldv3";
+        private static string databaseString = "fodbold";
         // throwIfV1Schema is used when upgrading Identity in a database from 1 to 2.
         // It's a one time thing and can be safely removed.
         public ApplicationContext()
@@ -64,7 +65,7 @@ namespace Infrastructure.DataAccess
         //public IDbSet<GameResult> GameResults { get; set; }
         //public IDbSet<MatchPlayer> MatchPlayers { get; set; }
         //public IDbSet<TeamPlayer> TeamPlayers { get; set; }
-        //public IDbSet<Test> Tests { get; set; }
+        public IDbSet<Test> Tests { get; set; }
 
         public IDbSet<Player> Players { get; set; }
         //public IDbSet<TeamPlayer> TeamPlayers { get; set; }
@@ -96,6 +97,9 @@ namespace Infrastructure.DataAccess
 
             /////////////////////////////////////////////////////////
 
+            modelBuilder.Entity<Test>().HasKey(k => k.Id);
+
+            modelBuilder.Entity<Season>().HasKey(k => k.Id);
             modelBuilder.Entity<Player>().HasKey(k => k.Id);
 
             //modelBuilder.Entity<TeamPlayer>().HasKey(k => k.Id);
@@ -113,6 +117,7 @@ namespace Infrastructure.DataAccess
             modelBuilder.Entity<Match>().HasKey(k => k.Id);
             modelBuilder.Entity<Match>().HasRequired(m => m.RedTeam).WithMany(t => t.RedMatches).HasForeignKey(m => m.RedTeamId).WillCascadeOnDelete(false);
             modelBuilder.Entity<Match>().HasRequired(m => m.BlueTeam).WithMany(t => t.BlueMatches).HasForeignKey(m => m.BlueTeamId).WillCascadeOnDelete(false);
+            modelBuilder.Entity<Match>().HasRequired(p => p.Season).WithMany(t => t.Matches).HasForeignKey(p => p.SeasonId).WillCascadeOnDelete(false);
 
             //modelBuilder.Entity<Match>().HasMany(t => t.MatchTeams).WithMany();
 

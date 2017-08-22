@@ -40,8 +40,8 @@
             <td>@p.Id</td>
             <td>@p.StartTimeStr</td>
             <td>@p.TimeSpanStr</td>
-            <td class="@redWinner">(@p.TeamRed.PlayerOne.Initials & @p.TeamRed.PlayerTwo.Initials)</td>
-            <td class="@blueWinner">(@p.TeamBlue.PlayerOne.Initials & @p.TeamBlue.PlayerTwo.Initials)</td>
+            <td class="@redWinner">@Html.ActionLink("( " + p.TeamRed.PlayerOne.Initials + " & " + p.TeamRed.PlayerTwo.Initials + " )", "Team", new { id = p.TeamRed.Id })</td>
+            <td class="@blueWinner">@Html.ActionLink("( " + p.TeamBlue.PlayerOne.Initials + " & " + p.TeamBlue.PlayerTwo.Initials + " )", "Team", new { id = p.TeamBlue.Id })</td>
             <td class="score"><span class="@redStyle">@p.EndGoalsTeamRed</span> : <span class="@blueStyle">@p.EndGoalsTeamBlue</span></td>
             <td class="score">@p.GoalsTeamRed : @p.GoalsTeamBlue</td>
         </tr>

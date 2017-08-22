@@ -8,13 +8,14 @@ namespace Presentation.Web.Mappers
 {
     public class ManuelMapper
     {
-        public PlayerViewModel ToViewModel(Player model, int take = 5)
+        public PlayerViewModel ToViewModel(Player model, int subNiveau = 3, int take = 5)
         {
-            var teams = model.TwoTeams.ToList();
-            var teams1 = model.OneTeams.ToList();
+            if (subNiveau == 0 || model == null) return null;
+            var teams = model.TwoTeams?.ToList();
+            var teams1 = model.OneTeams?.ToList();
             teams.AddRange(teams1);
-            var matches = teams.SelectMany(t=>t.BlueMatches).ToList();
-            var matches1 = teams.SelectMany(t=>t.RedMatches).ToList();
+            var matches = teams?.SelectMany(t => t.BlueMatches).ToList();
+            var matches1 = teams?.SelectMany(t => t.RedMatches).ToList();
             matches.AddRange(matches1);
             //matches.Where(m=>m.TeamRed.PlayerOneId == model.Id)
 
@@ -35,9 +36,9 @@ namespace Presentation.Web.Mappers
                 GoalsScoredHc = model.GoalsScoredHc,
                 GoalsAgainst = model.GoalsAgainst,
                 GoalsAgainstHc = model.GoalsAgainstHc,
-                Form = matches.OrderByDescending(m=>m.Id).Take(take).Select(b => b.RedDrawBlueGameResult).ToList(),
-                Matches = matches.Select(ToViewModel).ToList(),
-                Teams = teams.Select(ToViewModel).ToList(),
+                Form = matches.OrderByDescending(m => m.Id).Take(take).Select(b => b.RedDrawBlueGameResult).ToList(),
+                Matches = matches.Select(m => ToViewModel(m, subNiveau - 1)).ToList(),
+                Teams = teams.Select(m => ToViewModel(m, subNiveau - 1)).ToList(),
             };
             return viewModel;
         }
@@ -61,10 +62,11 @@ namespace Presentation.Web.Mappers
             return model;
         }
 
-        public TeamViewModel ToViewModel(Team model)
+        public TeamViewModel ToViewModel(Team model, int subNiveau = 3)
         {
-            var matches1 = model.BlueMatches.ToList();
-            var matches2 = model.RedMatches.ToList();
+            if (subNiveau == 0 || model == null) return null;
+            var matches1 = model.BlueMatches?.ToList();
+            var matches2 = model.RedMatches?.ToList();
             matches1.AddRange(matches2);
 
             var viewModel = new TeamViewModel
@@ -83,10 +85,10 @@ namespace Presentation.Web.Mappers
                 GoalsAgainstHc = model.GoalsAgainstHc,
                 PlayerOneId = model.PlayerOneId,
                 PlayerTwoId = model.PlayerTwoId,
-                PlayerOne = ToViewModel(model.PlayerOne),
-                PlayerTwo = ToViewModel(model.PlayerTwo),
+                PlayerOne = ToViewModel(model.PlayerOne, subNiveau - 1),
+                PlayerTwo = ToViewModel(model.PlayerTwo, subNiveau - 1),
                 Form = matches1.OrderByDescending(m => m.Id).Take(5).Select(b => b.RedDrawBlueGameResult).ToList(),
-                Matches = matches1.Select(ToViewModel).ToList(),
+                Matches = matches1.Select(m => ToViewModel(m, subNiveau - 1)).ToList(),
             };
             return viewModel;
         }
@@ -112,9 +114,9 @@ namespace Presentation.Web.Mappers
         }
 
 
-        public MatchViewModel ToViewModel(Match model)
+        public MatchViewModel ToViewModel(Match model, int subNiveau =3)
         {
-            
+            if (subNiveau == 0 || model == null) return null;
             var matchModel = new MatchViewModel
             {
                 Id = model.Id,
@@ -134,8 +136,8 @@ namespace Presentation.Web.Mappers
                 EndGoalsTeamBlue = model.EndGoalsTeamBlue,
                 TeamRedId = model.RedTeamId,
                 TeamBlueId = model.BlueTeamId,
-                TeamRed = ToViewModel(model.RedTeam),
-                TeamBlue = ToViewModel(model.BlueTeam),
+                TeamRed = ToViewModel(model.RedTeam, subNiveau - 1),
+                TeamBlue = ToViewModel(model.BlueTeam, subNiveau - 1),
                 GameResult = model.RedDrawBlueGameResult,
                 ScoreTeamRed = model.RedTeam.Score,
                 ScoreTeamBlue = model.BlueTeam.Score,

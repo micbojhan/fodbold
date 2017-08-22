@@ -21,6 +21,7 @@ namespace Presentation.Web.Controllers
         private readonly IGenericRepository<Team> _teamRepository;
         private readonly IGenericRepository<Player> _playerRepository;
         private readonly IGenericRepository<Test> _testRepository;
+        private readonly IGenericRepository<Season> _seasonRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ManuelMapper _mapper;
 
@@ -31,6 +32,7 @@ namespace Presentation.Web.Controllers
             IGenericRepository<Match> matcheRepository, 
             IGenericRepository<Team> teamRepository, 
             IGenericRepository<Player> playerRepository, 
+            IGenericRepository<Season> seasonRepository, 
             IUnitOfWork unitOfWork)
         {
             _fussballRepository = fussballRepository;
@@ -39,6 +41,7 @@ namespace Presentation.Web.Controllers
             _teamRepository = teamRepository;
             _playerRepository = playerRepository;
             _testRepository = testRepository;
+            _seasonRepository = seasonRepository;
             _unitOfWork = unitOfWork;
             _mapper = new ManuelMapper();
 
@@ -52,16 +55,21 @@ namespace Presentation.Web.Controllers
             _unitOfWork.Save();
             if (_teamRepository.Any()) _teamRepository.RemoveRange(_teamRepository.AsQueryable());
             if (_playerRepository.Any()) _playerRepository.RemoveRange(_playerRepository.AsQueryable());
+            if (_seasonRepository.Any()) _seasonRepository.RemoveRange(_seasonRepository.AsQueryable());
 
             _unitOfWork.Save();
 
 
-
-            var players = itMinds();
             //var players = dit();
+            //var players = itMinds();
+            var players = ElClásico();
+
+            
+            _seasonRepository.Add(new Season());
             _playerRepository.AddRange(players.ToList());
             _unitOfWork.Save();
-            itMindsMatch();
+
+            //itMindsMatch();
 
 
             return RedirectToAction("CreateMatch", "MvcMatch");
@@ -98,6 +106,18 @@ namespace Presentation.Web.Controllers
             var dbmatch = _fussballRepository.GetMatch(match.Id);
             var dbMatchsaved = new MatchCon().SetResult(dbmatch, s1, s2);
             _unitOfWork.SaveChanges();
+        }
+
+        private List<Player> ElClásico()
+        {
+            List<Player> players = new List<Player>
+            {
+                new Player {Initials = "MIB", Name = "Michael BH"},
+                new Player {Initials = "MRA", Name = "Morten Randrup"},
+                new Player {Initials = "ANJ", Name = "Anders"},
+                new Player {Initials = "BOS", Name = "Bo Sunesen"},
+            };
+            return players;
         }
 
         private List<Player> itMinds()

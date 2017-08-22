@@ -60,13 +60,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201606161043030_Init.cs" />
-    <Compile Include="Migrations\201606161043030_Init.Designer.cs">
-      <DependentUpon>201606161043030_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201708181156355_test2.cs" />
-    <Compile Include="Migrations\201708181156355_test2.Designer.cs">
-      <DependentUpon>201708181156355_test2.cs</DependentUpon>
+    <Compile Include="Migrations\201708220807466_init.cs" />
+    <Compile Include="Migrations\201708220807466_init.Designer.cs">
+      <DependentUpon>201708220807466_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Repositorys\FussballRepository.cs" />
@@ -96,11 +92,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606161043030_Init.resx">
-      <DependentUpon>201606161043030_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201708181156355_test2.resx">
-      <DependentUpon>201708181156355_test2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201708220807466_init.resx">
+      <DependentUpon>201708220807466_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

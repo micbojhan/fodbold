@@ -27,7 +27,7 @@ namespace Presentation.Web.Controllers
         public ActionResult PlayerList()
         {
             //TODO to viewmodel
-            var players = _fussballRepository.GetPlayerList();
+            var players = _fussballRepository.GetPlayerList().ToList();
             var playersVm = players.Select(p => _mapper.ToViewModel(p)).ToList();
             return View(playersVm);
         }
@@ -37,7 +37,7 @@ namespace Presentation.Web.Controllers
         {
             //TODO to viewmodel
             var player = _fussballRepository.GetPlayer(id);
-            var playerVm = _mapper.ToViewModel(player,15);
+            var playerVm = _mapper.ToViewModel(player, 3, 15);
             return View(playerVm);
         }
 

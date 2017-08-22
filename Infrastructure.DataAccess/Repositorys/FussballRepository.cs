@@ -99,6 +99,11 @@ namespace Infrastructure.DataAccess.Repositorys
             return team;
         }
 
+        public Season getLastSeason()
+        {
+            return _dbContext.Seasons.FirstOrDefault();
+        }
+
         public Team GetTeam(int playerOneId, int playerTwoId)
         {
             var team = _dbContext.Teams
@@ -115,6 +120,7 @@ namespace Infrastructure.DataAccess.Repositorys
         {
             var teamRed = GetTeam(playerOneId, playerTwoId);
             var teamBlue = GetTeam(playerThreeId, playerFourId);
+            var season = getLastSeason();
 
             var match = new Match
             {
@@ -125,6 +131,8 @@ namespace Infrastructure.DataAccess.Repositorys
                 RedTeam = teamRed,
                 BlueTeamId = teamBlue.Id,
                 BlueTeam = teamBlue,
+                SeasonId = season.Id,
+                Season = season
             };
 
             var teamRedScore = teamRed.PlayerOne.Score + teamRed.PlayerTwo.Score;
