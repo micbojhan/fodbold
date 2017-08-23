@@ -60,7 +60,7 @@ namespace Presentation.Web.Controllers
             _unitOfWork.Save();
 
 
-            var players = dit();
+            var players = ditmer();
             //var players = itMinds();
             //var players = ElClásico();
 
@@ -163,6 +163,39 @@ namespace Presentation.Web.Controllers
                 new Player {Initials = "MRA", Name = "Morten R", Score = 18, AllTimeHigh = 0, AllTimeLow = 0},
                 new Player {Initials = "MIB", Name = "Mikkel Bj", Score = 18, AllTimeHigh = 0, AllTimeLow = 0},
                 new Player {Initials = "MEN", Name = "Mikkel Bisp", Score = 19, AllTimeHigh = 19, AllTimeLow = 19},
+            };
+            return players;
+        }
+        private List<Player> ditmer()
+        {
+            List<Player> players = new List<Player>
+            {
+                new Player {Initials = "KIH", Name = "Kasper IH"},
+                new Player {Initials = "MMJ", Name = "Morten M"},
+                new Player {Initials = "CDO", Name = "Caspar"},
+                new Player {Initials = "EDK", Name = "Ebbe DK"},
+                new Player {Initials = "KAK", Name = "Kamayr"},
+                new Player {Initials = "POK", Name = "Poul K"},
+                new Player {Initials = "MLY", Name = "Morten L"},
+                new Player {Initials = "OVD", Name = "Ole VD"},
+                new Player {Initials = "KRF", Name = "Kristian FØ"},
+                new Player {Initials = "PWK", Name = "Peter WK"},
+                new Player {Initials = "BOS", Name = "Bo S"},
+                new Player {Initials = "SEL", Name = "Sebastian"},
+                new Player {Initials = "MOD", Name = "Morten D"},
+                new Player {Initials = "TLU", Name = "Tore"},
+                new Player {Initials = "KHA", Name = "Kim Hansen"},
+                new Player {Initials = "LCH", Name = "Lars Anker"},
+                new Player {Initials = "BOH", Name = "Bo Hansen"},
+                new Player {Initials = "JSB", Name = "Jan Jønson"},
+                new Player {Initials = "RES", Name = "Rasmus"},
+                new Player {Initials = "MBH", Name = "Michael BH"},
+                new Player {Initials = "KST", Name = "Kennet"},
+                new Player {Initials = "JHE", Name = "Jens"},
+                new Player {Initials = "JOL", Name = "Jonas L"},
+                new Player {Initials = "MRA", Name = "Morten R"},
+                new Player {Initials = "MIB", Name = "Mikkel Bj"},
+                new Player {Initials = "MEN", Name = "Mikkel Bisp"},
             };
             return players;
         }
