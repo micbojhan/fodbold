@@ -60,9 +60,9 @@ namespace Presentation.Web.Controllers
             _unitOfWork.Save();
 
 
-            //var players = dit();
+            var players = dit();
             //var players = itMinds();
-            var players = ElClásico();
+            //var players = ElClásico();
 
             
             _seasonRepository.Add(new Season());

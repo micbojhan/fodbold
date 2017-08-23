@@ -58,7 +58,6 @@ namespace Presentation.Web.Controllers
                     TestModel.PlayerFour = "ANJ";
                 }
             }
-
             return View(TestModel);
         }
 

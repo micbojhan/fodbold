@@ -28,24 +28,7 @@
                                         </div>
                                         <div class="panel-body">
                                             <div>Score: @Html.DisplayTextFor(m => m.TeamRed.PlayerOne.Score)</div>
-                                            <div>
-                                                Form:
-                                                @foreach (var f in Model.TeamRed.PlayerOne.Form)
-                                                {
-                                                    if ((MatchResultEnum.Won) == (MatchResultEnum)f)
-                                                    {
-                                                        <span class="won">V</span>
-                                                    }
-                                                    else if ((MatchResultEnum.Lost) == (MatchResultEnum)f)
-                                                    {
-                                                        <span class="lost">T</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="draw">U</span>
-                                                    }
-                                                }
-                                            </div>
+                                            <div>Form: @Html.Partial("FormView", Model.TeamRed.PlayerOne.Form)</div>
                                         </div>
                                     </div>
                                 </div>
@@ -58,47 +41,13 @@
                                         </div>
                                         <div class="panel-body">
                                             <div>Score: @Html.DisplayTextFor(m => m.TeamRed.PlayerTwo.Score)</div>
-                                            <div>
-                                                Form:
-                                                @foreach (var f in Model.TeamRed.PlayerTwo.Form)
-                                                {
-                                                    if ((MatchResultEnum.Won) == (MatchResultEnum)f)
-                                                    {
-                                                        <span class="won">V</span>
-                                                    }
-                                                    else if ((MatchResultEnum.Lost) == (MatchResultEnum)f)
-                                                    {
-                                                        <span class="lost">T</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="draw">U</span>
-                                                    }
-                                                }
-                                            </div>
+                                            <div>Form: @Html.Partial("FormView", Model.TeamRed.PlayerTwo.Form)</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div>Score: @Html.DisplayTextFor(m => m.ScoreTeamRed)</div>
-                            <div>
-                                Form:
-                                @foreach (var f in Model.TeamRed.Form)
-                                {
-                                    if ((MatchResultEnum.Won) == (MatchResultEnum)f)
-                                    {
-                                        <span class="won">V</span>
-                                    }
-                                    else if ((MatchResultEnum.Lost) == (MatchResultEnum)f)
-                                    {
-                                        <span class="lost">T</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="draw">U</span>
-                                    }
-                                }
-                            </div>
+                            <div>Form: @Html.Partial("FormView", Model.TeamRed.Form)</div>
                             @Html.TextBoxFor(m => m.EndGoalsTeamRed)
                         </div>
                     </div>
@@ -119,23 +68,7 @@
                                         </div>
                                         <div class="panel-body">
                                             <div>Score: @Html.DisplayTextFor(m => m.TeamBlue.PlayerOne.Score)</div>
-                                            <div>
-                                                Form: @foreach (var f in Model.TeamBlue.PlayerOne.Form)
-                                                {
-                                                    if ((MatchResultEnum.Won) == (MatchResultEnum)f)
-                                                    {
-                                                        <span class="won">V</span>
-                                                    }
-                                                    else if ((MatchResultEnum.Lost) == (MatchResultEnum)f)
-                                                    {
-                                                        <span class="lost">T</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="draw">U</span>
-                                                    }
-                                                }
-                                            </div>
+                                            <div>Form: @Html.Partial("FormView", Model.TeamBlue.PlayerOne.Form)</div>
                                         </div>
                                     </div>
                                 </div>
@@ -148,49 +81,14 @@
                                         </div>
                                         <div class="panel-body">
                                             <div>Score: @Html.DisplayTextFor(m => m.TeamBlue.PlayerTwo.Score)</div>
-                                            <div>
-                                                Form:
-                                                @foreach (var f in Model.TeamBlue.PlayerTwo.Form)
-                                                {
-                                                    if ((MatchResultEnum.Won) == (MatchResultEnum)f)
-                                                    {
-                                                        <span class="won">V</span>
-                                                    }
-                                                    else if ((MatchResultEnum.Lost) == (MatchResultEnum)f)
-                                                    {
-                                                        <span class="lost">T</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="draw">U</span>
-                                                    }
-                                                }
-                                            </div>
+                                            <div>Form: @Html.Partial("FormView", Model.TeamBlue.PlayerTwo.Form)</div>
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
-                            <div>Score @Html.DisplayTextFor(m => m.ScoreTeamBlue)</div>
-                            <div>
-                                Form:
-                                @foreach (var f in Model.TeamBlue.Form)
-                                {
-                                    if ((MatchResultEnum.Won) == (MatchResultEnum)f)
-                                    {
-                                        <span class="won">V</span>
-                                    }
-                                    else if ((MatchResultEnum.Lost) == (MatchResultEnum)f)
-                                    {
-                                        <span class="lost">T</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="draw">U</span>
-                                    }
-                                }
-                            </div>
-
+                            <div>Score: @Html.DisplayTextFor(m => m.ScoreTeamBlue)</div>
+                            <div>Form: @Html.Partial("FormView", Model.TeamBlue.Form)</div>
                             @Html.TextBoxFor(m => m.EndGoalsTeamBlue)
                         </div>
                     </div>

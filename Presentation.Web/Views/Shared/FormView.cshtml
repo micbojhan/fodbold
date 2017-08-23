@@ -1,0 +1,18 @@
+﻿@using Core.DomainModel.Enums
+@model List<int>
+
+@foreach (var f in Model)
+{
+    if ((MatchResultEnum.Won) == (MatchResultEnum)f)
+    {
+        <span class="won">V</span>
+    }
+    else if ((MatchResultEnum.Lost) == (MatchResultEnum)f)
+    {
+        <span class="lost">T</span>
+    }
+    else
+    {
+        <span class="draw">U</span>
+    }
+}
