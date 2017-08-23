@@ -4,10 +4,7 @@
 @{
     var p = Model;
 }
-<tr>
-
-
-</tr>
+<tr></tr>
 
 
 <div class="row">
@@ -51,24 +48,11 @@
             Vundet <span class="score won">@p.Won</span>
             Uafgjorte <span class="score draw">@p.Draw</span>
             Tabte <span class="score lost">@p.Lost</span>
-            
+
             Form
             <div class="row">
-                @foreach (var f in p.Form)
-                {
-                    if ((MatchResultEnum.Won) == (MatchResultEnum) f)
-                    {
-                        <span class="won">V</span>
-                    }
-                    else if ((MatchResultEnum.Lost) == (MatchResultEnum) f)
-                    {
-                        <span class="lost">T</span>
-                    }
-                    else
-                    {
-                        <span class="draw">U</span>
-                    }
-                }
+                <div>@Html.Partial("FormView", p.Form)</div>
+
             </div>
         </div>
     </div>
@@ -117,15 +101,24 @@
                     <span class="sr-only">80% Complete (danger)</span>
                 </div>
             </div>
-
+            @{
+                var ialt = 0.0 + (p.Won + p.Lost + p.Draw);
+                var won = (int)((p.Won / ialt) * 100);
+                var draw = (int)((p.Draw / ialt) * 100);
+                var lost = (int)((p.Lost / ialt) * 100);
+            }
+            @ialt
+            @won
+            @draw
+            @lost
             <div class="progress">
-                <div class="progress-bar progress-bar-success" style="width: @(p.Won.ToString())%">
+                <div class="progress-bar progress-bar-success" style="width: @(won.ToString())%">
                     <span class="sr-only">35% Complete (success)</span>
                 </div>
-                <div class="progress-bar progress-bar-warning" style="width: @(p.Draw.ToString())%">
+                <div class="progress-bar progress-bar-warning" style="width: @(draw.ToString())%">
                     <span class="sr-only">20% Complete (warning)</span>
                 </div>
-                <div class="progress-bar progress-bar-danger" style="width: @(p.Lost.ToString())%">
+                <div class="progress-bar progress-bar-danger" style="width: @(lost.ToString())%">
                     <span class="sr-only">10% Complete (danger)</span>
                 </div>
             </div>
