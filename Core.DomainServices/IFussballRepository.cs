@@ -5,6 +5,7 @@ namespace Core.DomainServices
 {
     public interface IFussballRepository
     {
+        List<Player> GetPlayers();
         List<Player> GetPlayerList();
         List<Team> GetTeamList();
         List<Match> GetMatchList();

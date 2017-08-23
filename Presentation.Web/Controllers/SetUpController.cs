@@ -200,23 +200,24 @@ namespace Presentation.Web.Controllers
             return RedirectToAction("Result", "MvcMatch", new { id = mId });
         }
 
-        private IOrderedEnumerable<Player> PlayerToMatch()
+        private List<Player> PlayerToMatch()
         {
             Random random = new Random();
-            var players = _fussballRepository.GetPlayerList().OrderBy(p => p.Id).ToList();
+            var players = _fussballRepository.GetPlayers().OrderBy(p => p.Id).ToList();
             var first = players.FirstOrDefault().Id;
             var last = players.LastOrDefault().Id;
+            players = players.OrderBy(i => Guid.NewGuid()).ToList();
             return PlayerToMatch(random, players, first, last);
         }
 
-        private IOrderedEnumerable<Player> PlayerToMatch(Random random, List<Player> players, int first, int last)
+        private List<Player> PlayerToMatch(Random random, List<Player> players, int first, int last)
         {
             int randomNr1 = random.Next(first, last + 1);
             int randomNr2 = random.Next(first, last + 1);
             int randomNr3 = random.Next(first, last + 1);
             int randomNr4 = random.Next(first, last + 1);
             var strList = new List<int> { randomNr1, randomNr2, randomNr3, randomNr4 };
-            var playerToMatch = players.Where(item => strList.Contains(item.Id)).OrderBy(p => p.Score);
+            var playerToMatch = players.Where(item => strList.Contains(item.Id)).OrderBy(p => p.Score).ThenBy(i => Guid.NewGuid()).ToList();
             if (playerToMatch.Distinct().Count() != 4) // Fail first
                 playerToMatch = PlayerToMatch(random, players, first, last);
             return playerToMatch;

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Core.DomainModel.Enums;
 using Core.DomainModel.Model.New;
@@ -8,7 +9,7 @@ namespace Presentation.Web.Controllers
 {
     public class MatchCon
     {
-        public CreateMatchViewModel CreateMatchViewModel(CreateMatchViewModel vm, IOrderedEnumerable<Player> playerToMatch)
+        public CreateMatchViewModel CreateMatchViewModel(CreateMatchViewModel vm, List<Player> playerToMatch)
         {
             var model = new CreateMatchViewModel
             {

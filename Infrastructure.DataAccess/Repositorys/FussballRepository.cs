@@ -11,12 +11,10 @@ namespace Infrastructure.DataAccess.Repositorys
     public class FussballRepository : IFussballRepository
     {
         private readonly ApplicationContext _dbContext;
-        //private readonly DbSet<Player> _dbSet;
 
         public FussballRepository(ApplicationContext context)
         {
             _dbContext = context;
-            //_dbSet = context.Set<Player>();
         }
 
         public List<Player> GetPlayerList()
@@ -32,6 +30,12 @@ namespace Infrastructure.DataAccess.Repositorys
                 .Where(p => p.OneTeams.Any(t => t.BlueMatches.Any(m => m.Done) || t.RedMatches.Any(m => m.Done)) ||
                             p.TwoTeams.Any(t => t.BlueMatches.Any(m => m.Done) || t.RedMatches.Any(m => m.Done)))
                 .ToList();
+            return players;
+        }
+
+        public List<Player> GetPlayers()
+        {
+            var players = _dbContext.Players.ToList();
             return players;
         }
 

@@ -38,10 +38,10 @@ namespace Presentation.Web.Controllers
         [HttpPost]
         public ActionResult CreatePlayer(CreatePlayerViewModel vm)
         {
-            //TODO validate vm
-            _fussballRepository.CreatePlayer(new Player { Name = vm.Name, Initials = vm.Initials, Score = vm.Score });
+            if(!ModelState.IsValid) return View(vm);
+            _fussballRepository.CreatePlayer(new Player { Name = vm.Name, Initials = vm.Initials });
             _unitOfWork.Save();
-            return View(vm);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -53,9 +53,9 @@ namespace Presentation.Web.Controllers
             {
                 {
                     TestModel.PlayerOne = "MIB";
-                    TestModel.PlayerTwo = "ESD";
-                    TestModel.PlayerThree = "RAN";
-                    TestModel.PlayerFour = "JAG";
+                    TestModel.PlayerTwo = "BOS";
+                    TestModel.PlayerThree = "MRA";
+                    TestModel.PlayerFour = "ANJ";
                 }
             }
 
@@ -66,13 +66,10 @@ namespace Presentation.Web.Controllers
         public ActionResult CreateMatch(CreateMatchViewModel vm)
         {
             var strList = new List<string> { vm.PlayerOne, vm.PlayerTwo, vm.PlayerThree, vm.PlayerFour };
-
-            var players = _fussballRepository.GetPlayerList();
-            var playerToMatch = players.Where(item => strList.Contains(item.Initials)).OrderBy(p => p.Score);
-
+            var players = _fussballRepository.GetPlayers().ToList();
+            var playerToMatch = players.Where(item => strList.Contains(item.Initials)).OrderBy(p => p.Score).ThenBy(i => Guid.NewGuid()).ToList();
             if (playerToMatch.Distinct().Count() != 4) // Fail first
                 return View(vm);
-
             var model = new MatchCon().CreateMatchViewModel(vm, playerToMatch);
             _fussballRepository.CreateOrGetTeam(model.PlayerOneId, model.PlayerTwoId);
             _fussballRepository.CreateOrGetTeam(model.PlayerThreeId, model.PlayerFourId);
